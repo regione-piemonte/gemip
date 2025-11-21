@@ -1,0 +1,137 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#mip-cittadino{
+
+  .dove-quando{
+    .mat-calendar{
+      zoom: 0.8;
+    }
+    td.mat-calendar-body-cell-container.ng-star-inserted {
+      padding: 0!important;
+      margin: 0!important;
+      height: 40px!important;
+    }
+    .mat-calendar-body-label{
+      height: 40px;
+      padding-top: 0!important;
+      padding-bottom: 0!important;
+    }
+
+    .mat-calendar-body-cell{
+      padding: 0;
+      margin: 0;
+      width: 35px;
+      height: 35px;
+      left: 25%;
+    }
+    .mat-calendar-table-header{
+      .th{
+        padding: 0;
+        margin: 0;
+        width:60%;
+        height: 15%;
+      }
+      height: 40px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .mat-calendar-controls{
+      height: 40px;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .mat-calendar-previous-button, .mat-calendar-next-button{
+      left:41%;
+    }
+    .mat-calendar-period-button{
+      display: none;
+    }
+    .mat-calendar-spacer{
+      display: none;
+    }
+  }
+
+  .cell{
+
+    &--secondary{
+      .mat-calendar-body-cell-content, .mat-focus-indicator{
+        background: #faba00 ;
+        color: $primary;
+        font-weight: bold;
+
+        //font-size: 1em;
+        &:hover  {
+          border: 2px solid $primary;
+          background-color: $primary;
+          color: $white;
+        }
+
+      }
+      &--active{
+        .mat-focus-indicator{
+          border: 2px solid $primary;
+          background-color: $primary;
+          color: $white;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .calendario{
+   width: 100%;
+   .dove-quando{
+    width: 100%;
+   }
+
+  }
+  .orari{
+    width: 100%;
+
+  }
+
+.luogo{
+  width: 100%;
+  div{
+    padding: 0;
+  }
+}
+
+
+.button-luogo{
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  font-size: 0.8em;
+}
+
+.mat-dialog-container{
+  width: auto;
+  margin: auto;
+  height: fit-content;
+}
+
+}

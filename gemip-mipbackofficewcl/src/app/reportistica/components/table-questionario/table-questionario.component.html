@@ -1,0 +1,64 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<table mat-table [dataSource]="dataSurce"  class="table-results">
+        <!-- id Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <!-- Data completamento Column -->
+        <ng-container matColumnDef="dataCompletamento">
+          <th mat-header-cell *matHeaderCellDef> Data completamento </th>
+          <td mat-cell *matCellDef="let element"> {{element.dataInserim | date:"dd/MM/yyyy"}} </td>
+        </ng-container>
+
+        <!-- Area territoriale Column -->
+        <ng-container matColumnDef="areaTerritoriale">
+          <th mat-header-cell *matHeaderCellDef> Area territoriale </th>
+          <td mat-cell *matCellDef="let element"> {{element.areaTerritoriale}} </td>
+        </ng-container>
+
+        <!-- Soggetto attuatore Column -->
+        <ng-container matColumnDef="soggettoAttuatore">
+          <th mat-header-cell *matHeaderCellDef> Soggetto attuatore </th>
+          <td mat-cell *matCellDef="let element" [matTooltip]="element.soggettoAttuatore"> {{element.soggettoAttuatore}} </td>
+        </ng-container>
+
+        <!-- risposte Column -->
+       <ng-container *ngFor="let item of addColumnIndex; let i = index" >
+            <ng-container  [matColumnDef]="item">>
+                <th mat-header-cell *matHeaderCellDef [matTooltip]="getDom(item)"> {{ getDom(item) }} </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="getRisp(item, element, item)"> {{ getRisp(item, element, item) }} </td>
+            </ng-container>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="merge; sticky:true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: merge;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell"
+                [attr.colspan]="dataSurce.data.length">
+                Nessun dato è stato trovato.</td>
+        </tr>
+    </table>

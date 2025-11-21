@@ -1,0 +1,413 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="row">
+    <button class="col-auto d-flex justify-content-start" mat-button aria-label="Indietro" (click)="tornaIndietro()"><mat-icon role="presentation">arrow_back</mat-icon></button>
+</div>
+<app-criteri-ricerca
+  class="mb-5"
+
+  [filterFor]="'ricerca_idea_impresa'"
+  (onSearch)="onSearch($event)">
+</app-criteri-ricerca>
+
+
+<div class="table-container-report mt-5" *ngIf="visibileTabella">
+    <div class="row p-3 justify-content-end">
+        <button mat-raised-button [disabled]="dataSource.data.length <=0"  [ngClass]="dataSource.data.length > 0 ? 'btn--plain-text--primary esporta-excel' : 'col-3' "  (click)="onDownload()">
+            <i class="material-icons" role="presentation">file_download</i> ESPORTA EXCEL
+        </button>
+    </div>
+    <mat-card>
+    <mat-card-content>
+        <table mat-table [dataSource]="dataSource">
+            <!-- idIdea Column -->
+            <ng-container matColumnDef="idIdea">
+                <th mat-header-cell *matHeaderCellDef> ID IDEA </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa.id}} </td>
+            </ng-container>
+            <!-- Titolo Column -->
+            <ng-container matColumnDef="titolo">
+                <th mat-header-cell *matHeaderCellDef> Titolo </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa.titolo}} </td>
+            </ng-container>
+            <!-- Data di registrazione Column -->
+            <ng-container matColumnDef="dataInserim">
+                <th mat-header-cell *matHeaderCellDef> Data di registrazione </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa.dataInserim |  date:"dd/MM/yyyy"}} </td>
+            </ng-container>
+            <!-- Area territoriale Column-->
+            <ng-container matColumnDef="descrizioneAreaTerritoriale">
+                <th mat-header-cell *matHeaderCellDef> Area territoriale incontro pre-accoglienza </th>
+                <td mat-cell *matCellDef="let element"> {{ element.areaTerritoriale === null ? '' : element.areaTerritoriale?.descrizioneAreaTerritoriale}} </td>
+            </ng-container>
+            <!-- Descrizione progetto Column -->
+            <ng-container matColumnDef="descrizioneIdeaDiImpresa">
+                <th mat-header-cell *matHeaderCellDef> Descrizione progetto </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.ideaDiImpresa.descrizioneIdeaDiImpresa"> {{element.ideaDiImpresa.descrizioneIdeaDiImpresa}} </td>
+            </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="statoIdeaDiImpresa">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa.statoIdeaDiImpresa.descrizioneStatoIdeaDiImpresa}} </td>
+            </ng-container>
+
+            <!-- Utente principale Column -->
+            <ng-container matColumnDef="utentePrincipale">
+                <th mat-header-cell *matHeaderCellDef> Utente principale </th>
+                <td mat-cell *matCellDef="let element"> {{ element.utentePrincipale }} </td>
+            </ng-container>
+
+            <!-- Data incontro pre-accoglienza Column  TODO : da capire come prendere il valore-->
+            <ng-container matColumnDef="dataIncontroPreAccoglienza">
+                <th mat-header-cell *matHeaderCellDef> 	Data incontro pre-accoglienza </th>
+                <td mat-cell *matCellDef="let element"> {{ element.dataPreaccoglienza |  date:'dd/MM/yyyy HH:mm'}} </td>
+            </ng-container>
+
+            <!-- Sede incontro di pre-accoglienza TODO -->
+            <ng-container matColumnDef="sedeIncontroPreAccoglienza">
+                <th mat-header-cell *matHeaderCellDef> Sede incontro di pre-accoglienza </th>
+                <td mat-cell *matCellDef="let element"> {{ element.sedePreaccoglienza }} </td>
+            </ng-container>
+
+            <!-- Flag incontro telefonico -->
+            <ng-container matColumnDef="incontroTelefonico">
+                <th mat-header-cell *matHeaderCellDef> Incontro telefonico </th>
+                <td mat-cell *matCellDef="let element"> {{ element.flgIncontroTelefonico === "S" ? "S" : "" }} </td>
+            </ng-container>
+
+            <!-- Soggetto attuatore Column -->
+            <ng-container matColumnDef="soggettoAttuatoreDenominazione">
+                <th mat-header-cell *matHeaderCellDef> Soggetto attuatore </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.tutor === null ? '' : element.tutor.soggettoAttuatore.denominazione"> {{element.tutor === null ? '' : element.tutor.soggettoAttuatore.denominazione}} </td>
+            </ng-container>
+
+            <!-- Data associazione soggetto attuatore Column TODO capire non è tracciato-->
+            <ng-container matColumnDef="dataSoggettoAttuatoreAssociazione">
+                <th mat-header-cell *matHeaderCellDef> Data associazione soggetto attuatore </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa.dataSceltaTutor | date:"dd/MM/yyyy"}} </td>
+            </ng-container>
+
+            <!-- E’ stata erogata la 1° ora di consulenza individuale? Column TODO capire dovè tracciata -->
+            <ng-container matColumnDef="erogazionePrimaOra">
+                <th mat-header-cell *matHeaderCellDef> E’ stata erogata la 1° ora di consulenza individuale? </th>
+                <td mat-cell *matCellDef="let element"> {{ element.ideaDiImpresa?.flgErogazionePrimaOra == "S" ? "S": "N"}} </td>
+            </ng-container>
+
+            <!-- Firma sul Patto di Servizio Column TODO-->
+            <ng-container matColumnDef="firmaPattoServizio">
+                <th mat-header-cell *matHeaderCellDef> Firma sul Patto di Servizio </th>
+                <td mat-cell *matCellDef="let element"> {{ element.ideaDiImpresa?.dataFirmaPattoServizio ? "S": "N" }} </td>
+            </ng-container>
+
+            <!-- Data Firma Patto di Servizio Column  TODO -->
+            <ng-container matColumnDef="dataFirmaPattoServizio">
+                <th mat-header-cell *matHeaderCellDef> Data Firma Patto di Servizio </th>
+                <td mat-cell *matCellDef="let element"> {{ element.ideaDiImpresa?.dataFirmaPattoServizio |  date:"dd/MM/yyyy" }} </td>
+            </ng-container>
+
+            <!-- BP Column TODO-->
+            <ng-container matColumnDef="BPvalidato">
+                <th mat-header-cell *matHeaderCellDef> Business plan validato </th>
+                <td mat-cell *matCellDef="let element"> {{ element.ideaDiImpresa?.dataValidBusinessPlan ? "S": "N" }} </td>
+            </ng-container>
+
+            <!-- Data Firma Patto di Servizio Column  TODO -->
+            <ng-container matColumnDef="dataBPvalidato">
+                <th mat-header-cell *matHeaderCellDef> Data Business plan validato </th>
+                <td mat-cell *matCellDef="let element"> {{ element.ideaDiImpresa?.dataValidBusinessPlan |  date:"dd/MM/yyyy" }} </td>
+            </ng-container>
+
+            <!-- Misura del Ricambio Generazionale Column TODO -->
+            <ng-container matColumnDef="misuraRicambio">
+                <th mat-header-cell *matHeaderCellDef> Misura del Ricambio Generazionale </th>
+                <td mat-cell *matCellDef="let element"> {{ element.ideaDiImpresa?.flgRicambioGenerazionale }} </td>
+            </ng-container>
+
+            <!-- ID UTENTE Column -->
+            <ng-container matColumnDef="idUtente">
+                <th mat-header-cell *matHeaderCellDef> ID UTENTE </th>
+                <td mat-cell *matCellDef="let element"> {{ element.citadino === null ? '' : element.citadino.idCittadino}} </td>
+            </ng-container>
+
+            <!-- Cognome Column -->
+            <ng-container matColumnDef="cognome">
+                <th mat-header-cell *matHeaderCellDef> Cognome </th>
+                <td mat-cell *matCellDef="let element"> {{ element.citadino === null ? '' : element.citadino.cognome}} </td>
+            </ng-container>
+
+            <!-- Nome Column -->
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef> Nome </th>
+                <td mat-cell *matCellDef="let element"> {{ element.citadino === null ? '' : element.citadino.nome}} </td>
+            </ng-container>
+
+            <!-- Codice fiscale Column -->
+            <ng-container matColumnDef="codiceFiscale">
+                <th mat-header-cell *matHeaderCellDef> Codice fiscale </th>
+                <td mat-cell *matCellDef="let element"> {{ element.citadino === null ? '' : element.citadino.codiceFiscale}} </td>
+            </ng-container>
+
+            <!-- Sesso Column TODO: capire dove-->
+            <ng-container matColumnDef="sesso">
+                <th mat-header-cell *matHeaderCellDef> Sesso </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.sesso }} </td>
+            </ng-container>
+
+            <!-- Cittadinanza Column -->
+            <ng-container matColumnDef="cittadinanza">
+                <th mat-header-cell *matHeaderCellDef> Cittadinanza </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica && element.cittadinoAnagrafica.codiceCittadinanza ? element.cittadinoAnagrafica.codiceCittadinanza.descrizione : '' }} </td>
+            </ng-container>
+
+            <!-- Cittadinanza altro specificare -->
+            <ng-container matColumnDef="cittadinanzaAltro">
+                <th mat-header-cell *matHeaderCellDef> Cittadinanza altro specificare </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.cittadinoAnagrafica?.descCittadinanzaAltro"> {{ element.cittadinoAnagrafica?.descCittadinanzaAltro }} </td>
+            </ng-container>
+
+            <!-- Data di nascita Column -->
+            <ng-container matColumnDef="dataNascita">
+                <th mat-header-cell *matHeaderCellDef> Data di nascita </th>
+                <td mat-cell *matCellDef="let element"> {{ (element.cittadinoAnagrafica ? element.cittadinoAnagrafica.dataNascita  : '' ) |  date:"dd/MM/yyyy"}} </td>
+            </ng-container>
+
+            <!-- Luogo di nascita Column -->
+            <ng-container matColumnDef="luogoNascita">
+                <th mat-header-cell *matHeaderCellDef> Luogo di nascita </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.comuneNascita?.descrizioneComune }} </td>
+            </ng-container>
+
+            <!-- Provincia di nascita Column -->
+            <ng-container matColumnDef="provinciaNascita">
+                <th mat-header-cell *matHeaderCellDef> Provincia di nascita </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.comuneNascita?.provincia?.descrizioneProvincia }} </td>
+            </ng-container>
+
+            <!-- Cellulare Column -->
+            <ng-container matColumnDef="recapitoTelefono2">
+                <th mat-header-cell *matHeaderCellDef> Cellulare alternativo </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.recapitoTelefono2 }} </td>
+            </ng-container>
+
+            <!-- Telefono fisso Column TODO: non c'è-->
+            <ng-container matColumnDef="recapitoTelefono">
+                <th mat-header-cell *matHeaderCellDef> Cellulare </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.recapitoTelefono }} </td>
+            </ng-container>
+
+            <!-- Email  Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.recapitoEmail }} </td>
+            </ng-container>
+
+            <!-- Email  Column -->
+            <ng-container matColumnDef="email2">
+                <th mat-header-cell *matHeaderCellDef> Email alternativa </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.recapitoEmail2 }} </td>
+            </ng-container>
+
+            <!-- indirizzoResidenza fisso Column -->
+            <ng-container matColumnDef="indirizzoResidenza">
+                <th mat-header-cell *matHeaderCellDef> Indirizzo </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.indirizzoResidenza }} </td>
+            </ng-container>
+
+            <!-- Città fisso Column -->
+            <ng-container matColumnDef="citta">
+                <th mat-header-cell *matHeaderCellDef> Città </th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.comuneResidenza?.descrizioneComune }} </td>
+            </ng-container>
+
+            <!-- Cap fisso Column-->
+            <ng-container matColumnDef="cap">
+                <th mat-header-cell *matHeaderCellDef> Cap</th>
+                <td mat-cell *matCellDef="let element"> {{ element.cittadinoAnagrafica?.capResidenza }} </td>
+            </ng-container>
+
+            <!-- Provincia fisso Column -->
+            <ng-container matColumnDef="provincia">
+                <th mat-header-cell *matHeaderCellDef> Provincia </th>
+                <td mat-cell *matCellDef="let element"> {{element.cittadinoAnagrafica?.comuneResidenza?.provincia?.descrizioneProvincia}} </td>
+            </ng-container>
+
+            <!-- Indirizzo domicilio fisso Column -->
+            <ng-container matColumnDef="indirizzoDomicilio">
+                <th mat-header-cell *matHeaderCellDef> Indirizzo domicilio</th>
+                <td mat-cell *matCellDef="let element"> {{element.cittadinoAnagrafica?.indirizzoDomicilio}} </td>
+            </ng-container>
+
+            <!-- Cap domicilio fisso Column -->
+            <ng-container matColumnDef="capDomicilio">
+                <th mat-header-cell *matHeaderCellDef> Cap domicilio </th>
+                <td mat-cell *matCellDef="let element"> {{element.cittadinoAnagrafica?.capDomicilio}} </td>
+            </ng-container>
+
+            <!-- Città domicilio fisso Column -->
+            <ng-container matColumnDef="cittaDomicilio">
+                <th mat-header-cell *matHeaderCellDef> Città domicilio </th>
+                <td mat-cell *matCellDef="let element"> {{element.cittadinoAnagrafica?.comuneDomicilio?.descrizioneComune}} </td>
+            </ng-container>
+
+            <!-- Provincia domicilio fisso Column -->
+            <ng-container matColumnDef="provinciaDomicilio">
+                <th mat-header-cell *matHeaderCellDef> Provincia domicilio </th>
+                <td mat-cell *matCellDef="let element"> {{element.cittadinoAnagrafica?.comuneDomicilio?.provincia?.descrizioneProvincia}} </td>
+            </ng-container>
+
+            <!-- Titolo di studio fisso Column -->
+            <ng-container matColumnDef="titoloStudio">
+                <th mat-header-cell *matHeaderCellDef> Titolo di studio </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.cittadinoAnagrafica?.codiceTitoloDiStudio?.descrizioneTitoloDiStudio"> {{element.cittadinoAnagrafica?.codiceTitoloDiStudio?.descrizioneTitoloDiStudio}} </td>
+            </ng-container>
+
+            <!-- Titolo di studio altro specificare -->
+            <ng-container matColumnDef="titoloStudioAltro">
+                <th mat-header-cell *matHeaderCellDef> Titolo di studio altro specificare </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.cittadinoAnagrafica?.titoloDiStudioAltro"> {{element.cittadinoAnagrafica?.titoloDiStudioAltro}} </td>
+            </ng-container>
+
+            <!-- Situazione lavorativa fisso Column -->
+            <ng-container matColumnDef="situazioneLavorativa">
+                <th mat-header-cell *matHeaderCellDef> Situazione lavorativa </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.cittadinoAnagrafica?.codiceCondizioneOccupazionale?.descrizioneCondizioneOccupazionale"> {{element.cittadinoAnagrafica?.codiceCondizioneOccupazionale?.descrizioneCondizioneOccupazionale}} </td>
+            </ng-container>
+
+            <!-- Situazione lavorativa fisso Column-->
+            <ng-container matColumnDef="situazioneLavorativaAltro">
+                <th mat-header-cell *matHeaderCellDef> Situazione lavorativa altro specificare </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.cittadinoAnagrafica?.condizioneOccupazionaleAltro"> {{element.cittadinoAnagrafica?.condizioneOccupazionaleAltro}} </td>
+            </ng-container>
+
+            <!-- Svantaggio Abitativo fisso Column -->
+            <ng-container matColumnDef="svantaggioAbitativo">
+                <th mat-header-cell *matHeaderCellDef> Abitativo </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.cittadinoAnagrafica?.svantaggioAbitativo?.descrizioneSvantaggioAbitativo"> {{element.cittadinoAnagrafica?.svantaggioAbitativo?.descrizioneSvantaggioAbitativo}} </td>
+            </ng-container>
+
+            <!-- Condizione familiare fisso Column -->
+            <ng-container matColumnDef="condizioneFamiliare">
+                <th mat-header-cell *matHeaderCellDef> Condizione familiare </th>
+                <td mat-cell *matCellDef="let element"> {{element.cittadinoAnagrafica?.condizioneFamiliare?.descrCondizioneFamiliare}} </td>
+            </ng-container>
+
+            <!-- Note / Commenti fisso Column TODO -->
+            <ng-container matColumnDef="noteCommenti">
+                <th mat-header-cell *matHeaderCellDef> Note / Commenti </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.noteCommenti}} </td>
+            </ng-container>
+
+            <!-- Creato il fisso Column TODO cosa idea si impresa? -->
+            <ng-container matColumnDef="creato">
+                <th mat-header-cell *matHeaderCellDef> Creato il </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.dataInserim |  date:"dd/MM/yyyy"}} </td>
+            </ng-container>
+
+            <!-- Inserito da fisso Column TODO -->
+            <ng-container matColumnDef="inseritoDa">
+                <th mat-header-cell *matHeaderCellDef> Inserito da </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.codUserInserim}} </td>
+            </ng-container>
+
+            <!--Modificato il fisso Column TODO -->
+            <ng-container matColumnDef="modificato">
+                <th mat-header-cell *matHeaderCellDef> Modificato il </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.dataAggiorn |  date:"dd/MM/yyyy" }} </td>
+            </ng-container>
+
+            <!-- Modificato da fisso Column TODO -->
+            <ng-container matColumnDef="modificatoDa">
+                <th mat-header-cell *matHeaderCellDef> Modificato da </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.codUserAggiorn}} </td>
+            </ng-container>
+
+            <!-- Com’è venuto a conoscenza del Programma Mipfisso Column -->
+            <ng-container matColumnDef="conoscenzaMip">
+                <th mat-header-cell *matHeaderCellDef> Com’è venuto a conoscenza del Programma Mip </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.fonteConoscenzaMip?.descrizioneFonteConoscenzaMip}} </td>
+            </ng-container>
+
+            <!-- Altro specificare fisso Column  TODO non è presente il campo -->
+            <ng-container matColumnDef="altroConoscenzaMip">
+                <th mat-header-cell *matHeaderCellDef> Altro specificare </th>
+                <td mat-cell *matCellDef="let element" [matTooltip]="element.ideaDiImpresa?.descrizioneAltraFonteConoscenzaMip"> {{element.ideaDiImpresa?.descrizioneAltraFonteConoscenzaMip}} </td>
+            </ng-container>
+
+            <!-- Commenti (interni) fisso Column -->
+            <ng-container matColumnDef="commentiInterni">
+                <th mat-header-cell *matHeaderCellDef> Commenti (interni) </th>
+                <td mat-cell *matCellDef="let element"> {{element.ideaDiImpresa?.commentiInterni}} </td>
+            </ng-container>
+
+            <!-- Titolo di soggiorno fisso Column -->
+            <ng-container matColumnDef="titoloSoggiorno">
+                <th mat-header-cell *matHeaderCellDef> Titolo di soggiorno </th>
+                <td mat-cell *matCellDef="let element"> {{ checkPermesso(element) ? element.cittadinoAnagrafica?.numeroPermessoDiSoggiorno : ""}} </td>
+            </ng-container>
+
+
+            <!-- Motivo titolo di soggiorno  -->
+            <ng-container matColumnDef="motivoTitoloSoggiorno">
+                <th mat-header-cell *matHeaderCellDef> Motivo titolo di soggiorno </th>
+                <td mat-cell *matCellDef="let element"> {{ checkPermesso(element) ? element.cittadinoAnagrafica?.descrMotivoPermessoDiSoggiorno : ""}} </td>
+            </ng-container>
+
+            <!-- Carta di soggiorno fisso Column -->
+            <ng-container matColumnDef="titoloCarta">
+                <th mat-header-cell *matHeaderCellDef> Carta di soggiorno </th>
+                <td mat-cell *matCellDef="let element"> {{checkCarta(element) ? element.cittadinoAnagrafica?.numeroPermessoDiSoggiorno : ""}} </td>
+            </ng-container>
+
+
+            <!-- Motivo carta di soggiorno  -->
+            <ng-container matColumnDef="motivoCartaSoggiorno">
+                <th mat-header-cell *matHeaderCellDef> Motivo carta di soggiorno </th>
+                <td mat-cell *matCellDef="let element"> {{checkCarta(element) ? element.cittadinoAnagrafica?.descrMotivoPermessoDiSoggiorno : ""}} </td>
+            </ng-container>
+
+                <!-- Row shown when there is no matching data that will be provided to the wrapper table. -->
+
+
+            <tr mat-header-row *matHeaderRowDef="columnNames; sticky:true;"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell"
+                    [attr.colspan]="dataSource.data.length">
+                    Nessun dato è stato trovato.</td>
+            </tr>
+        </table>
+    </mat-card-content>
+</mat-card>
+<mat-paginator
+    [length]="tableSettings.length"
+    [pageIndex]="tableSettings.pageIndex"
+    [pageSize]="tableSettings.pageSize"
+    [pageSizeOptions]="tableSettings.pageSizeOptions"
+    [pageSizeOptions]="tableSettings.pageSizeOptions"
+    [showFirstLastButtons]="tableSettings.showFirstLastButtons"
+    (page)="onSearch(filtro,$event)"
+    #paginator>
+</mat-paginator>
+</div>
+

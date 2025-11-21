@@ -1,0 +1,90 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="myDivToPrint">
+  <mat-card class="mb-3">
+  <mat-card-header>
+    <mat-card-title>
+      <!-- Titolo -->
+      <h5 class="mb-5" class="stampa">Dati progetto</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+  <div class="row">
+    <!-- Titolo -->
+    <div class="col-3 mb-3"><strong>Titolo</strong></div>
+    <div class="col-3">{{ideaImp?.titolo}}</div>
+    <!-- data registrazione -->
+    <div class="col-3"><strong>Data registrazione</strong></div>
+    <div class="col-3">{{ideaImp?.dataInserim | date: 'dd-MM-yyyy' }}</div>
+
+
+    <!-- AREA TERRITORIALE -->
+    <div class="col-3 mb-3"><strong>Area territoriale</strong></div>
+    <div class="col-3">{{areaTerritoriale}}</div>
+    <!-- Stato -->
+    <div class="col-3"><strong>Stato</strong></div>
+    <div class="col-3">{{statoIdea?.descrizioneStatoIdeaDiImpresa}}</div>
+
+    <!-- Generazione -->
+    <div class="col-3 "><strong>Ricambio Generazionale</strong></div>
+    <div class="col-9 mb-3">{{cambioGen ? "Si":"No"}}</div>
+
+    <!-- Descrizione -->
+    <div class="col-3"><strong>Descrizione progetto</strong></div>
+    <div class="col-9 mb-3">{{ideaImp?.descrizioneIdeaDiImpresa}}</div>
+  </div>
+  </mat-card-content>
+
+  <!-- ------------------------------------------------------------ -->
+  <mat-card-header class="mt-3">
+    <mat-card-title>
+      <!-- Titolo -->
+      <h5 class="mb-5">Fonte di informazione</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+  <div class="row">
+  <!-- CONOSCENZA DI MIP -->
+  <div class="col-6 mb-3"><strong>Com'è venuto a conoscenza del Programma Mip</strong></div>
+  <div class="col-6">{{ideaImp?.fonteConoscenzaMip?.descrizioneFonteConoscenzaMip}}</div>
+
+  <!-- Altro-->
+  <div class="col-6 mb-3"><strong>Altro da specificare</strong></div>
+  <div class="col-6">{{ideaImp?.descrizioneAltraFonteConoscenzaMip!}}</div>
+  </div>
+  </mat-card-content>
+
+  </mat-card>
+
+  <app-utente-tab [isStampa]="true"></app-utente-tab>
+  <div class="mb-3"></div>
+
+  <app-incontro-tab [isStampa]="true"></app-incontro-tab>
+  <div class="mb-3"></div>
+
+  <app-sogg-attuatore-tab [isStampa]="true" [ideaImpresa]="ideaImp"></app-sogg-attuatore-tab>
+  <div class="mb-3"></div>
+
+  <app-file-tab [isStampa]="true"></app-file-tab>
+</div>

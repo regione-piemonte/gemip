@@ -1,0 +1,470 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="container container-incontro p-5">
+
+
+<div *ngIf="showStepperResponsive()" class="container-fluid stepper-container">
+  <div class="row stepper-row mb-2"  >
+    <div class="col"  >
+    <div class="stepper stepper-primary"  >
+      <div class="number"  >1</div>
+    </div>
+    </div>
+    <div class="col step-space step-space-primary"  ></div>
+
+    <div class="col"  >
+    <div class="stepper stepper-disabled"  >
+      <div class="number"  >2</div>
+    </div>
+    </div>
+    <div class="col step-space step-space-primary"  ></div>
+
+    <div class="col"  >
+    <div class="stepper stepper-disabled"  >
+      <div class="number"  >3</div>
+    </div>
+    </div>
+    <div class="col step-space step-space-primary"  ></div>
+
+    <div class="col"  >
+    <div class="stepper stepper-disabled"  >
+      <div class="number"  >4</div>
+    </div>
+    </div>
+  </div>
+  <div class="row stepper-row"  >
+    <div class="col"><div class="stepper"><strong>Scegli dove e quando</strong></div></div>
+    <div class="col step-space step-space-trasp"  >
+    </div>
+    <div class="col"><div class="stepper">inserisci i tuoi dati personali</div></div>
+    <div class="col step-space step-space-trasp"  >
+    </div>
+    <div class="col"><div class="stepper">descrivi la tua impresa</div></div>
+    <div class="col step-space step-space-trasp"  >
+    </div>
+    <div class="col"><div class="stepper">completa la prenotazione</div></div>
+  </div>
+</div>
+
+
+
+
+  <div class="row mb-5">
+    <div class="col" aria-label="scegli dove e quando">
+      <h2 >1. Scegli dove e quando</h2>
+    </div>
+  </div> <!--Titolo-->
+
+  <!-- Zona Piemonte -->
+  <mat-card class="card--dove-quando" >
+    <mat-card-content>
+      <div class="row mb-4" #scrollTop aria-label="scegli la zona del piemonte che ti interessa">
+        <h3>Quale zona del Piemonte è di tuo interesse?</h3>
+      </div> <!-- Title -->
+
+      <div class="row">
+        <div [ngClass]="showRegioneResponsive() ? 'col-8' : 'col-12'">
+          <div class="vertical-buttons-contianer">
+            <button mat-raised-button
+              *ngFor="let areaTerritoriale of areeTerritoriali"
+              (click)="onZonaSelected(areaTerritoriale.codiceAreaTerritoriale!)"
+              [class.btn--secondary-active]="zonaSelected == areaTerritoriale.codiceAreaTerritoriale" class="btn-zona"
+              [disabled]="localOnline!=0 && !(zonaSelected == areaTerritoriale.codiceAreaTerritoriale)"
+              [attr.aria-label]="areaTerritoriale.descrizioneAreaTerritoriale"
+              style="white-space: normal;overflow: visible;"
+              >
+              <span>{{areaTerritoriale.descrizioneAreaTerritoriale}}</span>
+              <mat-icon [attr.aria-label]="'area territoriale selezionata '+ areaTerritoriale.descrizioneAreaTerritoriale" *ngIf="zonaSelected == areaTerritoriale.codiceAreaTerritoriale"
+                class="done-icon zona-icon">done</mat-icon>
+            </button>
+
+          </div>
+        </div> <!-- Buttons -->
+        <div class="col-4 d-flex justify-content-center" *ngIf="showRegioneResponsive()">
+          <img alt="" [src]="'/assets/incontro/piemonte.svg'" class="img-regione img-fluid">
+        </div> <!-- img Piemonte -->
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Presenza o remoto -->
+  <mat-card class="card--dove-quando mt-5">
+    <mat-card-content>
+      <div #targetScroll class="row mb-4">
+        <h3>Scegli la modalità di partecipazione all'incontro</h3>
+      </div><!-- Title -->
+
+      <!-- Presenza o remoto -->
+      <div class="row" style="
+                          justify-content: center;
+                          gap: 20px;">
+
+        <!-- Presenza -->
+        <mat-card class="col-lg-10 col-xl-5 card--location">
+          <!-- Content -->
+          <mat-card-content class="card-dove-quando">
+            <div class="contenitore-testo-immagine">
+
+              <div class="testo" *ngIf="primoInocntroInPresenzaDisponibile; else nessunIncontroDisponibilePresenzaTitle">
+                <h4>In presenza</h4>
+                <p>Partecipa di persona presso un centro per l'impiego.</p>
+              </div>
+              <ng-template #nessunIncontroDisponibilePresenzaTitle>
+                <div class="testo">
+                  <h4>In presenza</h4>
+                  <p></p>
+                  <p></p>
+                </div>
+              </ng-template>
+
+
+              <div class="immagine">
+                <img alt="" [src]="'/assets/incontro/presenza.svg'" class="img-icon img-fluid">
+              </div>
+            </div>
+
+            <ng-container *ngIf="zonaSelected">
+              <div class="container-data-incontro" *ngIf="!incontroPreAccoglienzaSelezionato || !(incontroPreAccoglienzaSelezionato && !incontroPreAccoglienzaSelezionato.flgIncontroErogatoDaRemoto); else incontroSelezionato" >
+                <div class="row"
+                  *ngIf="primoInocntroInPresenzaDisponibile; else nessunIncontroDisponibilePresenzaSubTitle">
+                  <p><strong>Primo appuntamento disponibile:</strong></p>
+                </div>
+                <div class="row" *ngIf="primoInocntroInPresenzaDisponibile">
+                  <p><strong>{{primoInocntroInPresenzaDisponibile.luogoIncontro?.denominazione}}</strong></p>
+                </div>
+                <div class="row" *ngIf="primoInocntroInPresenzaDisponibile">
+                  <p>{{primoInocntroInPresenzaDisponibile.luogoIncontro?.indirizzo}} </p>
+                </div>
+                <ng-template #nessunIncontroDisponibilePresenzaSubTitle>
+                  <div class="row" >
+                    <p><strong>Attenzione!</strong></p>
+                  </div>
+                </ng-template>
+
+                <div class="row mb-auto justify-content-center"
+                  *ngIf="primoInocntroInPresenzaDisponibile; else nessunIncontroDisponibilePresenzaBody">
+                  <div class="col-6"><strong>Data</strong></div>
+                  <div class="col-4"><strong>Orario</strong></div>
+                  <div class="col-6" >{{primoInocntroInPresenzaDisponibile.dataIncontro | date : "dd/MM/yyyy"}}</div>
+                  <div class="col-4">{{primoInocntroInPresenzaDisponibile.dataIncontro | date : "HH:mm"}}</div>
+                </div>
+                <ng-template #nessunIncontroDisponibilePresenzaBody>
+                  <div class="col-8"><strong>Non ci sono incontri disponibili in questo momento.</strong></div>
+                </ng-template>
+              </div>
+              <ng-template #incontroSelezionato>
+                <div class="row">
+                  <p><strong>Appuntamento selezionato:</strong></p>
+                </div>
+                <div class="row">
+                  <p><strong>{{incontroPreAccoglienzaSelezionato!.luogoIncontro?.denominazione}}</strong></p>
+                </div>
+                <div class="row">
+                  <p>{{incontroPreAccoglienzaSelezionato!.luogoIncontro?.indirizzo}} </p>
+                </div>
+                <div class="row mb-auto justify-content-center">
+                  <div class="col-6"><strong>Data</strong></div>
+                  <div class="col-4"><strong>Orario</strong></div>
+                  <div class="col-6" aria-label="data incontro">{{incontroPreAccoglienzaSelezionato!.dataIncontro | date : "dd/MM/yyyy"}}</div>
+                  <div class="col-4" aria-label="orario incontro">{{incontroPreAccoglienzaSelezionato!.dataIncontro | date : "HH:mm"}}</div>
+                </div>
+              </ng-template>
+            </ng-container>
+
+          </mat-card-content>
+
+          <!-- Actions -->
+          <mat-card-actions class="action-incontro">
+            <button mat-button class="btn--online-presenza" [disabled]="!zonaSelected || localOnline==2 || incontriDisponibiliInPresenza.length==0 "
+              [class.btn--secondary-active]="localOnline == 1" (click)="onSeleziona(false)" [attr.aria-label]="localOnline != 1?'seleziona il primo appuntameno in presenza disponibile':'appuntamento selezionato'">
+
+              <span *ngIf="localOnline!= 1">SELEZIONA</span>
+              <span *ngIf="localOnline== 1">SELEZIONATO</span>
+              <mat-icon *ngIf="localOnline == 1" class="done-icon">done</mat-icon>
+            </button>
+
+            <button mat-button *ngIf="localOnline == 1" (click)="onAnnullaSelezione()" style="cursor: pointer;"
+              class="btn--plain-text--danger" aria-label="annulla selezione incontro">ANNULLA LA SELEZIONE</button>
+            <button mat-button *ngIf="incontriDisponibiliInPresenza.length>1 && zonaSelected && localOnline!=1 && !incontroPreAccoglienzaSelezionato" [class.disabled--link]="localOnline==2"
+              (click)="openDialogIncontri(false,incontriDisponibiliInPresenza)" style="cursor: pointer;" class="btn--plain-text--primary" aria-label="altri appuntamenti in presenza disponibili">Altri
+              {{incontriDisponibiliInPresenza.length == 0 ? 0 : incontriDisponibiliInPresenza.length-1}} appuntamenti attualmente disponibili</button>
+            <div *ngIf="incontriDisponibiliInPresenza.length<=1 && zonaSelected  && localOnline!=1 && !incontroPreAccoglienzaSelezionato"  class="text-wrap"
+              style="display: flex; justify-content: left; font-style: italic; text-align: center;" aria-label="non ci sono altri appuntamenti in presenza disponibili">Nessun altro appuntamento attualmente
+              disponibile.</div>
+            <div *ngIf="incontroPreAccoglienzaSelezionato && localOnline!=1 "  style="color:transparent; user-select: none;">-</div><!--soluzione temporanea per non far spostare i bottoni-->
+          </mat-card-actions>
+        </mat-card>
+
+        <!-- ============================================================================= -->
+        <!-- Remoto -->
+        <mat-card class="col-lg-10 col-xl-5 card--location">
+
+          <!-- Content -->
+          <mat-card-content class="card-dove-quando">
+            <div class="contenitore-testo-immagine">
+              <div class="testo" *ngIf="primoIncontroOnlineDisponibile;else nessunIncontroDisponibileOnlineTitle">
+                <h4>Da remoto</h4>
+                <p>Partecipa in video-conferenza a uno dei webinar organizzati dai nostri esperti.</p>
+                <p>Scegli uno tra gli appuntamenti disponibili</p>
+              </div>
+              <ng-template #nessunIncontroDisponibileOnlineTitle>
+                <div class="testo">
+                  <h4>Da remoto</h4>
+                  <p> </p>
+                  <p> </p>
+                </div>
+              </ng-template>
+
+              <div class="immagine">
+                <img alt="" [src]="'/assets/incontro/remoto.svg'"  class="img-icon img-fluid">
+              </div>
+            </div>
+
+
+            <ng-container *ngIf="zonaSelected">
+              <div class="container-data-incontro"
+                *ngIf="!incontroPreAccoglienzaSelezionato || !(incontroPreAccoglienzaSelezionato && incontroPreAccoglienzaSelezionato.flgIncontroErogatoDaRemoto); else incontroSelezionato">
+                <div class="row" *ngIf="primoIncontroOnlineDisponibile; else nessunIncontroDisponibileOnlineSubTitle">
+                  <p><strong>Primo appuntamento disponibile:</strong></p>
+                </div>
+                <ng-template #nessunIncontroDisponibileOnlineSubTitle>
+                  <div class="row" >
+                    <p><strong>Attenzione!</strong></p>
+                  </div>
+                </ng-template>
+
+                <div class="row mb-auto justify-content-center"
+                  *ngIf="primoIncontroOnlineDisponibile; else nessunIncontroDisponibileOnlineBody">
+                  <div class="col-6"><strong>Data</strong></div>
+                  <div class="col-4"><strong>Orario</strong></div>
+                  <div class="col-6">{{primoIncontroOnlineDisponibile.dataIncontro | date : "dd/MM/yyyy"}}</div>
+                  <div class="col-4">{{primoIncontroOnlineDisponibile.dataIncontro | date : "HH:mm"}}</div>
+                </div>
+                <ng-template #nessunIncontroDisponibileOnlineBody>
+                  <div class="col-8"><strong>Non ci sono incontri disponibili in questo momento.</strong></div>
+                </ng-template>
+              </div>
+              <ng-template #incontroSelezionato>
+                <div class="row">
+                  <p><strong>Appuntamento selezionato:</strong></p>
+                </div>
+                <div class="row mb-auto justify-content-center">
+                  <div class="col-6"><strong>Data</strong></div>
+                  <div class="col-4"><strong>Orario</strong></div>
+                  <div class="col-6">{{incontroPreAccoglienzaSelezionato!.dataIncontro | date : "dd/MM/yyyy"}}</div>
+                  <div class="col-4">{{incontroPreAccoglienzaSelezionato!.dataIncontro | date : "HH:mm"}}</div>
+                </div>
+              </ng-template>
+            </ng-container>
+          </mat-card-content>
+
+          <!-- Actions -->
+          <mat-card-actions class="action-incontro">
+            <button mat-button class="btn--online-presenza" [disabled]="!zonaSelected || localOnline==1 || incontriDisponibiliOnline.length==0"
+              [class.btn--secondary-active]="localOnline == 2" (click)="onSeleziona(true)" [attr.aria-label]="localOnline != 2?'seleziona il primo appuntameno online disponibile':'appuntamento selezionato'" >
+
+              <span *ngIf="localOnline!= 2">SELEZIONA</span>
+              <span *ngIf="localOnline== 2">SELEZIONATO</span>
+              <mat-icon *ngIf="localOnline == 2" class="done-icon">done</mat-icon>
+            </button>
+            <button mat-button   *ngIf="localOnline == 2" (click)="onAnnullaSelezione()"
+              class="btn--plain-text--danger" aria-label="annulla selezione incontro"   >ANNULLA LA SELEZIONE</button>
+            <button mat-button *ngIf="zonaSelected  && localOnline!=2 && incontriDisponibiliOnline.length>1 && !incontroPreAccoglienzaSelezionato" [class.disabled--link]="localOnline==1"
+              (click)="openDialogIncontri(true,incontriDisponibiliOnline)" style="cursor: pointer;" class="btn--plain-text--primary" aria-label="altri appuntamenti da remoto disponibili">Altri
+              {{incontriDisponibiliOnline.length-1}} appuntamenti attualmente disponibili</button>
+            <div *ngIf="incontriDisponibiliOnline.length<=1 && zonaSelected && localOnline!=2 && !incontroPreAccoglienzaSelezionato" class="text-wrap"
+              style="display: flex; justify-content: left; font-style: italic; text-align: center;" >Nessun altro appuntamento attualmente
+              disponibile.</div>
+              <div *ngIf="incontroPreAccoglienzaSelezionato && localOnline!=2"  style="color:transparent; user-select: none;">-</div><!--soluzione temporanea per non far spostare i bottoni-->
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Pulsanti fondo -->
+  <div class="row row-cols-3 mt-5">
+    <div class="col-4 button_1" ><button mat-button class="btn btn--link-primary"
+       (click)="onIndietro()" [attr.aria-label]="'torna alla home'">INDIETRO</button></div>
+    <div class="col-4 button_2" ><button mat-button class="btn btn--outline-primary "
+        [disabled]="!localOnline" (click)="onSalva()" [attr.aria-label]="'salva i dati e torna alla home'" [hidden]="isInviato">SALVA IN BOZZA</button></div>
+    <div class="col-4 button_3"><button mat-button class="btn btn--primary"
+        [disabled]="!localOnline" (click)="onContinua()" *ngIf="!isInviato" [attr.aria-label]="'salva i dati e continua'" >CONTINUA</button>
+        <button mat-button class="btn btn--primary text-wrap"
+        [disabled]="!localOnline" (click)="onSalvaNuovoIncontro()" *ngIf="isInviato" [attr.aria-label]="'salva i dati'" >SALVA</button></div>
+  </div>
+
+</div>
+
+
+<!-- Dialog Data & ora (& luogo)? -->
+<ng-template #selezionaIncontro >
+<div class="d-flex flex-column">
+  <!-- Title -->
+  <h2 mat-dialog-title>A quale incontro vuoi partecipare?</h2>
+
+  <!-- Content -->
+  <section mat-dialog-content class="dialog-incontri" >
+
+    <!-- Locations -->
+    <ng-container *ngIf="!isOnline">
+      <div class="luogo">
+        <p ><strong>Scegli un luogo per l'incontro</strong></p>
+      </div>
+      <div class="row luogo">
+        <div  *ngFor="let luogo of luoghiDIIncontro">
+          <button mat-button class="btn btn--secondary btn-withDone button-luogo"
+            [class.btn--secondary-active]="locationSelected == luogo.id" (click)="onLuogoSelected(luogo)"
+            [attr.aria-label]="luogo.denominazione +' comune: ' + luogo.comune!.descrizioneComune + ' indirizzo:' + luogo.indirizzo "
+            >
+            <span>{{luogo.denominazione}}</span>
+            <mat-icon *ngIf="locationSelected== luogo.id" class="done-icon" [attr.aria-label]="'selezionato '+luogo.denominazione +' comune: ' + luogo.comune + ' indirizzo:' + luogo.indirizzo ">done</mat-icon>
+          </button>
+        </div>
+
+      </div>
+    </ng-container>
+
+
+
+    <!-- Date & Time -->
+    <div class="row calendario">
+      <p><strong>Scegli un giorno e un orario</strong></p>
+    </div>
+
+
+      <!-- Calendario -->
+      <div class=" calendario" [hidden]="!(locationSelected!=0 || isOnline)"  #calendario >
+        <mat-calendar #calendar class="dove-quando border rounded rounded-3"
+        (selectedChange)="onDateSelection($event)"
+        [dateClass]="dateClassSelected"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [startAt]="incontroPreAccoglienzaSelezionato?.dataIncontro!"
+        [headerComponent]="customHeader"
+        >
+        </mat-calendar>
+      </div>
+
+      <!-- Orari -->
+      <div class="mt-3  orari row" *ngIf="locationSelected!=0 || isOnline">
+            <div class="col-5 mt-2 " >
+              <h6>Orari previsti:</h6>
+            </div>
+            <div class="col-7" *ngIf="orariDisponibili.length>1">
+              <div class="row">
+                <div class="col-4 ml-3"
+                *ngFor="let orario of orariDisponibili, let i=index" >
+                <button
+                  [ngClass]="'btn btn--secondary' + (orarioSelezionato?.id ?  (orario.id!.toString() ==orarioSelezionato!.id!.toString() ? '-active':'') : '') "
+                  (click)="orarioSelection(orario)"
+                  [attr.aria-label]="'orario disponibile ' + (orario.dataIncontro|date:'HH:mm') "
+                  >
+                  {{orario.dataIncontro|date:"HH:mm"}}
+                </button>
+                </div>
+            </div>
+            </div>
+            <div class="col-7" [hidden]="orariDisponibili.length!=1">
+              <div class="col-4" ><button class="btn btn--secondary-active "[attr.aria-label]="'orario disponibile ' + (orariDisponibili.length > 0 && orariDisponibili[0].dataIncontro ? (orariDisponibili[0].dataIncontro|date:'HH:mm'):'') " >  {{orarioSelezionato ? (orarioSelezionato.dataIncontro! | date:"HH:mm") :""}}  </button>
+              </div>
+            </div>
+
+      </div>
+
+  </section>
+
+
+
+  <!-- Actions -->
+  <div mat-dialog-actions [align]="'start'">
+    <div class="p-2 me-auto">
+      <button mat-dialog-close mat-button class="btn btn--outline-primary" aria-label="annulla" (click)="onAnnullaModale()">
+        ANNULLA
+      </button>
+    </div>
+    <div class="p-2">
+      <button  mat-dialog-close mat-raised-button class="btn btn--primary" [disabled]="!orarioSelezionato" aria-label="conferma selezione" (click)="onConfermaSelezionato()">
+        CONFERMA
+      </button>
+    </div>
+  </div>
+</div>
+</ng-template>
+
+<ng-template #conferma>
+
+  <!-- Title -->
+  <h2 mat-dialog-title>Invio dati</h2>
+
+  <!-- Content -->
+  <section mat-dialog-content style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row py-3"><p>
+      <mat-icon class="done-icon-title" style="margin-right: 10px;">done</mat-icon>
+      I dati sono stati inviati correttamente.</p></div>
+  </section>
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="dati salvati correttamente torna alla home"
+              (click)="onConfermaNuovoIncontro()"
+              >
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #attenzione>
+  <!-- Title -->
+  <h2 mat-dialog-title>Attenzione!</h2>
+  <!-- Content -->
+  <section mat-dialog-content style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row py-3"><p>
+      <mat-icon class="done-icon-title" style="color: white; background-color: red  !important; margin-right: 10px;">close</mat-icon>
+      Attenzione! Hai già fatto la registrazione a MIP - Mettersi in proprio e non ti è possibile effettuare alcuna modifica se non quelle permesse dall'applicativo dopo l'invio</p></div>
+  </section>
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="dati non salvati correttamente torna alla home"
+              [routerLink]="'/dashboard/home'">
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+

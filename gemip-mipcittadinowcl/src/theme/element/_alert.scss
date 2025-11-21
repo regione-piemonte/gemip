@@ -1,0 +1,80 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#mip-cittadino{
+  span.evidenziato{
+    line-height: 3rem;
+    padding:5px;
+    height: 50px;
+    background: #FDEDBB 0% 0% no-repeat!important;
+    opacity: 1;
+  }
+
+  .card-body--warning {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+  }
+
+  .alert-icon{
+    color:#FABA00;
+    transform: scale(2.0);
+  }
+
+  .dialog-appuntamenti{
+    width: 500px;
+    .mat-dialog-container{
+      width: 100%;
+    }
+  }
+  @media (max-width: 900px){
+    .dialog-appuntamenti{
+      width: 95vw;
+    }
+  }
+}
+
+@media screen and (max-width:768px) {
+  #mip-cittadino{
+    .evidenziato-atenzione{
+
+      .mat-dialog-content{
+       margin: 0;
+       padding: 0;
+       .dialog-alert{
+          padding: 0;
+          gap: 0;
+        }
+       div:has(>.evidenziato){
+
+        .evidenziato{
+          display: block;
+          line-height: 1.5em;
+          height: auto;
+
+        }
+       }
+      }
+     }
+  }
+
+}

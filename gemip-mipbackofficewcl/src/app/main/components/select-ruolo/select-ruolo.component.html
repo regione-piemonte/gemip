@@ -1,0 +1,107 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+
+<div class="container mt-5 mb-5 ">
+<div class="row justify-content-center">
+<div class="col-lg-9">
+
+
+  <!-- Selezione Soggetto  -->
+  <mat-card >
+    <mat-card-content class="p-3">
+
+      <div class="row">
+        <mat-form-field class="w-100" appearance="legacy">
+          <mat-select placeholder="Selezionare un Ruolo"
+                    [formControl]="formSoggetti">
+            <mat-option *ngFor="let soggetto of soggettiAttuatori "
+                        [value]="soggetto.id">
+              {{soggetto.denominazione}} - {{soggetto.codiceAreaTerritoriale?.descrizioneAreaTerritoriale}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions [align]="'end'" class="pe-4 pb-2">
+      <button
+          class="btn btn--primary"
+          aria-label="conferma scelta ruolo"
+          (click)="onConfermaSoggetto()">
+        CONFERMA</button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
+</div>
+</div>
+
+
+
+
+<ng-template #emailAttuatore>
+  <h2 mat-dialog-title>Inserire email e numero di telefono</h2>
+  <mat-divider></mat-divider>
+  <section mat-dialog-content
+          class="dialog-content p-4">
+    <div class="container">
+      <div class="row">
+        <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+          <mat-label>Email</mat-label>
+          <input matInput >
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+          <mat-label>numero di telefono</mat-label>
+          <input matInput >
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+    <div  mat-dialog-actions
+          [align]="'end'"
+          class="d-flex border-top border-1 justify-content-between mt-3 pb-5">
+      <div class="p-2">
+        <button mat-dialog-close
+                mat-button
+                class="btn btn--outline-primary"
+                aria-label="annulla modifica">
+              ANNULLA
+        </button>
+      </div>
+      <div class="p-2">
+        <button mat-dialog-close
+                mat-raised-button
+                class="btn btn--primary"
+                aria-label="conferma modifica"
+                (click)="null">CONFERMA</button>
+      </div>
+    </div>
+</ng-template>
+
+
+
+<!--
+  modificare operatore per soggetto aff
+  aggiungere richiessta a soggetto attuatore per email
+ -->

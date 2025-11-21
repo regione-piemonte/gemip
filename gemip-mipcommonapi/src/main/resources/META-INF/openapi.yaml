@@ -1,0 +1,4366 @@
+openapi: 3.0.1
+info:
+  title: API mipcommonapi
+  description: API comuni mipcittadino e mipbackoffice
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: Local dev environment
+paths:
+  /area-territoriale:
+    get:
+      summary: elenco area territoriale
+      tags:
+        - area territoriale
+      operationId: getAllAreaTerritoriale
+      description: torna l'elenco delle area territoriale
+      responses:
+        '200':
+          description: elenco delle area territoriale
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AreaTerritoriale"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+  /anagrafiche/anagrafica:
+    get:
+      summary: torna l'anagrafica del cittadino passando come parametro l'id
+      tags:
+        - anagrafiche
+      operationId: getAnafraficaCittadinoPerId
+      description: torna l'anagrafica del cittadino passando come parametro l'id
+      parameters:
+        - in: query
+          name: idAnagraficaCittadino
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: codice della provincia a cercare
+      responses:
+        '200':
+          description: Anagrafica del cittadino
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnagraficaCittadino"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+    post:
+      summary: inserisce un'anagradica cittadino
+      tags:
+        - anagrafiche
+      operationId: insertAnagraficaCittadino
+      description: inserisce un'anagradica cittadino
+      requestBody:
+        description: anagrafica cittadino a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnagraficaCittadino"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnagraficaCittadino"
+        '405':
+          description: Invalid input
+    put:
+      summary: modifica un'anagradica cittadino
+      tags:
+        - anagrafiche
+      operationId: updateAnagraficaCittadino
+      description: modifica un'anagradica cittadino
+      requestBody:
+        description:  anagrafica cittadino a modificare
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnagraficaCittadino"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnagraficaCittadino"
+        '405':
+          description: Invalid input
+  /anagrafiche/anagrafica-suggest:
+    get:
+      summary: torna l'anagrafica del cittadino secondo i campi SPID
+      tags:
+        - anagrafiche
+      operationId: getAnagraficaCittadinoSpid
+      description: torna l'anagrafica del cittadino ricavata dalle header SPID
+      responses:
+        '200':
+          description: Anagrafica del cittadino
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnagraficaCittadino"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+  /anagrafiche/condizione-occupazionale:
+    get:
+      summary: elenco condizione-occupazionale
+      tags:
+        - anagrafiche
+      operationId: getCondizioneOccupazionale
+      description: torna l'elenco delle condizione occupazionale
+      responses:
+        '200':
+          description: elenco delle condizione occupazionale
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CondizioneOccupazionale"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+  /anagrafiche/titolo-studio:
+    get:
+      summary: elenco titolo-studio
+      tags:
+        - anagrafiche
+      operationId: getTitoliStudio
+      description: torna l'elenco dei titolo di studio
+      responses:
+        '200':
+          description: elenco dei titolo di studio
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TitoloDiStudio"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+  /anagrafiche/svantaggi-abitativo:
+    get:
+      summary: elenco svantaggi-abitativo
+      tags:
+        - anagrafiche
+      operationId: getSvantaggiAbitativo
+      description: elenco svantaggi abitativo
+      responses:
+        '200':
+          description: elenco degli svantaggi abitativo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SvantaggioAbitativo"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /anagrafiche/condizione-familiare:
+    get:
+      summary:
+        elenco condizioni familiari
+      tags:
+        - anagrafiche
+      operationId: getCondizioniFamiliare
+      description: elenco condizoni familiari
+      responses:
+        '200':
+          description: elenco delle condizioni familiari
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CondizioneFamiliare"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /cittadini:
+    get:
+      summary: ricerca cittadini per parametri
+      tags:
+        - cittadini
+        - backoffice
+      operationId: getCittadinoPerParametri
+      description: elenco di cittadini pasando diversi parametri di ricerca
+      parameters:
+        - in: query
+          name: nome
+          schema:
+            type: string
+          required: false
+          description: nome cittadino
+        - in: query
+          name: cognome
+          schema:
+            type: string
+          required: false
+          description: cognome cittadino
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: false
+          description: email cittadino
+        - in: query
+          name: codiceFiscale
+          schema:
+            type: string
+          required: false
+          description: codice fiscale cittadino
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+        - in: query
+          name: dataInseritoDa
+          schema:
+            type: string
+          required: false
+          description: data minima per la ricerca
+        - in: query
+          name: dataInseritoA
+          schema:
+            type: string
+          required: false
+          description: data massima per la ricerca
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id operatore
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id soggetto attuatore
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: orderBy
+          schema:
+            type: string
+            description: order idee d'impresa
+            example: titolo
+            enum:
+              - cf
+              - cognome
+              - nome
+              - email
+              - telefono
+          required: false
+        - in: query
+          name: sortDirection
+          schema:
+            type: string
+            description: order direction
+            example: asc
+            enum:
+              - asc
+              - desc
+          required: false
+      responses:
+        '200':
+          description: l'elenco idea di impresa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnagraficaCittadinoRicerca"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /cittadini/cittadino-idea-impresa:
+    get:
+      summary: elenco cittadini associati a una idea d'impresa
+      tags:
+        - cittadini
+        - backoffice
+      operationId: getCittadinoPerIdeaImpresa
+      description: elenco svantaggi abitativo
+      parameters:
+        - in: query
+          name: idIdeaDiImpresa
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: codice della provincia a cercare
+      responses:
+        '200':
+          description: elenco cittadini associati a una idea d'impresa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cittadino"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /cittadini/cittadino/dashboard:
+    post:
+      summary: stato compilazione del cittadino
+      tags:
+        - cittadini
+      operationId: getDashboardCittadino
+      description: stato compilazione del cittadino
+      requestBody:
+        description: dato cittadino
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cittadino"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardCittadino"
+        '405':
+          description: Invalid input
+  /cittadini/cittadino/invia-dati:
+    put:
+      summary: cambia lo stato della idea d'impresa a inviato e invia la mail di conferma di partecipazione al'incontro
+      tags:
+        - cittadini
+      operationId: updateIdeaImpresaInviata
+      description: cambia lo stato della idea d'impresa a inviato e invia la mail di conferma di partecipazione al'incontro
+      requestBody:
+        description: dato cittadino
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DashboardCittadino"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardCittadino"
+        '405':
+          description: Invalid input
+  /cittadini/cittadino/concludi-mip:
+    put:
+      summary: cambia lo stato della idea d'impresa a concluso e invia la mail di compilazione questionario terza fase
+      tags:
+        - cittadini
+      operationId: updateIdeaImpresaConclusa
+      requestBody:
+        description: dato cittadino
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DashboardCittadino"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardCittadino"
+        '405':
+          description: Invalid input
+  /cittadinanze:
+    get:
+      summary: elenco cittadinanze
+      tags:
+        - dati comuni
+      operationId: getCittadinanze
+      description: elenco delle cittadinanze
+      responses:
+        '200':
+          description: elenco delle cittadinanze
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cittadinanza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+  /comuni:
+    get:
+      summary: elenco comuni
+      tags:
+        - dati comuni
+      operationId: getComuni
+      description: elenco dei comuni
+      responses:
+        '200':
+          description: elenco dei comuni
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comune"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /comuni/provincia:
+    get:
+      summary: elenco comuni della provincia
+      tags:
+        - dati comuni
+      operationId: getComuniPerProvincia
+      description: elenco delle comuni
+      parameters:
+        - in: query
+          name: provincia
+          schema:
+            type: string
+          required: true
+          description: codice della provincia a cercare
+      responses:
+        '200':
+          description: elenco dei comuni associate ad una provincia
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comune"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /documenti:
+    get:
+      summary: ricerca documenti
+      tags:
+        - documenti
+      operationId: getDocumentiByParameters
+      description: ricerca di documenti tramite parametri
+      parameters:
+        - in: query
+          name: tipoDocumento
+          schema:
+            type: string
+          required: false
+          description: codice tipo documento
+        - in: query
+          name: titolo
+          schema:
+            type: string
+          required: false
+          description: titolo documento
+        - in: query
+          name: idIdeaDiImpresa
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: documenti relativi ad un'idea di impresa se non valorizzato restituisce i documenti visualizzabili da tutti
+      responses:
+        '200':
+          description: elenco dei comuni associate ad una provincia
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Documento"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+  /documenti/documento:
+    get:
+      summary: scarica documento
+      tags:
+        - documenti
+      operationId: getDocumentoById
+      description: restituisce il documento con id passato come parametro
+      parameters:
+        - in: query
+          name: idDocumento
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id documento
+      responses:
+        "200":
+          description: ricevuto
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+        "400":
+          description: inserimento non avvenuto con successoa
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    delete:
+      summary: elimina un documento caricato
+      tags:
+        - documenti
+        - backoffice
+      operationId: deleteDocumento
+      parameters:
+        - in: query
+          name: idDocumento
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id documento
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
+  /documenti/carica-documento:
+    post:
+      summary: carica un documento
+      tags:
+        - documenti
+        - backoffice
+      operationId: caricaDocumento
+      description: carica un documento
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Documento"
+      responses:
+        "200":
+          description: inserimento avvenuto con successo
+        "400":
+          description: inserimento non avvenuto con successoa
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+
+  /documenti/tipi-documento:
+    get:
+      summary: elenco tipi di documento
+      tags:
+        - documenti
+        - backoffice
+      operationId: getTipiDocumento
+      description: elenco tipi di documento
+      responses:
+        '200':
+          description: elenco tipi di documento
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TipoDocumento"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /excel/esporta-excel-anagrafica-cittadino:
+    get:
+      summary: esportazione del foglio excel
+      tags:
+        - excel
+      operationId: exportExcelAnagraficaCittadino
+      description: restituisce il file excel degli anagrafica cittadino
+      parameters:
+        - in: query
+          name: idIncontroPreaccoglienza
+          schema:
+            type: integer
+            format: int64
+          required: true
+        - in: query
+          name: codOperatore
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: excel
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /excel/export-preaccoglienza-anagrafica:
+    get:
+      summary: esportazione del foglio excel contenete i partecipanti dgli incontri
+      tags:
+        - excel
+      operationId: getExportIncontriPreaccoglienzaAnagrafica
+      description: restituisce la lista degli incontri di preaccoglienza con il pritrto su tutti i cittadini
+      parameters:
+        - in: query
+          name: idIncontriPreaccoglienza
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+        - in: query
+          name: codOperatore
+          schema:
+            type: string
+          required: false
+          description: codice operatore
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: string
+          required: false
+          description: id soggetto attuatore
+      responses:
+        '200':
+          description: excel
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /idee-di-impresa/incontro-pre-accoglienza:
+    get:
+      summary: torna l'elenco idea di impresa pasando come parametro l'id incontro preaccoglienza
+      tags:
+        - idee di impresa
+        - backoffice
+      operationId: getIdeaDiImpresaByIdIncontroPreacc
+      description: torna l'idea di impresa pasando come parametro l'id
+      parameters:
+        - in: query
+          name: idIncontroPreaccoglienza
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id dell'incontro preaccoglienza a cercare
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+          required: false
+          description: index pagina
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: false
+          description: size pagina
+
+      responses:
+        '200':
+          description: l'elenco idea di impresa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresaIncontroPreaccoglienza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /idee-di-impresa/idea-di-impresa:
+    get:
+      summary: torna l'idea di impresa pasando come parametro l'id
+      tags:
+        - idee di impresa
+      operationId: getIdeaDiImpresaById
+      description: torna l'idea di impresa pasando come parametro l'id
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id dell'idea di impresa a cercare
+      responses:
+        '200':
+          description: l'idea di impresa dell'id pasato come parametro
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresa"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    post:
+      summary: inserisce un'idea di impresa
+      tags:
+        - idee di impresa
+      operationId: insertIdeaDiImpresa
+      description: inserisce un'idea di impresa
+      parameters:
+        - in: query
+          name: idCittadino
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id cittadino a collegare con l'idea di impresa
+      requestBody:
+        description: idea di impresa a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdeaDiImpresa"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresa"
+        '405':
+          description: Invalid input
+    put:
+      summary: modifica un'idea di impresa
+      tags:
+        - idee di impresa
+      operationId: updateIdeaDiImpresa
+      description: modifica un'idea di impresa
+      requestBody:
+        description:  idea di impresa a modificare
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdeaDiImpresa"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresa"
+        '405':
+          description: Invalid input
+  /idee-di-impresa/idea-di-impresa-cittadino:
+    get:
+      summary: torna l'elenco idea di impresa pasando come parametro l'id del cittadino
+      tags:
+        - idee di impresa
+        - backoffice
+      operationId: getIdeaDiImpresaByIdCittadino
+      description: torna l'idea di impresa pasando come parametro l'id cittadino
+      parameters:
+        - in: query
+          name: idCittadino
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id del cittadino
+      responses:
+        '200':
+          description: idea di impresa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresaRicerca"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /idee-di-impresa/fonti-conoscenza-mip:
+    get:
+      summary: elenco fonti conoscenza mip
+      tags:
+        - idee di impresa
+      operationId: getFontiConoscenzaMip
+      description: elenco delle fonti conoscenza mip
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FonteConoscenzaMip"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /idee-di-impresa/stati-idea-di-impresa:
+    get:
+      summary: elenco stati idea di impresa
+      tags:
+        - idee di impresa
+      operationId: getStatiIdeaDiImpresa
+      description: elenco degli stati idea di impresa
+      responses:
+        '200':
+          description: elenco degli stati idea di impresa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StatoIdeaDiImpresa"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /idee-di-impresa/ricerca:
+    get:
+      summary: torna l'elenco idea di impresa pasando diversi parametro di ricerca preaccoglienza
+      tags:
+        - idee di impresa
+        - backoffice
+      operationId: getIdeaDiImpresaPerParametri
+      description: torna l'idea di impresa pasando diversi parametri di ricerca
+      parameters:
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+        - in: query
+          name: dataInseritaDa
+          schema:
+            type: string
+          required: false
+          description: data minima per la ricerca degli idee
+        - in: query
+          name: dataInseritaA
+          schema:
+            type: string
+          required: false
+          description: data massima per la ricerca degli idee
+        - in: query
+          name: ideaDiImpresa
+          schema:
+            type: string
+          required: false
+          description: denominazione luogo dell'incontro
+        - in: query
+          name: cittadinoNome
+          schema:
+            type: string
+          required: false
+          description: dati del cittadino, nome
+        - in: query
+          name: cittadinoCognome
+          schema:
+            type: string
+          required: false
+          description: dati del cittadino, cognome
+        - in: query
+          name: idStatoIdea
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: stato di idea
+        - in: query
+          name: statoPresenze
+          schema:
+            type: string
+          required: false
+          description: stato presenza incontro preaccoglienza
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id soggetto attuatore / tutor scelto
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id operatore
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: orderBy
+          schema:
+            type: string
+            description: order idee d'impresa
+            example: titolo
+            enum:
+              - id
+              - titolo
+              - cittadino
+              - stato
+              - sogetto
+              - area
+          required: false
+        - in: query
+          name: sortDirection
+          schema:
+            type: string
+            description: order direction
+            example: asc
+            enum:
+              - asc
+              - desc
+          required: false
+      responses:
+        '200':
+          description: l'elenco idea di impresa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresaRicercaConTotale"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /idee-di-impresa/registra-presenze:
+    put:
+      summary: registra le presenze ad un incontro
+      tags:
+        - idee di impresa
+        - backoffice
+      operationId: registraPresenzeIncontro
+      requestBody:
+        description:  idea di impresa a modificare
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/ResgistraPresenze"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResgistraPresenze"
+        '405':
+          description: Invalid input
+  /incontri-preaccoglienza:
+    get:
+      summary: elenco incontri preaccoglienza con parametri
+      tags:
+        - incontri preaccoglienza
+      operationId: getIncontriPreaccoglienzaByParameters
+      description: elenco degli incontri di preaccoglienza filtrati per parametri
+      parameters:
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+        - in: query
+          name: dataIncontroDa
+          schema:
+            type: string
+          required: false
+          description: data minima per la ricerca degli incontri
+        - in: query
+          name: dataIncontroA
+          schema:
+            type: string
+          required: false
+          description: data massima per la ricerca degli incontri
+        - in: query
+          name: luogo
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id luogo incontro
+        - in: query
+          name: idOperatore
+          schema:
+            type: string
+          required: false
+          description: id operatore
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: string
+          required: false
+          description: id soggetto attuatore
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: orderBy
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: sortDirection
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreaccoglienzaRicerca"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /incontri-preaccoglienza/cittadino-incontro-preaccoglienza:
+    get:
+      summary: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id cittadino_incontro_preaccoglienza
+      tags:
+        - incontri preaccoglienza
+      operationId: getCittadinoIncontroPreaccoglienza
+      description: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id cittadino_incontro_preaccoglienza
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id cittadino incontro preaccoglienza
+      responses:
+        '200':
+          description: cittadino incontro preaccoglienza dell'id pasato come parametro
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CittadinoIncontroPreaccoglienza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    post:
+      summary: inserisce un'incontro di preaccoglienza relazionato al cittadino
+      tags:
+        - incontri preaccoglienza
+      operationId: insertCittadinoIncontroPreaccoglienza
+      description: inserisce un'incontro di preaccoglienza relazionato al cittadino
+      requestBody:
+        description: CittadinoIncontroPreaccoglienza a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CittadinoIncontroPreaccoglienza"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CittadinoIncontroPreaccoglienza"
+    put:
+      summary: modifica un'incontro di preaccoglienza relazionato al cittadino
+      tags:
+        - incontri preaccoglienza
+      operationId: updateCittadinoIncontroPreaccoglienza
+      description: modifica un'incontro di preaccoglienza relazionato al cittadino
+      parameters:
+        - in: query
+          name: statoIdeaImpresa
+          schema:
+            type: string
+          required: true
+          description: descrizione stato idea di impresa
+      requestBody:
+        description:  CittadinoIncontroPreaccoglienza a modificare
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CittadinoIncontroPreaccoglienza"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CittadinoIncontroPreaccoglienza"
+        '405':
+          description: Invalid input
+  /incontri-preaccoglienza/incontro-preaccoglienza:
+    get:
+      summary: torna l'incontro di preaccoglienza  passando  l'id come parametro
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: getIncontroPreaccoglienza
+      description: torna l'incontro di preaccoglienza passando  l'id come parametro
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id incontro preaccoglienza
+      responses:
+        '200':
+          description: l'incontro preaccoglienza dell'id pasato come parametro
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreAccoglienzaInsert"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    post:
+      summary: inserisce un'incontro di preaccoglienza
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: insertIncontroPreaccoglienza
+      description: inserisce un'incontro di preaccoglienza
+      requestBody:
+        description: IncontroPreaccoglienza a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IncontroPreAccoglienzaInsert"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreAccoglienzaInsert"
+        '405':
+          description: Invalid input
+    put:
+      summary: modifica un'incontro di preaccoglienza
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: updateIncontroPreaccoglienza
+      description: modifica un'incontro di preaccoglienza
+      requestBody:
+        description:  IncontroPreaccoglienza a modificare
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IncontroPreAccoglienzaInsert"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreAccoglienzaInsert"
+        '405':
+          description: Invalid input
+    delete:
+      summary: elimina un inconro di preaccoglienza
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: deleteIncontroPreaccoglienzaById
+      parameters:
+        - in: query
+          name: idIncontroPreaccoglienza
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id incontro da eliminare
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreAccoglienzaInsert"
+        '405':
+          description: Invalid input
+  /incontri-preaccoglienza/associazione-area-territoriale:
+    post:
+      summary: inserimento della relazione tra incontro preaccoglienza e area territoriale
+      tags:
+        - backoffice
+      operationId: insertRelazioneAreaTerritorialeIncontro
+      description: inserisce un nuovo record nella tabella mip_r_incontro_preacc_area_terr
+      requestBody:
+        description: IncontroPreaccoglienza a inserire
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncontroPreaccoglienzaAreaTerritoriale'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncontroPreaccoglienzaAreaTerritoriale'
+        '405':
+          description: Invalid input
+  /incontri-preaccoglienza/controllo-incontro-esistente:
+    get:
+      summary: controllo incontro già esistente
+      tags:
+        - incontri preaccoglienza
+      operationId: getIncontriPreaccoglienzaForControlloEsistente
+      description: controllo incontro già esistente
+      parameters:
+        - in: query
+          name: idLuogo
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: luogo incontro
+        - in: query
+          name: dataIncontro
+          schema:
+            type: string
+          required: false
+          description: data incontro
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreaccoglienza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /incontri-preaccoglienza/incontri-preaccoglienza-disponibile:
+    get:
+      summary: elenco incontri preaccoglienza per mostrare al cittadino
+      tags:
+        - incontri preaccoglienza
+      operationId: getIncontriPreaccoglienzaByAreaTerritoriale
+      description: elenco incontri preaccoglienza per mostrare al cittadino per scegliere l'incontro per asistere
+      parameters:
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+        - in: query
+          name: completo
+          schema:
+            type: boolean
+          required: false
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreaccoglienza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /incontri-preaccoglienza/incontro-preaccoglienza-per-idea-impresa:
+    get:
+      summary: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id ide d'impresa come parametro
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: getIncontroPreaccoglienzaPerIdeaImpresa
+      description: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id della idea di impresa
+      parameters:
+        - in: query
+          name: idIdeaImpresa
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id idea d'impresa
+      responses:
+        '200':
+          description:  incontro preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreaccoglienza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /incontri-preaccoglienza/incontro-preaccoglienza-per-cittadino:
+    get:
+      summary: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id del cittadino come parametro
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: getIncontroPreaccoglienzaPerCittadino
+      description: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id del cittadino come parametro
+      parameters:
+        - in: query
+          name: idCittadino
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id del cittadino
+      responses:
+        '200':
+          description:  incontro preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncontroPreaccoglienza"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /incontri-preaccoglienza/incontro-preaccoglienza-invia-comunicato:
+    post:
+      summary: manda un comunicato a tutti i partecipanti all'incontro di preaccoglienza
+      tags:
+        - incontri preaccoglienza
+        - backoffice
+      operationId: inviaComunicatoPartecipanti
+      description: torna l'incontro di preaccoglienza relazionato al cittadino passando  l'id del cittadino come parametro
+      parameters:
+        - in: query
+          name: idCittadino
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id cittadino
+        - in: query
+          name: idIncontroPreaccoglienza
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id incontro
+        - in: query
+          name: oggetto
+          schema:
+            type: string
+          required: true
+          description: oggetto del comunicato
+        - in: query
+          name: corpo
+          schema:
+            type: string
+          required: true
+          description: corpo del comunicato
+      responses:
+        '200':
+          description: comunicazione inviata con successo
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /file-ics:
+    get:
+      summary: file ics tramite id
+      tags:
+        - documenti
+      operationId: getStoricoFileIcsById
+      description: restituisci il file con l'id indicato
+      parameters:
+        - in: query
+          name: idFileIcs
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        "200":
+          description: file selezionato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoricoCalendario"
+    put:
+      summary: aggiornamento file calendario
+      tags:
+        - documenti
+      operationId: updateFileIcs
+      description: aggiorna abilitazione e descrizione
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileIcs"
+      responses:
+        "200":
+          description: file selezionato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileIcs"
+  /file-ics/eventi-calendario:
+    get:
+      summary: elenco eventi calendario filtrati per parametri
+      tags:
+        - documenti
+        - backoffice
+      operationId: getEventiCalendario
+      description: elenco eventi calendario filtrati per parametri
+      parameters:
+        - in: query
+          name: dataDa
+          schema:
+            type: string
+          required: false
+          description: data minima per la ricerca degli eventi
+        - in: query
+          name: dataA
+          schema:
+            type: string
+          required: false
+          description: data massima per la ricerca degli eventi
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id operatore
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id soggetto attuatore
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: sortDirection
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: orderBy
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventoCalendarioRicerca"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /file-ics/storico:
+    get:
+      summary: storico inserimento file ics
+      tags:
+        - documenti
+        - backoffice
+      operationId: getStoricoCalendario
+      description: storico inserimento file ics
+      parameters:
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id soggetto attuatore
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoricoCalendario"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /enti:
+    get:
+      summary: elenco enti
+      tags:
+        - ente
+        - backoffice
+      operationId: getEnti
+      description: elenco enti
+      parameters:
+        - name: tipoEnte
+          in: query
+          required: false
+          schema:
+            type: string
+            example: apl
+            enum:
+              - apl
+              - regione
+      responses:
+        '200':
+          description: elenco enti
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ente"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    put:
+      summary: modifica dati aggiuntivi
+      tags:
+        - ente
+      operationId: updateEnte
+      description: aggiotna mail e telefono dell'ente
+      requestBody:
+        description: OperatoreIncontroPreaccoglienza a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ente"
+      responses:
+        '200':
+          description: oggetto modificato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ente"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /enti/operatore-ente:
+    get:
+      summary: elenco operatori dell' ente
+      tags:
+        - ente
+        - backoffice
+      operationId: getOperatoreEnte
+      description: elenco operatori dell' ente
+      parameters:
+        - name: idEnte
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: elenco operatori dell'ente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /file-ics/download:
+    get:
+      summary: scarica documento
+      tags:
+        - documenti
+      operationId: getFileIcsById
+      description: restituisce il documento con id passato come parametro
+      parameters:
+        - in: query
+          name: idFileIcs
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id file ics
+      responses:
+        "200":
+          description: ricevuto
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+        "400":
+          description: inserimento non avvenuto con successoa
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /luoghi-incontro/luoghi-incontro-area-territoriale:
+    get:
+      summary: l'elenco luoghi incontro passando codice area territoriale come parametro
+      tags:
+        - luoghi incontro
+        - backoffice
+      operationId: getLuoghiIncontroPerAreaTerritoriale
+      description: elenco luoghi incontro passando codice area territoriale come parametro
+      parameters:
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+      responses:
+        '200':
+          description: elenco luoghi incontro
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LuogoIncontro"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /operatori:
+    get:
+      summary: elenco tutti operatori
+      tags:
+        - operatori
+        - backoffice
+      operationId: getOperatori
+      description: elenco dei operatori
+      responses:
+        '200':
+          description: elenco dei operatorei
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /operatori/operatore:
+    get:
+      summary: torna l'operatore pasando come parametro l'id
+      tags:
+        - operatori
+        - backoffice
+      operationId: getOperatoreById
+      description: torna l'operaore pasando come parametro l'id
+      parameters:
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id dell'operatore a cercare
+      responses:
+        '200':
+          description: l'idea di impresa dell'id pasato come parametro
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    post:
+      summary: inserisce un'operatore
+      tags:
+        - operatori
+        - backoffice
+      operationId: insertOperatore
+      description: inserisce un'operatore
+      requestBody:
+        description: operatore a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Operatore"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '405':
+          description: Invalid input
+    put:
+      summary: modifica un'operatore
+      tags:
+        - operatori
+        - backoffice
+      operationId: updateOperaotre
+      description: modifica un'operatore
+      requestBody:
+        description:  operatore a modificare
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Operatore"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '405':
+          description: Invalid input
+  /operatori/operatore/soggetti-attutatori:
+    get:
+      summary: torna l'operatore pasando come parametro l'id
+      tags:
+        - operatori
+        - backoffice
+      operationId: getSoggettiAttuatoriForOperatoreById
+      description: torna l'elenco soggetti attuatori  come parametro l'id
+      parameters:
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id dell'operatore a cercare
+      responses:
+        '200':
+          description: l'elenco dei soggetti attuatori
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SoggettoAttuatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /operatori/operatore-incontro-preaccoglienza:
+    get:
+      summary: elenco operatori relazionato a un incontro preaccoglienza passando l'id del incontro come parametro
+      tags:
+        - operatori
+        - backoffice
+      operationId: getOperatoriIncontroPreaccoglienza
+      description: torna l'elenco operatori relazionato a un incontro preaccoglienza passando l'id del incontro come parametro
+      parameters:
+        - in: query
+          name: idIncontroPreacc
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id incontro preaccoglienza
+      responses:
+        '200':
+          description: elenco delle province
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    post:
+      summary: inserisce/associa un'operatore ad un incontro preaccoglienza
+      tags:
+        - operatori
+        - backoffice
+      operationId: insertOperatoreIncontroPreaccoglienza
+      description: inserisce/associa un'operatore ad un incontro preaccoglienza
+      requestBody:
+        description: OperatoreIncontroPreaccoglienza a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OperatoreIncontroPreaccoglienza"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperatoreIncontroPreaccoglienza"
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - operatori
+        - backoffice
+      summary: cancella / disassocia un operatore a un incontro preaccoglienza
+      description: delete a pet
+      operationId: deleteOperatoreIncontroPreaccoglienza
+      parameters:
+        - name: idOperatore
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idIncontroPreaccoglienza
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: se un payload è ritornato
+        '202':
+          description: se nessun payload è ritornato
+  /operatori/operatori-sogg-affidatario:
+    get:
+      summary: elenco operatori associati al soggetto affidatario tramite id dell'utente loggato
+      tags:
+        - operatori
+        - backoffice
+      operationId: getOperatoriSoggAffidatarioById
+      description: elenco operatori associati al soggetto affidatario tramite id dell'utente loggato
+      parameters:
+      - in: query
+        name: idOperatore
+        schema:
+          type: integer
+          format: int64
+        required: true
+        description: id operatore loggato
+      responses:
+        '200':
+          description: elenco dei operatori
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAffidatario"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /pdf/esporta-pdf-presenze:
+    get:
+      summary: esportazione del foglio excel
+      tags:
+        - excel
+      operationId: exportPdfPresenze
+      description: restituisce il file pdf per le presenze
+      parameters:
+        - in: query
+          name: idIncontroPreaccoglienza
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: pdf
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /operatori/ricerca-operatori:
+    get:
+      summary: elenco tutti operatori passando diversi paramatri per la ricerca
+      tags:
+        - operatori
+        - backoffice
+      operationId: getOperatoriRicerca
+      description: elenco dei operatori passando diversi paramatri per la ricerca
+      parameters:
+        - in: query
+          name: nome
+          schema:
+            type: string
+          required: false
+          description: nome operatore
+        - in: query
+          name: cognome
+          schema:
+            type: string
+          required: false
+          description: cognome operatore
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: false
+          description: email operatore
+        - in: query
+          name: codiceFiscale
+          schema:
+            type: string
+          required: false
+          description: codice fiscale operatore
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id operatore
+        - in: query
+          name: soggetto
+          schema:
+            type: string
+            example: attuatore
+            enum:
+              - attuatore
+              - affidatario
+          required: false
+          description: per filtrare in base al soggetto
+        - in: query
+          name: abilitato
+          schema:
+            type: string
+            example: si
+            enum:
+              - si
+              - no
+          required: false
+          description: per filtrare in base a la disabilitazione
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+          required: false
+          description: id soggetto attuatore
+      responses:
+        '200':
+          description: elenco dei operatori
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /province:
+    get:
+      summary: elenco province
+      tags:
+        - dati comuni
+      operationId: getProvince
+      description: elenco delle province
+      responses:
+        '200':
+          description: elenco delle province
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Provincia"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /province/regione:
+    get:
+      summary: elenco province associate ad una regione
+      tags:
+        - dati comuni
+      operationId: getProvincePerRegione
+      description: elenco delle province
+      parameters:
+        - in: query
+          name: regione
+          schema:
+            type: string
+          required: true
+          description: codice della regione a db(per il Piemonte 01)
+      responses:
+        '200':
+          description: elenco delle province associate ad una regione
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Provincia"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /soggetti-affidatario:
+    get:
+      summary: elenco soggetti affidatari
+      tags:
+        - soggetti affidatario
+        - backoffice
+      operationId: getSoggettiAffidatario
+      description: elenco soggetti affidatari
+      responses:
+        '200':
+          description: elenco soggetti affidatario
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAffidatario"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    put:
+      summary: modifica dati aggiuntivi
+      tags:
+        - soggetti affidatario
+      operationId: updateSoggettoAffidatario
+      description: aggiotna mail e telefono del soggetto
+      requestBody:
+        description: OperatoreIncontroPreaccoglienza a inserire
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoggettoAffidatario"
+      responses:
+        '200':
+          description: oggetto modificato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAffidatario"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /soggetti-affidatario/operatore-soggetti-affidatario:
+    get:
+      summary: elenco operatori del soggetti affidatari
+      tags:
+        - soggetti affidatario
+        - backoffice
+      operationId: getOperatoreSoggettoAffidatario
+      description: elenco operatori del soggetti affidatari
+      parameters:
+      - in: query
+        name: idSoggettoAffidatario
+        schema:
+          type: integer
+          format: int32
+        required: false
+        description: codice soggetto affidatario
+      responses:
+        '200':
+          description: elenco operatori del soggetti affidatari
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /soggetti-attuatore:
+    get:
+      summary: elenco soggetti attuatori
+      tags:
+        - soggetti attuatore
+        - backoffice
+      operationId: getSoggettiAttuatori
+      description: elenco soggetti attuatori
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAttuatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+    put:
+      summary: modifica dati aggiuntivi
+      tags:
+        - soggetti attuatore
+      operationId: updateSoggettoAttuatore
+      description: aggiorna mail e telefono del soggetto
+      requestBody:
+        description: soggetto
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoggettoAttuatore"
+      responses:
+        '200':
+          description: oggetto modificato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAttuatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /soggetti-attuatore/operatore-soggetto-attuatore:
+    get:
+      summary: elenco operatori associato a un soggetto attuatore pasando l'id come parametro
+      tags:
+        - soggetti attuatore
+        - backoffice
+      operationId: getOperatoriByIdSoggettoAttuatore
+      description: elenco soggetti attuatori associato a un soggetto attuatore pasando l'id come parametro
+      parameters:
+        - name: idSoggettoAttuatore
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: elenco operatore
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Operatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /soggetti-attuatore/operatore-soggetto-attuatore/cambio-stato-disabilitazione:
+    put:
+      summary: cambia stato di disabilitazione del soggetto attuatore operatore
+      tags:
+        - soggetti attuatore
+        - backoffice
+      operationId: cambiaStatoOperatoriSoggettoAttuatore
+      description: cambia stato di disabilitazione del soggetto attuatore operatore
+      parameters:
+        - name: idSoggettoAttuatore
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idOperatore
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idOperatoreDisabilitazione
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: elenco operatore
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAttuatoreOperatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /soggetti-attuatore/soggetto-attuatore-per-operatore:
+    get:
+      summary: elenco soggetto attuatore associati a un operatori pasando l'id operatore come parametro
+      tags:
+        - soggetti attuatore
+        - backoffice
+      operationId: getSoggettoAttuatoreByIdOperatori
+      description: elenco soggetti attuatori associato a un soggetto attuatore pasando l'id come parametro
+      parameters:
+        - name: idOperatore
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: elenco operatore
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoggettoAttuatore"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /stati-esteri:
+    get:
+      summary: elenco stati esteri
+      tags:
+        - dati comuni
+      operationId: getStatiEsteri
+      description: elenco degli StatiEsteri
+      responses:
+        '200':
+          description: elenco degli stati esteri
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StatoEstero"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /tutor:
+    get:
+      summary: tutor per id
+      tags:
+        - tutor
+      operationId: getTutorPerId
+      description: tutor per id tutor
+      parameters:
+        - in: query
+          name: idTutor
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id tutor
+      responses:
+        '200':
+          description: tutor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutor"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /tutor/tutor-area-territoriale:
+    get:
+      summary: elenco tutor per mostrare al cittadino in base l'area territoriale
+      tags:
+        - tutor
+      operationId: getTutorPerAreaTerritoriale
+      description: elenco tutor per mostrare al cittadino  in base l'area territoriale
+      parameters:
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutor"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /tutor/tutorAbilitati-area-territoriale:
+    get:
+      summary: elenco tutor abilitati per mostrare al cittadino in base l'area territoriale
+      tags:
+        - tutor
+      operationId: getTutorAbilitatiPerAreaTerritoriale
+      description: elenco tutor abilitati per mostrare al cittadino  in base l'area territoriale
+      parameters:
+        - in: query
+          name: codAreaTerritoriale
+          schema:
+            type: string
+          required: false
+          description: codice area territoriale
+      responses:
+        '200':
+          description: elenco incontri preaccoglienza
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tutor"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /tutor/scelta-tutor:
+    put:
+      summary: aggiunge il tutor all'idea di impresa
+      tags:
+        - tutor
+      operationId: sceltaTutor
+      description: aggiunge il tutor all'idea di impresa ed invia mail al cittadino e soggetto attuatore
+      parameters:
+        - in: query
+          name: idTutor
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id cittadino a collegare con l'idea di impresa
+        - in: query
+          name: idImpresa
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id cittadino a collegare con l'idea di impresa
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresa"
+        '405':
+          description: Invalid input
+  /tutor/reset-tutor:
+    delete:
+      summary: disassocia un tutor dall'idea di impresa
+      tags:
+        - tutor
+      operationId: resetTutor
+      description: disassocia il tutor dall'idea di impresa ed invia mail al soggetto attuatore
+      parameters:
+        - in: query
+          name: idIdeaImpresa
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdeaDiImpresa"
+        '405':
+          description: Invalid input
+  /user-info:
+    get:
+      tags:
+        - user
+      description: informazioni utente da shibbolet
+      operationId: getCurrentUser
+      responses:
+        "200":
+          description: info utente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+        "400":
+          description: errore
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /ruoli:
+    get:
+      tags:
+        - user
+      description: informazioni utente da flaidor
+      operationId: getRuoli
+      parameters:
+        - in: query
+          name: idOperatore
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: id operatore in sessione
+      responses:
+        "200":
+          description: ruoli
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ruolo"
+        "400":
+          description: errore
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /questionario/fase-corrente:
+    get:
+      summary: Ottiene l'ID fase corrente per il cittadino
+      tags:
+        - Questionario
+      operationId: getQuestionarioFaseCorrente
+      parameters:
+        - in: query
+          name: idCittadino
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: cf del cittadino fornito nell'header.
+      responses:
+        '200':
+          description: ID della fase corrente per il cittadino dato.
+          content:
+            application/json:
+              schema:
+                type: number
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          description: Cittadino non trovato
+        default:
+          description: Errore generico
+  /questionario/send-email-cittadini:
+    post:
+      summary: manda mail ai cittadini secondo un parametro
+      tags:
+        - Questionario
+      operationId: sendMail
+      requestBody:
+        description: cittadini a cui mandare l'email
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+      parameters:
+        - in: query
+          name: codEmail
+          required: true
+          schema:
+            type: string
+          description: codice email da inviare
+      responses:
+        '200':
+          description: email mandate correttamente
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          description: Cittadino non trovato
+        default:
+          description: Errore generico
+  /questionario/corrente:
+    get:
+      summary: Ottiene il questionario corrente basato sulla fase in cui si trova il cittadino
+      tags:
+        - Questionario
+      operationId: getQuestionarioCorrente
+      parameters:
+        - in: query
+          name: idCittadino
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: CF del cittadino fornito nell'header.
+      responses:
+        '200':
+          description: Questionario della fase corrente con domande e risposte.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionario'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          description: Cittadino non trovato o nessun questionario disponibile per la fase corrente
+        default:
+          description: Errore generico
+  /questionario/{id_questionario}/risposte:
+    post:
+      summary: Salva le risposte del cittadino al questionario
+      tags:
+        - Questionario
+      operationId: salvaRisposteQuestionario
+      parameters:
+        - in: query
+          name: idCittadino
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: CF del cittadino fornito nell'header.
+        - in: path
+          name: id_questionario
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RispostaCompilazione'
+      responses:
+        '201':
+          description: Risposte salvate con successo.
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          description: Cittadino o questionario non trovato
+        default:
+          description: Errore generico
+  /email/invia-email:
+    post:
+      summary: Invia un'email ai cittadini selezionati
+      tags:
+        - Email
+      operationId: inviaEmailCittadini
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Cittadino'
+              description: Lista dei cittadini a cui inviare l'email
+      responses:
+        '202':
+          description: Email inviate con successo.
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '404':
+          description: Uno o più cittadini non trovati.
+        default:
+          description: Errore generico.
+  /validator-test:
+    post:
+      tags:
+        - validation
+      description: validator
+      operationId: testValidazione
+      requestBody:
+        description: test
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidatorTest'
+        required: true
+      responses:
+        "200":
+          description: validazione superata
+        "400":
+          description: validazione non superata
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /status:
+    get:
+      tags:
+        - system
+      description: ping
+      parameters:
+        - in: query
+          required: true
+          name: test
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/problem+json:
+              schema:
+                type: string
+  /status/versione:
+    get:
+      tags:
+        - system
+      description: torna versione
+      responses:
+        "200":
+          description: OK
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Versione'
+  /reportistica/idee-impresa:
+    get:
+      summary: esportazione del foglio excel
+      tags:
+        - excel
+      operationId: getIdeeImpresa
+      description: restituisce  idee d'impresa
+      parameters:
+        - in: query
+          name: dataDa
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: dataA
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: idCodAreaTerritoriale
+          schema:
+            type: string
+        - in: query
+          name: idStatoIdea
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: tipoReport
+          schema:
+            type: string
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: elnco idee d'impresa
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/IdeaDiImpresaRicercaExtendedConTotale'
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /reportistica/esporta-excel-idee-impresa:
+    get:
+      summary: esportazione del foglio excel
+      tags:
+        - excel
+      operationId: exportExcelIdeeImpresa
+      description: restituisce il file excel delle idee d'impresa
+      parameters:
+        - in: query
+          name: nomeOperatore
+          schema:
+            type: string
+        - in: query
+          name: dataDa
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: dataA
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: idCodAreaTerritoriale
+          schema:
+            type: string
+        - in: query
+          name: idStatoIdea
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: tipoReport
+          schema:
+            type: string
+      responses:
+        '200':
+          description: excel
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+
+  /reportistica/esporta-excel-questionari:
+    get:
+      summary: esportazione del foglio excel
+      tags:
+        - excel
+      operationId: exportExcelQuestionari
+      description: restituisce il file excel dei questionari
+      parameters:
+        - in: query
+          name: idFase
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dataDa
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: dataA
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: idCodAreaTerritoriale
+          schema:
+            type: string
+        - in: query
+          name: nomeOperatore
+          schema:
+            type: string
+      responses:
+        '200':
+          description: excel
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+  /reportistica/questionari:
+    get:
+      summary: restituzione domande e risposte questionario fase 1
+      tags:
+        - questionario
+      operationId: getDomandeRisposte
+      description: restituisce domande e risposte questionario fase 1
+      parameters:
+        - in: query
+          name: idFase
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: dataDa
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: dataA
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: idSoggettoAttuatore
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: idCodAreaTerritoriale
+          schema:
+            type: string
+        - in: query
+          name: pageIndex
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: domande e risposte
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/ReportQuestionario"
+        '400':
+          $ref: '#/components/responses/InvalidParameter'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: errore generico
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errore'
+
+components:
+  schemas:
+    AnagraficaCittadino:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        cittadino:
+          $ref: "#/components/schemas/Cittadino"
+        dataNascita:
+          type: string
+          format: date-time
+        comuneNascita:
+          $ref: "#/components/schemas/Comune"
+        numeroDocumentoIdentita:
+          type: string
+        documentoRilasciatoDa:
+          type: string
+        dataScadenzaDocumento:
+          type: string
+          format: date-time
+        statoEsteroNascita:
+          $ref: "#/components/schemas/StatoEstero"
+        descrizioneCittaEsteraNascita:
+          type: string
+        codiceCittadinanza:
+          $ref: "#/components/schemas/Cittadinanza"
+        descCittadinanzaAltro:
+          type: string
+        comuneResidenza:
+          $ref: "#/components/schemas/Comune"
+        codiceStatoEsteroResidenza:
+          type: integer
+          format: int64
+        descrizioneCittaEsteraResidenza:
+          type: string
+        indirizzoResidenza:
+          type: string
+        capResidenza:
+          type: string
+        comuneDomicilio:
+          $ref: "#/components/schemas/Comune"
+        indirizzoDomicilio:
+          type: string
+        capDomicilio:
+          type: string
+        recapitoEmail:
+          type: string
+        recapitoEmail2:
+          type: string
+        recapitoTelefono:
+          type: string
+        recapitoTelefono2:
+          type: string
+        numeroPermessoDiSoggiorno:
+          type: string
+        descrMotivoPermessoDiSoggiorno:
+          type: string
+        permessoDiSoggiornoRilasciatoDa:
+          type: string
+        dataScadPermessoSoggiorno:
+          type: string
+          format: date-time
+        tipoPermessoDiSoggiorno:
+          type: string
+        condizioneOccupazionaleAltro:
+          type: string
+        codiceTitoloDiStudio:
+          $ref: "#/components/schemas/TitoloDiStudio"
+        titoloDiStudioAltro:
+          type: string
+        codiceCondizioneOccupazionale:
+          $ref: "#/components/schemas/CondizioneOccupazionale"
+        svantaggioAbitativo:
+          $ref: "#/components/schemas/SvantaggioAbitativo"
+        condizioneFamiliare:
+          $ref: "#/components/schemas/CondizioneFamiliare"
+        sesso:
+          type: string
+        flgIdeaImpresa:
+          type: boolean
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    AnagraficaCittadinoRicerca:
+      type: object
+      properties:
+        anagrafiche:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnagraficaCittadino"
+        totRis:
+          type: integer
+          format: int64
+    AreaTerritoriale:
+      type: object
+      properties:
+        codiceAreaTerritoriale:
+          type: string
+        descrizioneAreaTerritoriale:
+          type: string
+        descrizioneBreveAreaTerritoriale:
+          type: string
+    Cpi:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        codiceCpi:
+          type: string
+        cpi:
+          type: string
+        gruppoOperatore:
+          type: string
+        codOperatore:
+          type: number
+        sede:
+          type: string
+        indirizzo:
+          type: string
+        cap:
+          type: string
+        codiceComune:
+          type: string
+        codiceProvincia:
+          type: string
+        telefono:
+          type: string
+        telefono2:
+          type: string
+        telefono3:
+          type: string
+        numeroVerde:
+          type: string
+        email:
+          type: string
+        indirizoWeb:
+          type: string
+    CpiOperatore:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        soggettoAttuatore:
+          $ref: "#/components/schemas/Cpi"
+        operatore:
+          $ref: "#/components/schemas/Operatore"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    Cittadinanza:
+      type: object
+      properties:
+        codiceCittadinanza:
+          type: string
+        descrizione:
+          type: string
+        codiceNazionalita:
+          $ref: "#/components/schemas/Nazionalita"
+        codiceCittadinanzaOld:
+          type: string
+        descrizionePrecedente:
+          type: string
+    Cittadino:
+      type: object
+      properties:
+        idCittadino:
+          type: integer
+          format: int64
+        codiceFiscale:
+          type: string
+        cognome:
+          type: string
+        nome:
+          type: string
+    CittadinoIncontroPreaccoglienza:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        cittadino:
+          $ref: "#/components/schemas/Cittadino"
+        incontroPreaccoglienza:
+          $ref: "#/components/schemas/IncontroPreaccoglienza"
+        flgCittadinoPresente:
+          type: string
+        dAnnullamento:
+          type: string
+          format: date-time
+        note:
+          type: string
+        codiceAreaTerritorialeSelezionata:
+          $ref: "#/components/schemas/AreaTerritoriale"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    CondizioneOccupazionale:
+      type: object
+      properties:
+        codiceCondizioneOccupazionale:
+          type: string
+        descrizioneCondizioneOccupazionale:
+          type: string
+    Comune:
+      type: object
+      properties:
+        codiceIstatComune:
+          type: string
+        provincia:
+          $ref: "#/components/schemas/Provincia"
+        descrizioneComune:
+          type: string
+        cap:
+          type: string
+        codiceFiscaleComune:
+          type: string
+    DashboardCittadino:
+      type: object
+      properties:
+        cittadino:
+          $ref: "#/components/schemas/Cittadino"
+        idCittadinoIncontroPreacc:
+          type: integer
+          format: int64
+        idAnagraficaCittadino:
+          type: integer
+          format: int64
+        idIdeaDiImpresa:
+          type: integer
+          format: int64
+        idTuttor:
+          type: integer
+          format: int64
+        idQuestionari:
+          type: integer
+          format: int64
+        partecipzioneIncontro:
+          type: boolean
+        assenzaIncontro:
+          type: boolean
+        registrazioneIncontro:
+          type: boolean
+        disdicimentoIncontro:
+          type: boolean
+    Documento:
+      type: object
+      properties:
+        idDocumento:
+          type: integer
+          format: int64
+        nomeDocumento:
+          type: string
+        descrizioneDocumento:
+          type: string
+        codeTipoDocumento:
+          type: string
+        documento:
+          type: string
+          format: binary
+        idOperatoreInserimento:
+          type: integer
+          format: int64
+        idIdeaDiImpresa:
+          type: integer
+          format: int64
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    Ente:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        descrizioneEnte:
+          type: string
+        gruppoOperatore:
+          type: string
+        codOperatore:
+          type: number
+        email:
+          type: string
+        telefono:
+          type: string
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    EnteOperatore:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        soggettoAttuatore:
+          $ref: "#/components/schemas/Ente"
+        operatore:
+          $ref: "#/components/schemas/Operatore"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    EventoCalendario:
+      type: object
+      properties:
+        idEventoCalendario:
+          type: integer
+          format: int64
+        idFileIcs:
+          type: integer
+          format: int64
+        dataOraInizio:
+          type: string
+          format: date-time
+        dataOraFine:
+          type: string
+          format: date-time
+        descrizioneEvento:
+          type: string
+        luogo:
+          type: string
+        titolo:
+          type: string
+        datoUid:
+          type: string
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    EventoCalendarioWrapper:
+      type: object
+      properties:
+        evento:
+          $ref: "#/components/schemas/EventoCalendario"
+        soggettoAttuatore:
+          $ref: "#/components/schemas/SoggettoAttuatore"
+        operatore:
+          $ref: "#/components/schemas/Operatore"
+    EventoCalendarioRicerca:
+      type: object
+      properties:
+        eventiCalendario:
+          type: array
+          items:
+            $ref: "#/components/schemas/EventoCalendarioWrapper"
+        totRis:
+          type: integer
+          format: int64
+    FonteConoscenzaMip:
+      type: object
+      properties:
+        codiceFonteConoscenzaMip:
+          type: string
+        descrizioneFonteConoscenzaMip:
+          type: string
+    IdeaDiImpresa:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        titolo:
+          type: string
+        descrizioneIdeaDiImpresa:
+          type: string
+        flgRicambioGenerazionale:
+          type: string
+        flgErogazionePrimaOra:
+          type: string
+        fonteConoscenzaMip:
+          $ref: "#/components/schemas/FonteConoscenzaMip"
+        descrizioneAltraFonteConoscenzaMip:
+          type: string
+        statoIdeaDiImpresa:
+          $ref: "#/components/schemas/StatoIdeaDiImpresa"
+        dataCambioStato:
+          type: string
+          format: date-time
+        idTutor:
+          type: integer
+          format: int64
+        dataSceltaTutor:
+          type: string
+          format: date-time
+        idIdeaDiImpresaSostituente:
+          type: integer
+          format: int64
+        businessPlanValidato:
+          type: boolean
+        commentiInterni:
+          type: string
+        noteCommenti:
+          type: string
+        dataValidBusinessPlan:
+          type: string
+          format: date-time
+        dataFirmaPattoServizio:
+          type: string
+          format: date-time
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+        sbloccoAreaTerritoriale:
+          type: boolean
+    IdeaDiImpresaRicerca:
+      type: object
+      properties:
+        ideaDiImpresa:
+          $ref: "#/components/schemas/IdeaDiImpresa"
+        citadino:
+          $ref: "#/components/schemas/Cittadino"
+        areaTerritoriale:
+          $ref: "#/components/schemas/AreaTerritoriale"
+        tutor:
+          $ref: "#/components/schemas/Tutor"
+        operatore:
+          $ref: "#/components/schemas/Operatore"
+    IdeaDiImpresaRicercaExtendedConTotale:
+      type: object
+      properties:
+        ideaDiImpresaRicercaList:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaDiImpresaRicercaExtended"
+        totalNumberResult:
+          type: integer
+          format: int32
+    IdeaDiImpresaRicercaExtended:
+      allOf:
+        - $ref: "#/components/schemas/IdeaDiImpresaRicerca"
+        - type: object
+          properties:
+            cittadinoAnagrafica:
+              $ref: "#/components/schemas/AnagraficaCittadino"
+            utentePrincipale:
+              type: string
+            dataPreaccoglienza:
+              type: string
+              format: date-time
+            sedePreaccoglienza:
+              type: string
+            flgIncontroTelefonico:
+              type: string
+    ReportQuestionario:
+      type: object
+      properties:
+        totaleRisposte:
+          type: integer
+          format: int32
+        domande:
+          type: array
+          items:
+            type: string
+        righeReportistica:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+              dataInserim:
+                type: string
+                format: date-time
+              areaTerritoriale:
+                type: string
+              soggettoAttuatore:
+                type: string
+              compilazione:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DomandeRisposte'
+    DomandeRisposte:
+      type: object
+      properties:
+        testoDomanda:
+          type: string
+        testoRisposta:
+          type: string
+        rispostaLibera:
+          type: string
+
+    IdeaDiImpresaRicercaConTotale:
+      type: object
+      properties:
+        ideeDiImpresa:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdeaDiImpresaRicerca"
+        risultatiTotali:
+          type: integer
+          format: int64
+    IdeaDiImpresaIncontroPreaccoglienza:
+      type: object
+      properties:
+        ideaDiImpresa:
+          type: array
+          items:
+            type: object
+            properties:
+              ideaDiImpresa:
+                $ref: "#/components/schemas/IdeaDiImpresa"
+              cittadinoIncontro:
+                $ref: "#/components/schemas/CittadinoIncontroPreaccoglienza"
+        risultatiTotali:
+          type: integer
+    IncontroPreaccoglienza:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        denominazione:
+          type: string
+        flgIncontroErogatoDaRemoto:
+          type: string
+        flgIncontroTelefonico:
+          type: string
+        linkIncontroRemoto:
+          type: string
+        luogoIncontro:
+          $ref: "#/components/schemas/LuogoIncontro"
+        operatoreCreazione:
+          $ref: "#/components/schemas/Operatore"
+        numMaxPartecipanti:
+          type: integer
+        numPartecipantiIscritti:
+          type: integer
+        dataIncontro:
+          type: string
+          format: date-time
+        note:
+          type: string
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    IncontroPreAccoglienzaInsert:
+      type: object
+      properties:
+        incontroPreaccoglienza:
+          $ref: "#/components/schemas/IncontroPreaccoglienza"
+        areaTerritoriale:
+          type: array
+          items:
+            $ref: "#/components/schemas/AreaTerritoriale"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    IncontroPreaccoglienzaAreaTerritoriale:
+      type: object
+      properties:
+        incontroPreaccoglienza:
+          $ref: "#/components/schemas/IncontroPreaccoglienza"
+        areaTerritoriale:
+          $ref: "#/components/schemas/AreaTerritoriale"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    IncontroPreaccoglienzaRicerca:
+      type: object
+      properties:
+        incontriPreaccoglienza:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncontroPreaccoglienza'
+        totaleIncontri:
+          type: integer
+          format: int64
+    FileIcs:
+      type: object
+      properties:
+        idFileIcs:
+          type: integer
+          format: int64
+        nomeFile:
+          type: string
+        descrizioneFile:
+          type: string
+        fileIcs:
+          type: string
+          format: byte
+        operatore:
+          type: integer
+          format: int64
+        flgAbilitato:
+          type: boolean
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    LuogoIncontro:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        denominazione:
+          type: string
+        indirizzo:
+          type: string
+        cap:
+          type: string
+        comune:
+          $ref: "#/components/schemas/Comune"
+        areaTerritoriale:
+          $ref: "#/components/schemas/AreaTerritoriale"
+    Nazionalita:
+      type: object
+      properties:
+        codiceNazionalita:
+          type: string
+        codiceRegione:
+          type: string
+        descrizioneNazionalita:
+          type: string
+    Operatore:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        codFiscaleUtente:
+          type: string
+        cognome:
+          type: string
+        nome:
+          type: string
+        telefono:
+          type: string
+        email:
+          type: string
+        dataRegistrazione:
+          type: string
+          format: date-time
+        dataDisabilitazione:
+          type: string
+          format: date-time
+        idOperatoreDisabilitazione:
+          type: integer
+          format: int64
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    InfoOperatore:
+      type: object
+      properties:
+        codDbOperatore:
+          type: number
+        codOperatore:
+          type: integer
+        descrOperatore:
+          type: string
+        gruppoOperatore:
+          type: string
+        areaTerritoriale:
+          type: string
+    OperatoreIncontroPreaccoglienza:
+      type: object
+      properties:
+        idIncontroPreaccoglienza:
+          type: integer
+          format: int64
+        idOperatore:
+          type: integer
+          format: int64
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    Provincia:
+      type: object
+      properties:
+        codiceProvincia:
+          type: string
+        codiceRegione:
+          type: string
+        descrizioneProvincia:
+          type: string
+        siglaProvincia:
+          type: string
+    ResgistraPresenze:
+      type: object
+      properties:
+        idCittadino:
+          type: integer
+          format: int64
+        idIncotroPreaccoglienza:
+          type: integer
+          format: int64
+        stato:
+          type: string
+    Ruolo:
+      type: object
+      properties:
+        codiceDominio:
+          type: string
+          description: codiceDominio
+        codiceRuolo:
+          type: string
+          description: codiceRuolo
+        mnemonico:
+          type: string
+          description: mnemonico
+        descrizione:
+          type: string
+          description: descrizione
+        entiAssociati:
+          type: array
+          items:
+            $ref: "#/components/schemas/InfoOperatore"
+    SoggettoAffidatario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        gruppoOperatore:
+          type: string
+        codOperatore:
+          type: number
+        denominazione:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    SoggettoAttuatore:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        gruppoOperatore:
+          type: string
+        codOperatore:
+          type: integer
+          format: int64
+        denominazione:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+        dataDisabilitazione:
+          type: string
+          format: date-time
+        codiceAreaTerritoriale:
+          $ref: "#/components/schemas/AreaTerritoriale"
+    SoggettoAffidatarioOperatore:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        soggettoAttuatore:
+          $ref: "#/components/schemas/SoggettoAffidatario"
+        operatore:
+          $ref: "#/components/schemas/Operatore"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    SoggettoAttuatoreOperatore:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        soggettoAttuatore:
+          $ref: "#/components/schemas/SoggettoAttuatore"
+        operatore:
+          $ref: "#/components/schemas/Operatore"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    StatoEstero:
+      type: object
+      properties:
+        codStato:
+          type: integer
+          format: int64
+        descrizioneStato:
+          type: string
+        siglaNazione:
+          type: string
+        statoCodFiscale:
+          type: string
+    StoricoCalendario:
+      type: object
+      properties:
+        numeroEventi:
+          type: integer
+          format: int64
+        soggettoAttuatore:
+          $ref: "#/components/schemas/SoggettoAttuatore"
+        operatoreInserimento:
+          $ref: "#/components/schemas/Operatore"
+        idDocumentoIcs:
+          type: integer
+          format: int64
+        flgAbilitato:
+          type: boolean
+        nomeFile:
+          type: string
+        descrizioneFile:
+          type: string
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    StatoIdeaDiImpresa:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        descrizioneStatoIdeaDiImpresa:
+          type: string
+    SvantaggioAbitativo:
+      type: object
+      properties:
+        id:
+          type: number
+        descrizioneSvantaggioAbitativo:
+          type: string
+    CondizioneFamiliare:
+      type: object
+      properties:
+        id:
+          type: number
+        descrCondizioneFamiliare:
+          type: string
+    TipoDocumento:
+      type: object
+      properties:
+        codiceTipoDocumento:
+          type: string
+        descrizioneTipoDocumento:
+          type: string
+        dataInizio:
+          type: string
+          format: date-time
+        dataFine:
+          type: string
+          format: date-time
+    TitoloDiStudio:
+      type: object
+      properties:
+        codiceTitoloDiStudio:
+          type: string
+        descrizioneTitoloDiStudio:
+          type: string
+    Tutor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        soggettoAttuatore:
+          $ref: "#/components/schemas/SoggettoAttuatore"
+        codUserInserim:
+          type: string
+        dataInserim:
+          type: string
+          format: date-time
+        codUserAggiorn:
+          type: string
+        dataAggiorn:
+          type: string
+          format: date-time
+    UserInfo:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: nome dell'utente
+        cognome:
+          type: string
+          description: cognome dell'utente
+        codFisc:
+          type: string
+          description: codice fiscale dell'utente
+        ente:
+          type: string
+          description: nome dell'ente
+        ruolo:
+          type: string
+          description: nome del ruolo dell'utente
+        cod_ruolo:
+          type: string
+          description: codice del ruolo dell'utente
+        idOperatore:
+          type: integer
+          format: int64
+          description: livello di autenticazione utilizzato per accedere
+    CittadinoFaseQuestionario:
+      type: object
+      properties:
+        idCittadino:
+          $ref: "#/components/schemas/Cittadino"
+        idFaseQuestionario:
+          $ref: "#/components/schemas/FaseQuestionario"
+      required: [idCittadino, idFaseQuestionario]
+    FaseQuestionario:
+      type: object
+      properties:
+        idFaseQuestionario:
+          type: integer
+          format: int32
+        descrFaseQuestionario:
+          type: string
+      required: [idFaseQuestionario]
+    Questionario:
+      type: object
+      properties:
+        idQuestionario:
+          type: integer
+          format: int64
+        domande:
+          type: array
+          items:
+            $ref: '#/components/schemas/Domanda'
+      required: [idQuestionario, domande]
+    Domanda:
+      type: object
+      properties:
+        idDomanda:
+          type: integer
+          format: int64
+        testoDomanda:
+          type: string
+          nullable: true
+        placeholder:
+          type: string
+          nullable: true
+        tipoDomanda:
+          type: string
+          enum: [ aperta, chiusa, chiusa_scelta_multipla ]
+        risposte:
+          type: array
+          items:
+            $ref: '#/components/schemas/Risposta'
+        idDomandaCondizionale:
+          type: integer
+          format: int64
+        idRispostaCondizionale:
+          type: integer
+          format: int64
+      required: [idDomanda, testoDomanda, tipoDomanda, risposte]
+    Risposta:
+      type: object
+      properties:
+        idRisposta:
+          type: integer
+          format: int64
+        testoRisposta:
+          type: string
+        flgRichiestoDettaglio:
+          type: boolean
+        placeholder:
+          type: string
+          nullable: true
+      required: [idRisposta, testoRisposta, flgRichiestoDettaglio]
+    CompilazioneQuestionarioFase:
+      type: object
+      properties:
+        compilazioneQuestionario:
+          $ref: "#/components/schemas/CompilazioneQuestionario"
+        faseQuestionario:
+          $ref: "#/components/schemas/FaseQuestionario"
+      required: [compilazioneQuestionario, faseQuestionario]
+    CompilazioneQuestionario:
+      type: object
+      properties:
+        idCompilazioneQuestionario:
+          type: integer
+          format: int64
+        cittadino:
+          $ref: "#/components/schemas/Cittadino"
+        questionario:
+          $ref: "#/components/schemas/Questionario"
+      required: [idCompilazioneQuestionario, cittadino, questionario]
+    RispostaCompilazione:
+      type: object
+      properties:
+        idDomanda:
+          type: integer
+          format: int64
+        rispostaLibera:
+          type: string
+        idRispostaScelta:
+          type: integer
+          format: int64
+      required: [idDomanda]
+    ValidatorTest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 3
+          maxLength: 25
+        cognome:
+          type: string
+          minLength: 3
+          maxLength: 25
+    Versione:
+      type: object
+      properties:
+        versioneDev:
+          type: string
+        versioneTest:
+          type: string
+        versioneProd:
+          type: string
+    Errore:
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: integer
+        messaggioCittadino:
+          type: string
+        errorMessage:
+          type: string
+        fields:
+          type: string
+          nullable: true
+  responses:
+    InvalidParameter:
+      description: usata quando i campi non sono validati correttamente
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errore'
+    Forbidden:
+      description: utente non autorizzato al caso d'uso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errore'

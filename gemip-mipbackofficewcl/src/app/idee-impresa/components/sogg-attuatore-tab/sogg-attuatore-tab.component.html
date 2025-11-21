@@ -1,0 +1,60 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Soggetto Attuatore Associato</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+    <div class="row" *ngIf="canSbloccoAreaTerritoriale && superuser">
+      <div class="p-2 my-2 mb-5">
+        <button
+          mat-raised-button
+          [disabled]="!this.soggetto || sbloccoAreaTerritoriale"
+          class="btn btn--danger"
+          aria-label='reset tutor'
+          (click)="onResetTutor()"
+        >
+        reset Tutor
+        </button>
+        <span *ngIf="!sbloccoAreaTerritoriale" class="mx-2">Fai click su 'RESET TUTOR' per permettere al cittadino di modificare la sua scelta.</span>
+        <span *ngIf="sbloccoAreaTerritoriale" class="mx-2">Richiesta di reset del soggetto Attuatore già effettuata.</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="soggetto">
+      <div class="col-3 mb-4"><Strong>Denominazione:</Strong></div>
+      <div class="col-3">{{soggetto.denominazione}}</div>
+      <div class="col-3"><Strong>Gruppo e codice:</Strong></div>
+      <div class="col-3">{{soggetto.gruppoOperatore}}{{soggetto.codOperatore}}</div>
+    </div>
+    <div class="row" *ngIf="!soggetto">
+      <div class="col-10">Nessun soggetto associato</div>
+      <div class="col-2">
+      </div>
+    </div>
+
+  </mat-card-content>
+</mat-card>

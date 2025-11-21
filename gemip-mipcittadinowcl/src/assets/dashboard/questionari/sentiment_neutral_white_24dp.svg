@@ -1,0 +1,7 @@
+<svg id="sentiment_neutral_black_24dp" xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
+  <path id="Tracciato_111084" data-name="Tracciato 111084" d="M0,0H84V84H0Z" fill="none"/>
+  <path id="Tracciato_111085" data-name="Tracciato 111085" d="M9,14H30v5.25H9Z" transform="translate(22.5 35)" fill="#fff"/>
+  <circle id="Ellisse_8971" data-name="Ellisse 8971" cx="5.5" cy="5.5" r="5.5" transform="translate(49 28)" fill="#fff"/>
+  <ellipse id="Ellisse_8972" data-name="Ellisse 8972" cx="5" cy="5.5" rx="5" ry="5.5" transform="translate(25 28)" fill="#fff"/>
+  <path id="Tracciato_111086" data-name="Tracciato 111086" d="M36.965,2A35,35,0,1,0,72,37,34.983,34.983,0,0,0,36.965,2ZM37,65A28,28,0,1,1,65,37,27.992,27.992,0,0,1,37,65Z" transform="translate(5 5)" fill="#fff"/>
+</svg>

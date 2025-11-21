@@ -1,0 +1,228 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#mip-cittadino{
+
+  .disabled--link {
+    pointer-events: none; /* Disabilita gli eventi del mouse */
+    color: grey; /* Cambia il colore del testo per indicare che il link è disabilitato */
+    text-decoration: none; /* Rimuove la sottolineatura */
+  }
+
+
+  .btn{
+    &--menu{
+      .mat-focus-indicator{
+        color: $primary;
+      }
+    }
+    &--primary {
+      @include buttonColor($primary-color);
+      &:disabled{
+        border-color: #9D9D9D;
+        background-color: #9D9D9D;
+        color: white;
+      }
+    }
+    &--outline-primary {
+      box-shadow: none;
+      &:not(:hover) {
+        color: $primary;
+        background-color: $white;
+      }
+      &:disabled{
+        border-color: #9D9D9D;
+        background-color: #9D9D9D;
+        color: white;
+      }
+      @extend .btn-outline-primary;
+      border: 2px solid $primary-color;
+      @extend %upperBold;
+    }
+    &--plain-text {
+      @extend %upperBold;
+      &--primary{
+        color: $primary;
+        @extend %upperBold;
+      }
+      &--danger{
+        color: $danger;
+        @extend %upperBold;
+      }
+    }
+    &--success {
+      @include buttonColor($green-600);
+    }
+    &--danger{
+      @include buttonColor($red);
+    }
+    &--warning{
+      @include buttonColor($orange-500, $black);
+    }
+    &--secondary{
+      box-shadow: none;
+      @extend %upperBold;
+      color: $black;
+      border: 2px solid #faba00;
+      background-color: #faba00;
+      &:hover, &:active {
+        border: 2px solid $primary;
+        background-color: $primary;
+        color: $white;
+        @extend %upperBold;
+      }
+      &-active{
+        border: 2px solid $primary;
+        background-color: $primary;
+        color: $white!important;
+        box-shadow: 6px 6px 6px #EFD17C;
+        @extend %upperBold;
+      }
+    }
+    &--logout {
+      @extend .px-0;
+      @extend .me-2;
+      &::before {
+        content: '';
+        // background-image: url('#{$pathImage}/icons/exit-icon.svg');
+        width: 21px;
+        height: 16px;
+        @extend .d-inline-block;
+      }
+    }
+    &--group-card {
+      @extend .d-flex;
+      @extend .mt-4;
+    }
+    &--link {
+      &-primary {
+        @extend .fw-bold;
+        @extend .btn-link;
+        color: $primary-color;
+        text-decoration: none;
+        //background-color:#1F66AB;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &:focus{
+          background-color: #faba00;
+        }
+      }
+      &-secondary{
+        @extend .fw-bold;
+        @extend .btn-link;
+        color: $primary-color;
+        text-decoration: none;
+        background-color: #faba00;
+      }
+    }
+
+    &-withDone{
+      .mat-button-wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .done-icon{
+          position: absolute;
+          right: 5%;
+          color: #1F66AB;
+          background: #7AD91A;
+          border-radius: 50%;
+          &.zona-icon{
+            transform: scale(1.5);
+          }
+        }
+
+      }
+    }
+
+    &-zona{
+      color: $black;
+      font-size: 15px;
+      @extend .btn;
+      @extend .btn-withDone;
+      @extend .btn--secondary;
+      display: flex;
+      padding: 20px;
+      white-space: normal;  /* Permette al testo di andare a capo */
+      overflow: visible; /* Mostra il testo che va oltre le dimensioni del pulsante */
+      text-align: left;
+      &:disabled{
+        background: #9D9D9D;
+        color: #FFFF;
+      }
+
+    }
+    &--online-presenza{
+      @extend .btn;
+      @extend .btn--secondary;
+      @extend .btn-withDone;
+      width: 80%;
+      margin-bottom: 10px;
+      &:disabled{
+        background: #9D9D9D;
+        color: #FFFF;
+      }
+
+    }
+
+    font-size: 14px;
+  }
+
+
+
+
+
+
+}
+
+.done-icon-title{
+  color: $white;
+  background: #7AD91A;
+  border-radius: 50%;
+  transform: scale(1.5);
+}
+.ciao{
+padding: top right bottom left;
+
+}
+.mat-radio-outer-circle{
+  border-color:#1F66AB!important;
+}
+.mat-radio-inner-circle{
+  background-color:#1F66AB!important;
+}
+.mat-checked{
+  .mat-slide-toggle-label
+  {
+    .mat-slide-toggle-bar{
+      background-color:#1F66AB!important;
+      opacity: 0.54;
+    }
+    .mat-slide-toggle-thumb{
+      background-color:#083767!important;
+    }
+  }
+}

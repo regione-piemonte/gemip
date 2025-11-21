@@ -1,0 +1,274 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="row not-stampa">
+  <button class="col-auto d-flex justify-content-start" mat-button aria-label="Indietro" (click)="tornaIndietro()"><mat-icon role="presentation">arrow_back</mat-icon></button>
+  <button class="col-auto ms-auto d-flex justify-content-end" mat-button (click)="selectedTab = 5" aria-label="Stampa"><mat-icon role="presentation">print</mat-icon></button>
+</div>
+
+<mat-tab-group class="mt-3"
+              [selectedIndex]="selectedTab"
+              (selectedIndexChange)="selectedTab = $event;">
+
+<!-- Handle dati identificativi -->
+<mat-tab label="Idea d'impresa">
+  <form [formGroup]="form"  >
+  <mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5" class="stampa">Dati progetto</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+  <div class="row">
+    <!-- Titolo -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label >Titolo</mat-label>
+      <input [disabled]="true" matInput formControlName="titolo">
+      <mat-error>
+        <app-control-messages [control]="form.controls['titolo'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- data registrazione -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+        <mat-label>Data registrazione</mat-label>
+        <input matInput
+                [matDatepicker]="data"
+                formControlName="data">
+        <mat-datepicker-toggle matSuffix [for]="data"></mat-datepicker-toggle>
+        <mat-datepicker #data></mat-datepicker>
+        <mat-error>
+          <app-control-messages [control]="form.controls['data'] | castFromControl"></app-control-messages>
+        </mat-error>
+    </mat-form-field>
+    <!-- AREA TERRITORIALE -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Seleziona un'area territoriale</mat-label>
+
+              <mat-select formControlName="area" [value]="null">
+                <mat-option [value]="null">--</mat-option>
+                <mat-option
+                  *ngFor="let area of areeTerritoriali; index as i"
+                  [value]="area.codiceAreaTerritoriale"
+                >
+                  {{ area.descrizioneAreaTerritoriale }}
+                </mat-option>
+              </mat-select>
+    </mat-form-field>
+
+    <!-- Stato -->
+    <div class="col-md-12 col-sm-12 boxstato">
+      Stato:
+      <Strong> {{ statoIdea?.descrizioneStatoIdeaDiImpresa }}</Strong>
+    </div>
+
+    <div class="col mx-auto" style="display:flex; align-items: center;flex-wrap: wrap;">
+        <mat-checkbox
+            class="example-margin"
+            formControlName="checkPrimoIncontroSvolto"
+            aria-label="Primo incontro"
+            [disabled]="form.controls.checkPattoServiziFSvolto.value || disabledCheck || disableAll"
+            >Erogazione prima ora svolta </mat-checkbox>
+        <mat-checkbox
+            class="example-margin"
+            formControlName="checkPattoServiziFSvolto"
+            aria-label="PAtto di servizio"
+            [disabled]="!form.controls.checkPrimoIncontroSvolto.value || disabledCheck || disableAll || this.form.controls.checkValidazioneBusinessPlan.value!"
+            >Patto di servizio firmato</mat-checkbox>
+        <div class="no-wrap" >
+            <mat-checkbox
+            class="example-margin"
+            formControlName="checkValidazioneBusinessPlan"
+            (change)="onBP()"
+            [disabled]="
+              form.controls.checkPrimoIncontroSvolto.value == false ||
+              form.controls.checkPattoServiziFSvolto.value == false || disableAll
+            "
+            [hidden]="false"
+            >Validazione business plan</mat-checkbox>
+            <mat-form-field class="col-3 example-margin" style="min-width: 13rem;"  *ngIf="form.controls.checkValidazioneBusinessPlan.value">
+              <mat-label>Data validazione business plan</mat-label>
+              <input
+              matInput
+                [matDatepicker]="picker"
+                formControlName="dateValidazioneBusinessPlan" [max]="maxDate">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix  [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        <mat-checkbox
+            class="example-margin"
+            formControlName="checkNonAmmissibileSvolto"
+            aria-label="Non ammessibile"
+            [disabled]="
+            this.form.controls.checkValidazioneBusinessPlan.value!
+            || this.form.controls.checkPattoServiziFSvolto.value!
+            || disableAll "
+            >Non ammissibile</mat-checkbox>
+      </div>
+
+    <div class="col-12" style="
+          display: flex;
+          position: relative;
+          text-align: left;
+          font-size: inherit;
+          font-weight: 400;
+          line-height: 1.125;
+          font-family: Roboto, 'Helvetica Neue', sans-serif;
+          letter-spacing: normal;
+          height: 50px;
+          align-items: center;">
+      <span>Misura del Ricambio Generazionale: </span>
+      <mat-slide-toggle
+              class="col-md-6 col-sm-12"
+              [checked]="cambioGen"
+              [disabled]="disableToggle"
+              (toggleChange)="onToggle()">
+      </mat-slide-toggle>
+    </div>
+
+            <!-- Descrizione -->
+            <mat-form-field class="col-12" appearance="legacy">
+              <mat-label>Descrizione progetto</mat-label>
+              <textarea
+                matInput
+                formControlName="descrizione"
+                class="custom-textarea"
+                [maxlength]="maxLengthDescrizione"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+
+  <!-- ------------------------------------------------------------ -->
+  <mat-card-header>
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Fonte di informazione</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="border-bottom border-2">
+  <div class="container-fluid">
+    <!-- CONOSCENZA DI MIP -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Com'è venuto a conoscenza del Programma Mip</mat-label>
+      <mat-select formControlName ="conoscenza" [disabled]="true"
+                    [value]="null" (selectionChange)="selctionChange()">
+        <mat-option [value]="null">--</mat-option>
+        <mat-option *ngFor="let fonte of fonteConoscenzaList;
+                            index as i;" [value]="fonte.codiceFonteConoscenzaMip">
+          {{fonte.descrizioneFonteConoscenzaMip}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Altro-->
+    <mat-form-field class="col-12" appearance="legacy">
+      <mat-label>Altro da specificare</mat-label>
+      <textarea matInput formControlName ="altro" class="custom-textarea" [maxlength]="250" ></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="col-12" appearance="legacy">
+      <mat-label>Commenti (interni)</mat-label>
+      <textarea
+        matInput
+        formControlName="commentiInterni"
+        class="custom-textarea"
+        [maxlength]="4000"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  </mat-card-content>
+
+
+  <mat-card-header>
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-1">Altre informazioni e note</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="border-bottom border-2">
+  <div class="container-fluid">
+    <!-- CONOSCENZA DI MIP -->
+    <mat-form-field class="col-12" appearance="legacy">
+      <mat-label>Note/Commenti</mat-label>
+      <textarea
+        matInput
+        formControlName="noteCommenti"
+        class="custom-textarea"
+        [maxlength]="4000"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  </mat-card-content>
+
+    </mat-card>
+    </form>
+      <div class="btn--group-card" *ngIf="!disableSaveButton">
+        <div class="ms-auto p-2">
+          <button mat-button *ngIf="selectedTab==0"
+                  class="btn btn--primary"
+                  aria-label="Salva"
+                  (click)="onSalva()">SALVA</button>
+        </div>
+      </div>
+  </mat-tab>
+
+<!-- #################################################### -->
+<!-- ##################-DATI CORRELATI-################## -->
+<mat-tab label="Cittadini" >
+  <app-utente-tab ></app-utente-tab>
+</mat-tab>
+<mat-tab label="Incontro di pre-accoglienza">
+  <app-incontro-tab ></app-incontro-tab>
+</mat-tab>
+<mat-tab label="Soggetto attuatore">
+  <app-sogg-attuatore-tab [ideaImpresa]="ideaImp" (ricaricaIdea)="setInitValueForm()" ></app-sogg-attuatore-tab>
+</mat-tab>
+<mat-tab label="Files">
+  <app-file-tab ></app-file-tab>
+</mat-tab>
+<mat-tab label="Stampa">
+<stampa-idea
+  [ideaImp]="ideaImp"
+  [areaTerritoriale]="areaTerritoriale"
+  [statoIdea]="statoIdea"
+  [cambioGen]="cambioGen">
+</stampa-idea>
+
+<div class="btn--group-card">
+  <div class="ms-auto p-2">
+    <button mat-button
+            class="btn btn--primary"
+            aria-label="Salva"
+            (click)="print()">STAMPA</button>
+  </div>
+</div>
+
+</mat-tab>
+
+</mat-tab-group>
+
+

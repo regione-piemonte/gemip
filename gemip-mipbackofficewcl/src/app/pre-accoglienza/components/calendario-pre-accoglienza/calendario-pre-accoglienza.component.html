@@ -1,0 +1,140 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+
+
+  <div class="row text-center">
+
+    <div class="col-md-3">
+      <div class="btn-group">
+        <button class="btn btn-primary"
+              mwlCalendarPreviousView
+              [view]="view"
+              [disabled]="prevBtnDisabled"
+              [viewDate]="viewDate"
+              (viewDateChange)="decrement()"
+              [attr.aria-label]="(view=='month'? 'mese':(view=='week'?'settimana':'giorno'))  +' precedente'"
+              >
+          Precedente
+        </button>
+        <button class="btn btn-outline-secondary"
+            mwlCalendarToday
+            [disabled]="todayBtnDisabled"
+            [attr.aria-label]="'torna ad oggi'"
+            [(viewDate)]="viewDate"
+            >
+          Oggi
+        </button>
+        <button class="btn btn-primary"
+              mwlCalendarNextView
+              [view]="view"
+              [viewDate]="viewDate"
+              [disabled]="nextBtnDisabled"
+              (viewDateChange)="increment()"
+              [attr.aria-label]="(view=='month'? 'mese':(view=='week'?'settimana':'giorno'))  +' successivo'"
+              >
+          Prossimo
+        </button>
+      </div>
+    </div>
+
+
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'it' }}</h3>
+    </div>
+
+    <div class="col-md-3">
+      <div class="btn-group">
+        <button class="btn btn-primary"
+              (click)="setView(CalendarView.Month)"
+              [class.active]="view === CalendarView.Month"
+              [attr.aria-label]="'vista mensile'"
+
+              >
+          Mese
+      </button>
+
+      <button class="btn btn-primary"
+              (click)="setView(CalendarView.Week)"
+              [class.active]="view === CalendarView.Week"
+              [attr.aria-label]="'vista settimanale'"
+              >
+          Settimana
+        </button>
+
+        <button class="btn btn-primary"
+              (click)="setView(CalendarView.Day)"
+              [class.active]="view === CalendarView.Day"
+              [attr.aria-label]="'vista giornaliera'">
+          Giorno
+        </button>
+
+      </div>
+    </div>
+    <div class="col-2 legenda">
+     <ul>
+      <li class="circle circle-yellow">Incontri da remoto</li>
+      <li class="circle circle-blue">Incontri in presenza</li>
+     </ul>
+    </div>
+    </div> <!--/ End of row text-center -->
+    <br />
+
+    <div [ngSwitch]="view">
+
+      <!-- Vista Mensile -->
+      <mwl-calendar-month-view
+        *ngSwitchCase="CalendarView.Month"
+
+        [viewDate]="viewDate"
+        [locale]="'it'"
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-month-view>
+
+      <!-- Vista Settimanale -->
+      <mwl-calendar-week-view
+        *ngSwitchCase="CalendarView.Week"
+
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view>
+
+      <!-- Vista Giorno -->
+      <mwl-calendar-day-view
+        *ngSwitchCase="CalendarView.Day"
+
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-day-view>
+    </div>

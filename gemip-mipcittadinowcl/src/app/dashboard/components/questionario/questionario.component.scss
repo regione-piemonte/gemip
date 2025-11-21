@@ -1,0 +1,126 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border: 3px solid black;
+}
+
+.image {
+  max-height: 300px;
+}
+
+.margin {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+radio-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.text {
+  text-wrap: wrap !important;
+}
+
+:host::ng-deep.mat-checkbox-layout {
+  text-wrap: wrap !important;
+}
+
+mat-radio-group.text-wrap {
+  .mat-radio-label-content {
+    text-wrap: wrap;
+  }
+}
+
+h5 {
+  margin-bottom: 25px;
+}
+
+@media screen and (max-width: 470px) {
+  .image {
+    max-height: 150px;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .margin {
+    margin: 15px;
+  }
+}
+
+@media screen and (max-width: 279px) {
+  .container {
+    display: flex;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .radio-option {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.btn-primary:hover {
+  background-color: orange;
+  border: 2px solid black;
+  color: black;
+}
+
+.btn {
+  border: 2px solid transparent;
+}
+
+app-faccina {
+  display: block;
+  width: 3cm;
+}
+
+div.container-faccine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+/*
+::ng-deep {
+    .textarea-reuired .mat-form-field-appearance-outline .mat-form-field-outline {
+       color: red;
+    }
+     mat-form-field {
+       .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: red;
+       }
+    }
+  }
+*/
+
+
+
+

@@ -1,0 +1,34 @@
+package {{package}};
+
+{{^x-is-composed-model}}
+import java.util.Objects;
+import java.util.ArrayList;
+import java.util.HashMap;
+{{#imports}}import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+{{#useBeanValidation}}
+import {{{jeeLibrary}}}.validation.constraints.*;
+{{/useBeanValidation}}
+{{/x-is-composed-model}}
+{{#models}}
+{{#model}}
+{{#isComposedModel}}
+{{>interface}}
+{{/isComposedModel}}
+{{^isComposedModel}}
+{{#is this 'enum'}}
+{{>enumOuterClass}}
+{{/is}}
+{{#isNot this 'enum'}}
+
+{{#vendorExtensions.x-constraints}}
+{{{vendorExtensions.x-constraints}}}
+{{/vendorExtensions.x-constraints}}
+{{>pojo}}
+{{/isNot}}
+{{/isComposedModel}}
+{{/model}}
+{{/models}}

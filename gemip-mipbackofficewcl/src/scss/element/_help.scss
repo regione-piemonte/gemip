@@ -1,0 +1,426 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-serse {
+
+  //-CONTAINER+BOTTON
+  .bot-container{
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    z-index: 1010;
+  }
+
+  .bot-botton {
+    position: relative;
+    margin: auto;
+    padding: 10px 18px;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+
+    color: $white;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+   }
+  .bot-botton span {
+    position: relative;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    display: inline;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0s ease;
+
+    color: $white;
+
+    width: 0px;
+    height: 0px;
+
+  }
+
+
+
+  .bot-botton:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    border-radius: 50px;
+    background: $orange-500;
+    width: 45px;
+    height: 45px;
+    transition: all 0.3s ease;
+
+
+    right: 0;
+  }
+  .bot-botton .icon-bot-botton {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-left: 5px;
+    transform: translateX(27%);
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+
+  // .bot-botton:hover span {
+  //   opacity: 1;
+  //   width: 210px;
+  //   height: 100%;
+  //   transform: translateX(0px);
+  //   transition: opacity 1s ease,  transform 1s ease; /* Usiamo "ease-out" per l'opacità in uscita */
+
+  // }
+
+  // .bot-botton:hover::before {
+  //   width: 100%;
+  // }
+
+  .bot-botton-hover span{
+    opacity: 1;
+    width: 210px;
+    height: 100%;
+    transform: translateX(0px);
+    transition: opacity 1s ease,  transform 1s ease; /* Usiamo "ease-out" per l'opacità in uscita */
+
+  }
+  .bot-botton-hover::before{
+    width: 100%;
+  }
+
+  .bot-botton:active {
+  transform: scale(0.95);
+  }
+
+
+
+  //-CHAT
+  .chat-card{
+    background: $white;
+    border: 1px solid $grey-900;
+    border-radius: 20px;
+    padding: 0px;
+    .mat-card-content{
+      padding: 0px 15px;
+      margin-bottom: 5px;
+    }
+    .mat-card-actions{
+      padding: 10px 15px 10px;
+    }
+  }
+
+  .chat-header{
+    background-color: $primary-color;
+    color: $white;
+    padding: 10px;
+    border-bottom: 1px solid;
+    border-radius: 20px 20px 0px 0px;
+    .mat-card-header-text{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .mat-card-subtitle{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+      }
+    }
+  }
+
+  .chat-area{
+    height: 40vh ;
+    width: 30rem;
+
+    display: flex;
+    flex-direction: column;
+    overflow: auto; /* Aggiunto per abilitare la barra di scorrimento verticale */
+
+  }
+
+  .chat-area > :first-child{
+    margin-top: auto;
+  }
+
+  .chat-bubble-container{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .chat-bubble{
+    background: $grey-300;
+    padding: 8px 50px 18px 8px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    width: fit-content;
+
+    position: relative;
+  }
+
+  .chat-bubble-container.sender{
+    justify-content: flex-end;
+  }
+  .chat-bubble-container.sender > .chat-bubble{
+    background: $grey-400;
+  }
+
+  .help-tooltip {
+    font-size: 20px; /* Imposta la dimensione del font desiderata */
+    background-color: $grey-900; /* Cambia il colore di sfondo */
+    color: $grey-200; /* Cambia il colore del testo */
+    // border: 2px solid #ea7f21; /* Aggiungi un bordo personalizzato */
+  }
+
+
+
+  //-HELP
+
+  .doc-container {
+    width: 60vw;
+    min-width: 40vw;
+    max-width: 1338px;
+
+    height: 60vh;
+    min-height: 20vh;
+    max-height: 80vh;
+    padding: 0px;
+
+    box-sizing: border-box;
+    border: 3px solid;
+    border-radius: 10px;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    background: #fff;
+    color: rgba(0, 0, 0, 0.87);
+
+
+    top: 10%;
+    left: 25%;
+    position: fixed;
+
+    overflow: auto;
+    resize: both;
+
+
+    z-index: 1011;
+    transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .example-box:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  .move-bar {
+    display: flex;
+    padding: 10px 20px;
+    position: absolute;
+    top: 0px;
+    // background-color: $grey-400;
+    background-color: $blue-700;
+    color: $white;
+    cursor: move;
+    width: 100%;
+    height: 3rem;
+    z-index: 1012;
+  }
+  .close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    z-index: 1013;
+  }
+  .aiuto-app-ref{
+    height: 100%; /* Modifica l'altezza in base alle tue esigenze */
+    overflow-y: auto;
+    padding-top: 3rem;
+  }
+
+  //-Riferimento a app-aiuto
+  .zoomdiv {
+    transform-origin:0% 0%;
+  }
+  .zoom-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1012;
+
+    button{
+      background: transparent;
+      border: none;
+      border-radius: 50px;
+      color: $primary-color;
+    }
+  }
+
+
+  //----------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------
+  .categorie-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  @mixin scala {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  @mixin transizione {
+    -webkit-transition: .25s ease-in-out;
+    transition: .25s ease-in-out;
+  }
+  .btn-scheda {
+    min-width: 126px;
+    width: 20%;
+    min-height: 110px;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.3em;
+
+    margin-top: .3em;
+    margin-bottom: .3em;
+
+    // border: 3px red solid;
+    border-radius: 5px;
+
+    border: $grey-200;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra */
+
+    @include transizione;
+
+
+    line-height: 1em;
+    background-color: $white;
+
+
+
+    .icon-background {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      @include transizione;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      height: 60px;
+      width: 100%;
+      margin-bottom: .6em;
+      color: red;
+      mat-icon{
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .btn-scheda-active {
+    background-color:  $grey-300;
+    color: $blue-400;
+    font-weight: bold;
+  }
+
+  .btn-scheda:hover {
+    @include scala;
+  }
+
+
+
+
+
+  .image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1015;
+  }
+
+  .image-overlay.open {
+    display: flex;
+  }
+
+  .image-container {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+  }
+
+  .image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+  }
+
+
+
+
+
+
+
+
+
+
+
+}

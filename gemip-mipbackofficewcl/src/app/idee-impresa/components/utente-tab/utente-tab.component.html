@@ -1,0 +1,65 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Cittadini Associati</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+    <div class="row" *ngFor="let angraficaCitt of angrafiche">
+      <div class="col-3 mb-4"><Strong>Nome:</Strong></div>
+      <div class="col-3">{{angraficaCitt.cittadino.nome}}</div>
+      <div class="col-3"><Strong>Cognome:</Strong></div>
+      <div class="col-3">{{angraficaCitt.cittadino.cognome}}</div>
+      <div class="col-3 mb-4"><Strong>Data nascita:</Strong></div>
+      <div class="col-3">{{angraficaCitt.angrafica.dataNascita|date:"dd/MM/yyyy"}}</div>
+      <div class="col-3"><Strong></Strong></div>
+      <div class="col-3"></div>
+      <div class="col-3 mb-4"><Strong>Email:</Strong></div>
+      <div class="col-3 text-overflow" >{{angraficaCitt.angrafica.recapitoEmail}}</div>
+      <div class="col-3 mb-4"><Strong>Email alternativa:</Strong></div>
+      <div class="col-3 text-overflow" >{{angraficaCitt.angrafica.recapitoEmail2}}</div>
+      <div class="col-3 mb-4"><Strong>Telefono:</Strong></div>
+      <div class="col-3">{{angraficaCitt.angrafica.recapitoTelefono}}</div>
+      <div class="col-3"><Strong>Telefono alternativo:</Strong></div>
+      <div class="col-3">{{angraficaCitt.angrafica.recapitoTelefono2}}</div>
+      <div class="col-3 mb-4"><Strong>Indirizzo:</Strong></div>
+      <div class="col-3">{{angraficaCitt.angrafica.indirizzoResidenza}}</div>
+      <div class="col-3"><Strong>Citta:</Strong></div>
+      <div class="col-3">{{angraficaCitt.angrafica.comuneResidenza?.descrizioneComune}}</div>
+
+      <div class="col-12 d-flex" *ngIf="!isStampa">
+        <div class="ms-auto">
+          <button mat-button
+                class="btn btn--primary"
+                aria-label="Modifica"
+                (click)="onModifica(angraficaCitt.cittadino.idCittadino!)">MODIFICA
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

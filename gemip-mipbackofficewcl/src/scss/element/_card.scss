@@ -1,0 +1,161 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-mip {
+  .card-body {
+    &--info {
+      @include cardType(blueColor);
+    }
+
+    &--danger {
+      @include cardType(redColor);
+    }
+
+    &--success {
+      @include cardType(greenColor);
+    }
+
+    &--warning {
+      @include cardType(orangeColor);
+    }
+    &--content {
+      @extend .d-flex;
+      @include media-breakpoint-down(md) {
+        justify-content: center;
+      }
+
+      flex-direction: column;
+      @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        p {
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+
+  .card-btn--menu {
+    &[aria-expanded="true"] {
+      @include rotate-icon(true);
+    }
+    &[aria-expanded="false"] {
+      @include rotate-icon(false);
+    }
+
+    .icon-card {
+      &--service {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  }
+
+  .mat-action-row {
+    border: none;
+    &.action-row {
+      &--morebtn {
+        @extend .justify-content-between;
+      }
+    }
+    @extend .justify-content-start;
+    @extend .px-0;
+    @extend .py-4;
+  }
+
+
+  //-Modifica Temporanea
+  .info-scelta {
+    @include media-breakpoint-up(md) {
+      // max-width: 50vw;
+      width: 100%;
+    }
+    dl {
+      @extend .d-flex;
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
+      &:not(:last-child) {
+        @extend .mb-1;
+      }
+
+      dt {
+        width: 25%;
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .info-dati-identificativi {
+    @include media-breakpoint-up(md) {
+      // max-width: 50vw;
+      width: 100%;
+    }
+    dl {
+      @extend .d-flex;
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
+      &:not(:last-child) {
+        @extend .me-1;
+      }
+
+      dt {
+        width: 15%;
+        @include media-breakpoint-down(md) {
+          width: 100%;
+        }
+      }
+      dd {
+        @extend .me-5;
+
+      }
+    }
+  }
+
+  .btn {
+    &--multiple {
+      @extend .justify-content-between;
+    }
+    &--single {
+      @extend .justify-content-end;
+    }
+  }
+
+  .text-center-l50 {
+    line-height: 50px;
+    text-align: center;
+  }
+
+
+  .card-help{
+    padding: 50px 0 60px;
+    margin-top: 20px;
+    @extend .card-body--info;
+  }
+
+
+}
+

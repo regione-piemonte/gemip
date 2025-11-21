@@ -1,0 +1,438 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="container-fluid container" >
+
+<div class="container-fluid stepper-container d-none d-md-block text-center pt-4" >
+<div class="row stepper-row mb-2 mx-auto" >
+  <div class="col" >
+  <div class="stepper stepper-secondary" >
+    <mat-icon>done</mat-icon>
+  </div>
+  </div>
+  <div class="col step-space step-space-primary" ></div>
+
+  <div class="col" >
+  <div class="stepper stepper-secondary" >
+    <mat-icon>done</mat-icon>
+  </div>
+  </div>
+  <div class="col step-space step-space-primary" ></div>
+
+  <div class="col" >
+  <div class="stepper stepper-secondary" >
+    <mat-icon>done</mat-icon>
+  </div>
+  </div>
+  <div class="col step-space step-space-primary" ></div>
+
+  <div class="col" >
+  <div class="stepper stepper-primary" >
+    <div class="number" >4</div>
+  </div>
+  </div>
+</div>
+<div class="row stepper-row mx-auto" >
+  <div class="col"><div class="stepper"> Scegli dove e quando</div></div>
+  <div class="col step-space step-space-trasp" >
+  </div>
+  <div class="col"><div class="stepper">inserisci i tuoi dati personali</div></div>
+  <div class="col step-space step-space-trasp" >
+  </div>
+  <div class="col"><div class="stepper">descrivi la tua impresa</div></div>
+  <div class="col step-space step-space-trasp" >
+  </div>
+  <div class="col"><div class="stepper"><strong>completa la prenotazione</strong></div></div>
+</div>
+</div>
+
+  <!-- Titolo -->
+<div class="row">
+  <div class="col pt-2">
+    <h2>4. Verifica i dati e invia</h2>
+  </div>
+</div>
+
+
+<!-- Dove e quando -->
+<mat-card class="my-5 border border-2">
+  <mat-card-content class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-1">
+      <div class="row p-3 pb-1"><h3> Dove e quando</h3></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1">
+      <div class="row p-4">
+        <div class="col-md-5 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Zona d'interesse</strong></p>
+          <p>{{areaTerritorialeSelezionata}}</p>
+        </div>
+        <div class="col-md-2 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Modalità</strong></p>
+          <p>{{incontroPreaccoglienza?.flgIncontroErogatoDaRemoto ? "Da remoto":"In presenza"}}</p>
+        </div>
+        <div *ngIf="!incontroPreaccoglienza?.flgIncontroErogatoDaRemoto" [hidden]="incontroPreaccoglienza?.flgIncontroErogatoDaRemoto" class="col-md-2 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Luogo</strong></p>
+          <p>{{ incontroPreaccoglienza?.luogoIncontro?.denominazione}}</p>
+        </div>
+        <div class="col-md-2 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Data</strong></p>
+          <p>{{incontroPreaccoglienza?.dataIncontro | date : "dd/MM/yyyy"}}</p>
+        </div>
+        <div class="col-md-1 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Orario</strong></p>
+          <p>{{incontroPreaccoglienza?.dataIncontro | date:"HH:mm"}}</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions style="padding: 0px 100px 30px;">
+    <div class="col-12 d-flex justify-content-end">
+    <button mat-raised-button aria-label="modifica l'incontro di preaccoglienza" (click)="onModificaIncontro()" class="btn btn--secondary" style="padding: 5px 30px;">
+      MODIFICA
+    </button>
+  </div>
+  </mat-card-actions>
+</mat-card>
+<!-- Dati personali -->
+<mat-card class="my-5 border border-2">
+  <mat-card-content class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-1">
+      <div class="row p-3 pb-1"><h3> I tuoi dati personali</h3></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-0 pt-3">
+      <div class="row p-3 pb-1 pt-0"><h5> Dati anagrafici</h5></div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1">
+      <div class="row p-4 pt-2 pb-0" aria-label="dati-personali">
+        <div class="col-md-3 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Nome</strong></p>
+          <p>{{cittadino!.nome}}</p>
+        </div>
+        <div class="col-md-3 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Cognome</strong></p>
+          <p>{{cittadino!.cognome}}</p>
+        </div>
+        <div class="col-md-4 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Codice fiscale</strong></p>
+          <p>{{cittadino!.codiceFiscale}}</p>
+        </div>
+        <div class="col-md-2 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Data di nascita</strong></p>
+          <p>{{anagrafica?.dataNascita | date: "dd/MM/yyyy"}}</p>
+        </div>
+        <div class="col-md-2 col-xs-6  p-0 ps-2">
+          <p class="mb-1"><strong>Sesso</strong></p>
+          <p>{{ anagrafica?.sesso }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-0">
+      <div *ngIf="anagrafica?.comuneNascita; natalitaEstera" [hidden]="!anagrafica?.comuneNascita" class="row p-4 pt-2" aria-label="luogo di nascita" >
+        <div class="col-md-3 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong> Luogo di nascita</strong></p>
+          <p>{{anagrafica?.comuneNascita?.descrizioneComune}}</p>
+        </div>
+        <div class="col-md-3 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong>{{anagrafica?.comuneNascita ? "Provincia" : "Città"}}</strong></p>
+          <p>{{anagrafica?.comuneNascita?.provincia?.siglaProvincia}}</p>
+        </div>
+      </div>
+      <div #natalitaEstera [hidden]="anagrafica?.comuneNascita" class="row p-4 pt-2" aria-label="luogo di nascita" >
+        <div class="col-md-3 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong> Luogo di nascita</strong></p>
+          <p>{{anagrafica?.statoEsteroNascita?.descrizioneStato}}</p>
+        </div>
+        <div class="col-md-3 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong>{{anagrafica?.comuneNascita ? "Provincia" : "Città"}}</strong></p>
+          <p>{{anagrafica?.descrizioneCittaEsteraNascita}}</p>
+        </div>
+
+      </div>
+    </div>
+
+  <mat-divider></mat-divider>
+  </mat-card-content>
+
+  <mat-card-content class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-1">
+      <div class="row p-3 pb-1"><h5> Contatti</h5></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1">
+      <div class="row p-4 pt-2" aria-label="contatti">
+        <div class="col-md-6 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong> Telefono / cellulare</strong></p>
+          <p>{{anagrafica?.recapitoTelefono}}</p>
+        </div>
+        <div class="col-md-6 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong> Email</strong></p>
+          <p>{{anagrafica?.recapitoEmail}}</p>
+        </div>
+        <div class="col-md-6 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong> Telefono alternativo</strong></p>
+          <p>{{anagrafica?.recapitoTelefono2}}</p>
+        </div>
+        <div class="col-md-6 col-xs-12  p-0 ps-2">
+          <p class="mb-1"><strong> Email alternativa</strong></p>
+          <p>{{anagrafica?.recapitoEmail2}}</p>
+        </div>
+      </div>
+    </div>
+  <mat-divider></mat-divider>
+  </mat-card-content>
+
+  <mat-card-content class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-1">
+      <div class="row p-3 pb-1"><h5> Residenza</h5></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1">
+      <div class="row p-4 pt-2" aria-label="Residenza">
+        <div class="col-lg-2 col-md-6 col-xs-4 p-0 ps-2">
+          <p class="mb-1"><strong> Comune</strong></p>
+          <p>{{anagrafica?.comuneResidenza?.descrizioneComune}}</p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-4 p-0 ps-2">
+          <p class="mb-1"><strong> Provincia</strong></p>
+          <p>{{anagrafica?.comuneResidenza?.provincia?.siglaProvincia}}</p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-4 p-0 ps-2">
+          <p class="mb-1"><strong> CAP</strong></p>
+          <p>{{anagrafica?.capResidenza}}</p>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Indirizzo</strong></p>
+          <p>{{anagrafica?.indirizzoResidenza}}</p>
+        </div>
+      </div>
+    </div>
+  <mat-divider></mat-divider>
+  </mat-card-content>
+
+  <mat-card-content class="container-fluid" *ngIf="anagrafica?.comuneDomicilio">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1">
+    <div class="row p-3 pb-1"><h5> Domicilio</h5></div>
+    <div class="row p-4 pt-2" aria-label="Domicilio">
+      <div class="col-lg-2 col-md-6 col-xs-4 p-0 ps-2">
+        <p class="mb-1"><strong> Comune</strong></p>
+        <p>{{anagrafica?.comuneDomicilio?.descrizioneComune}}</p>
+      </div>
+      <div class="col-lg-3 col-md-6 col-xs-4 p-0 ps-2">
+        <p class="mb-1"><strong> Provincia</strong></p>
+        <p>{{anagrafica?.comuneDomicilio?.provincia?.siglaProvincia}}</p>
+      </div>
+      <div class="col-lg-3 col-md-6 col-xs-4 p-0 ps-2">
+        <p class="mb-1"><strong> CAP</strong></p>
+        <p>{{anagrafica?.capDomicilio}}</p>
+      </div>
+      <div class="col-lg-4 col-md-6 col-xs-12 p-0 ps-2">
+        <p class="mb-1"><strong> Indirizzo</strong></p>
+        <p>{{anagrafica?.indirizzoDomicilio}}</p>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  </mat-card-content>
+
+  <mat-card-content class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-1">
+      <div class="row p-3 pb-1"><h5> Altre informazioni</h5></div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1">
+      <div class="row p-4 pt-2" aria-label="altre-info">
+        <div class="col-lg-2 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Cittadinanza</strong></p>
+          <p>{{anagrafica?.codiceCittadinanza?.descrizione}}</p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Altro specificare</strong></p>
+          <p>{{ anagrafica?.descCittadinanzaAltro}}</p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-xs-12 p-0 ps-2"
+          *ngIf="anagrafica?.numeroPermessoDiSoggiorno"
+        >
+          <p class="mb-1"><strong>{{ anagrafica?.tipoPermessoDiSoggiorno === 'P' ? "Numero permesso di soggiorno" : "Numero carta di soggiorno"}}</strong></p>
+          <p>{{ anagrafica?.numeroPermessoDiSoggiorno}}</p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-xs-12 p-0 ps-2"
+          *ngIf="anagrafica?.permessoDiSoggiornoRilasciatoDa"
+        >
+          <p class="mb-1"><strong>{{ anagrafica?.tipoPermessoDiSoggiorno === 'P' ? "Permesso di soggiorno rilasciato da" : "Carta di soggiorno rilasciato da"}}</strong></p>
+          <p>{{ anagrafica?.permessoDiSoggiornoRilasciatoDa}}</p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-xs-12 p-0 ps-2"
+          *ngIf="anagrafica?.dataScadPermessoSoggiorno"
+        >
+          <p class="mb-1"><strong>{{ anagrafica?.tipoPermessoDiSoggiorno === 'P' ? "Data scadenza permesso di soggiorno" : "Data scadenza carta di soggiorno"}}</strong></p>
+          <p>{{ anagrafica?.dataScadPermessoSoggiorno}}</p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-xs-12 p-0 ps-2"
+          *ngIf="anagrafica?.descrMotivoPermessoDiSoggiorno"
+        >
+          <p class="mb-1"><strong>{{ anagrafica?.tipoPermessoDiSoggiorno === 'P' ? "Motivo permesso di soggiorno" : "Motivo carta di soggiorno"}}</strong></p>
+          <p>{{ anagrafica?.descrMotivoPermessoDiSoggiorno}}</p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Titolo di studi</strong></p>
+          <p>{{anagrafica?.codiceTitoloDiStudio?.descrizioneTitoloDiStudio}}</p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Altro specificare</strong></p>
+          <p>{{anagrafica?.titoloDiStudioAltro}}</p>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Indice di valutazione abitativa</strong></p>
+          <p>{{anagrafica?.svantaggioAbitativo?.descrizioneSvantaggioAbitativo}}</p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Situazione lavorativa</strong></p>
+          <p>{{anagrafica?.codiceCondizioneOccupazionale?.descrizioneCondizioneOccupazionale}}</p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12 p-0 ps-2">
+          <p class="mb-1"><strong> Altro specificare</strong></p>
+          <p>{{anagrafica?.condizioneOccupazionaleAltro}}</p>
+        </div>
+
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions style="padding: 0px 100px 30px;"  [hidden]="ideaDiImpresa?.statoIdeaDiImpresa?.id!=1">
+    <div class="col-12 d-flex justify-content-end">
+    <button mat-raised-button aria-label="modifica dati anagrafici" (click)="onModificaAnagrafica()" class="btn btn--secondary" style="padding: 5px 30px;">
+      MODIFICA
+    </button>
+  </div>
+  </mat-card-actions>
+</mat-card>
+
+<!-- La tua idea d'impresa -->
+<mat-card class="my-5 border border-2">
+  <mat-card-content class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pb-1">
+      <div class="row p-3 pb-1"><h3> La tua idea d'impresa</h3></div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 p-4 pt-1 ">
+      <div class="row p-4 pb-0" aria-label="idee-impresa">
+        <div class="col-4 p-0">
+          <p class="mb-1"><strong> Titolo dell'idea</strong></p>
+          <p>{{ideaDiImpresa?.titolo}}</p>
+        </div>
+        <div class="col-8">
+          <p class="mb-1"><strong>Come hai conosciuto MIP</strong></p>
+          <p>{{ideaDiImpresa?.fonteConoscenzaMip?.descrizioneFonteConoscenzaMip + (ideaDiImpresa?.descrizioneAltraFonteConoscenzaMip! ? ideaDiImpresa?.descrizioneAltraFonteConoscenzaMip:"")!}}</p>
+        </div>
+      </div>
+      <div class="row p-4 pt-2 pb-0">
+        <div class="col-12 p-0">
+          <p class="mb-1"><strong>Descrizione</strong></p>
+          <p>{{ideaDiImpresa?.descrizioneIdeaDiImpresa}}</p>
+        </div>
+      </div>
+      <div class="row p-4 pt-2 pb-0">
+        <div class="col-12 p-0">
+          <p class="mb-1"><strong>Note/Commenti</strong></p>
+          <p>{{ideaDiImpresa?.noteCommenti}}</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions style="padding: 0px 100px 30px;">
+    <div class="col-12 d-flex justify-content-end">
+    <button mat-raised-button aria-label="modifica dati idea di impresa" (click)="onModificaIdeaImpresa()" class="btn btn--secondary" style="padding: 5px 30px;"  [hidden]="ideaDiImpresa?.statoIdeaDiImpresa?.id!=1">
+      MODIFICA
+    </button>
+  </div>
+  </mat-card-actions>
+</mat-card>
+
+
+<!-- Piulsanti In fondo -->
+<div class="row mt-5 pb-5">
+  <div class="col-6 button_1"><button mat-button class="btn btn--link-primary" (click)="onIndietro()" >INDIETRO</button></div>
+  <div class="col-6 button_2"><button mat-button  class="btn btn--primary" (click)="onConfermaVerifica()" >INVIA E CONFERMA</button></div>
+</div>
+
+
+<!-- Dialog Data & ora (& luogo)? -->
+<ng-template #conferma>
+
+  <!-- Title -->
+  <h2 mat-dialog-title>Invio dati</h2>
+  <mat-divider></mat-divider>
+  <!-- Content -->
+  <section mat-dialog-content class="mt-4" style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row justify-content-center">
+
+      <div class="col-sm-1 col-lg-1 mb-4 done-icon-modale justify-contente-center">
+        <mat-icon>done</mat-icon>
+      </div>
+      <div class="col-sm-12 col-lg-11 ">
+        <p style="font-weight: bold;">I dati sono stati inviati correttamente.
+          Torna alla home page per verificare la tua situazione.</p>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="conferma dati"
+              (click)="onSuccess()">
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #attenzione>
+  <!-- Title -->
+  <h2 mat-dialog-title>Attenzione!</h2>
+  <!-- Content -->
+  <section mat-dialog-content style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row py-3"><p>
+      <mat-icon class="done-icon-title" style="color: white; background-color: red  !important; margin-right: 10px;">close</mat-icon>
+      Attenzione! Hai già fatto la registrazione a MIP - Mettersi in proprio e non ti è possibile effettuare alcuna modifica se non quelle permesse dall'applicativo dopo l'invio.</p></div>
+  </section>
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="dati non salvati correttamente torna alla home"
+              [routerLink]="'/dashboard/home'">
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>
+

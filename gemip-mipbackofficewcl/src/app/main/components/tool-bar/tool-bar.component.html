@@ -1,0 +1,105 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<header>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 pb-3 pt-3">
+        <a href="#" [routerLink]="'/dashboard/home'">
+          <img src="assets/image/mip-logo.png" class="logo-mip" alt="MIP Mettersi in proprio">
+        </a>
+        <span class="title">
+          Mettersi in proprio
+        </span>
+      </div>
+    </div>
+  </div>
+<mat-toolbar class="not-stampa">
+  <mat-toolbar-row class="mat-toolbar-row--second">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-lg-9">
+          <h1 class="title-h1">
+            {{titolo}}
+          </h1>
+        </div>
+
+
+        <div class="container-header--second col-lg-3">
+
+          <div class="col-auto">
+            <button mat-icon-button
+                    class="tool-bar-button pr-6"
+                    (click)="onDownloadManuale()"
+                    aria-label="manuale"
+                    [matTooltip]="'Manuale'">
+            <mat-icon  role="presentation">assignment</mat-icon>
+            <span class="button-text">Manuale</span>
+            </button>
+          </div>
+
+          <div class="col-auto">
+            <button mat-icon-button
+                    aria-label="Menu"
+                    [matMenuTriggerFor] = "userInfoMenu"
+                    class="btn-user--menu">
+              {{userInfo?.cognome | firstLetter}}{{userInfo?.nome | firstLetter}}
+            </button>
+          </div>
+
+          <mat-menu #userInfoMenu="matMenu" yPosition="below">
+            <div class="m-2">
+              <ul class="list-unstyled px-3">
+                <li>
+                  {{userInfo?.codFisc}}
+                </li>
+                <li>
+                  {{ruolo?.codiceRuolo}}
+                </li>
+              </ul>
+              <hr>
+              <div class="px-3">
+                <button class="btn btn--logout"
+                        aria-label="logout"
+                        (click)="logOut()" >
+                  Logout
+                </button>
+              </div>
+              <div class="px-3" *ngIf="isSoggettoAttuatore">
+                <button class="btn btn--logout"
+                        aria-label="cambia_soggetto"
+                        (click)="cambiaSoggetto()" >
+                  Cambia soggetto
+                </button>
+              </div>
+            </div>
+          </mat-menu>
+
+        </div>
+
+      </div>
+    </div>
+  </mat-toolbar-row>
+
+</mat-toolbar>
+</header>

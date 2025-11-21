@@ -1,0 +1,52 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<h3 matDialogTitle>{{titolo}}</h3>
+<hr>
+
+<div mat-dialog-content
+    class="container-fluid"
+    role="alert"
+    >
+  <div class="row dialog-alert alert m-0" style="padding-top: 30px; padding-left: 30px; padding-bottom: 0px;" [ngClass]="contentClass">
+
+    <div *ngFor="let msg of message; let i=index " class="row">
+      <div class="col-sm-12 col-lg-1 mb-4 d-flex justify-content-center align-items-center">
+        <mat-icon *ngIf="i == 0 && icon" class="alert-icon " > {{icon}}</mat-icon>
+      </div>
+      <div class="col-sm-12 col-lg-11" [innerHTML]="msg" ></div>
+    </div>
+
+  </div>
+</div>
+<mat-dialog-actions class="d-flex justify-content" style="padding-bottom: 30px;"  [align]="'end'" [ngClass]="(buttonList.length > 1) ? 'btn--multiple' : 'btn--single'">
+  <button
+    *ngFor="let button of buttonList"
+    matDialogClose
+    ngClass={{button.classCss}}
+    aria-label={{button.ariaLabel}}
+    (click) = "button.action ? button.action() : null">
+        {{button.text}}
+  </button>
+</mat-dialog-actions>
+

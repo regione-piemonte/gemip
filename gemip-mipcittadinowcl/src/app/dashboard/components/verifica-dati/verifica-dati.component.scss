@@ -1,0 +1,90 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+.container {
+    padding: 80px 200px;
+
+    @media (max-width: 992px) {
+        padding: 40px;
+
+        .mobile-version {
+            flex-basis: fit-content;
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            display: flex;
+            flex-wrap: nowrap;
+            margin-top: calc(-1 * var(--bs-gutter-y));
+            margin-right: calc(-0.5 * var(--bs-gutter-x));
+            margin-left: calc(-0.5 * var(--bs-gutter-x));
+            flex-direction: row-reverse;
+            align-content: stretch;
+            justify-content: space-evenly !important;
+        }
+
+      
+    }
+
+    @media (max-width: 666px) {
+        padding: 20px;
+
+        .mobile-version {
+            flex-basis: fit-content;
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            display: flex;
+            flex-wrap: nowrap;
+            margin-top: calc(-1 * var(--bs-gutter-y));
+            margin-right: calc(-0.5 * var(--bs-gutter-x));
+            margin-left: calc(-0.5 * var(--bs-gutter-x));
+            flex-direction: row-reverse;
+            align-content: stretch;
+            justify-content: space-evenly !important;
+        }
+
+    }
+}
+
+.button_1{
+    display: flex;
+    justify-content: start;
+}
+
+.button_2{
+    display: flex;
+    justify-content: end;
+}
+
+@media (max-width: 510px) {
+    .button_1{
+        width: 100%;
+        height: auto;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .button_2{
+        width: 100%;
+        height: auto;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+}

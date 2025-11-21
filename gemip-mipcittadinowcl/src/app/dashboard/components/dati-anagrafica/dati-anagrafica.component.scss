@@ -1,0 +1,91 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+
+@media (max-width: 115px) {
+    .col-md-9 {
+        margin-right: 40px;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-md-3 img {
+        max-width: 100%; 
+        height: auto; 
+    }
+}
+
+.container{
+    padding: 80px 200px;
+
+    @media (max-width: 768px) {
+            padding: 40px;
+    }
+}
+
+.button_1{
+    display: flex;
+    justify-content: start;
+}
+.button_2{
+    display: flex;
+    justify-content: center;
+}
+.button_3{
+    display: flex;
+    justify-content: end;
+}
+@media (max-width: 510px) {
+    .button_1{
+        width: 100%;
+        justify-content: center;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .button_2{
+        width: 100%;
+        justify-content: center;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .button_3{
+        width: 100%;
+        justify-content: center;
+        height: auto;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 475px) {
+    .custom-col{
+        width: 100% !important; 
+        height: auto; 
+    }
+}
+
+@media (max-width: 1400px) {
+    .custom-slide-col{
+        width: 100% !important; 
+        height: auto; 
+    }
+}

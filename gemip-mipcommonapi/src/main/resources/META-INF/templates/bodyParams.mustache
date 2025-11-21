@@ -1,0 +1,22 @@
+{{#is this 'body-param'}}
+{{#useOas2}}
+{{#generateSwaggerMetadata}}
+@ApiParam(value = "{{{description}}}"
+{{#required}},required=true{{/required}}
+{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}
+{{#defaultValue}}, defaultValue="{{{defaultValue}}}"{{/defaultValue}})
+{{/generateSwaggerMetadata}}
+{{{dataType}}} {{paramName}}
+{{/useOas2}}{{^useOas2}}
+{{#generateSwaggerMetadata}}
+@Parameter(description = "{{{description}}}"
+{{#required}},required=true{{/required}}
+{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}
+{{#defaultValue}}, defaultValue="{{{defaultValue}}}"
+{{/defaultValue}})
+{{/generateSwaggerMetadata}}
+{{#useBeanValidation}}@{{jeeLibrary}}.validation.Valid {{/useBeanValidation}}
+{{{dataType}}}
+{{paramName}}
+{{/useOas2}}
+{{/is}}

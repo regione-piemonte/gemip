@@ -1,0 +1,295 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="container-fluid">
+  <ng-container class="not-stampa" *ngIf="tableSettings.listBoolView[0] || tableSettings.listBoolView[1] || tableSettings.listBoolView[2]">
+    <dl>
+      <dt *ngIf="tableSettings.listBoolView[0]">
+        {{tableSettings.title}}
+      </dt>
+      <dd *ngIf="tableSettings.listBoolView[1]">
+        ({{tableSettings.length? tableSettings.length:rowData.length}} risultati trovati)
+        <button *ngIf="tableSettings.listBoolView[2] && isStampa == false" mat-button class="btn-link--primary ms-3"
+          aria-label="ripristina ordinamento di default" (click)="resetOrdinamento()">
+          Ordinamento di default
+        </button>
+      </dd>
+    </dl>
+  </ng-container>
+  <!--  -->
+
+  <!-- Table Container -->
+  <div class="table-container">
+    <mat-card>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort #sort="matSort"
+          (matSortChange)="sortDataDirection($event)" class="table-results">
+
+
+          <!-- trackBy:trackColumn -->
+          <!-- Contenuto Effettivo -->
+          <ng-container *ngFor="let column of columns;" matColumnDef="{{column.name}}">
+            <ng-container [ngSwitch]="column.name">
+              <!-- Corpo tabella con una checkbox -->
+              <div *ngSwitchCase="'select'">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && allSelected"
+                    [indeterminate]="selection.hasValue() && !allSelected">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation(); updateSelected()"
+                    aria-label="informazioni aggiuntive" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </div>
+              <!-- Corpo tabella con una checkbox -->
+              <div *ngSwitchCase="'radio'">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-radio-group [(ngModel)]="selectedRadio">
+                    <mat-radio-button [value]="row"></mat-radio-button>
+                  </mat-radio-group>
+                </td>
+              </div>
+              <!-- Espansione ATTENZIONE QUESTO ELEMENTO NON ESISTE SEMPRE-->
+              <div *ngSwitchCase="'expand'">
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-icon-button aria-label="informazioni aggiuntive" (click)="(expandedElement = expandedElement === element
+                                        ? null : element);
+                    $event.stopPropagation()">
+                    <mat-icon role="presentation" *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                    <mat-icon role="presentation" *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+                  </button>
+                </td>
+              </div>
+              <!-- Corpo tabella senza una checkbox -->
+              <div *ngSwitchDefault>
+                <!-- INTESTAZIONE -->
+                <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="column.disableSorting">
+                  <!--For displaying the column label & Icon-->
+                  <div class="column-header-content">
+                    <span><strong>{{column.displayName}}</strong></span>
+                    <mat-icon *ngIf="column.icon" class="icon-align">{{column.icon}}</mat-icon>
+                  </div>
+                </th>
+
+                <!-- RIGHE -->
+                <td mat-cell *matCellDef="let element">
+                  <ng-container [ngSwitch]="column.type">
+
+                    <!-- OGGETTO SONO DEGLI INPUT -->
+                    <div *ngSwitchCase="'input'">
+                      <span>
+                        <mat-form-field style="max-width: 50px;" appearance="standard">
+                          <input type="number" matInput placeholder="Placeholder" value={{element.ore}}>
+                          <mat-hint>{{column.name}}</mat-hint>
+                        </mat-form-field>
+                      </span>
+                    </div>
+                    <!-- OGGETTO SONO DElLE SELECT -->
+                    <div *ngSwitchCase="'select'">
+                      <span>
+                        <mat-form-field>
+                          <mat-select [(ngModel)]="element.statoPartecipante.stato"
+                            [disabled]="element.statoPartecipante.disabled"
+                            (selectionChange)="element.checkMail = false;element.checkMail1 = false;element.statoPartecipante.stato=$event.value;">
+                            <mat-option *ngFor="let opt of element.statoPartecipante.list" [value]="opt">{{ opt }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </span>
+                    </div>
+                    <!-- OGGETTO SONO DElLE CHECKBOX questionario -->
+                    <div *ngSwitchCase="'checkbox'">
+                      <span>
+                        <mat-checkbox class="example-margin" [disabled]="element.statoPartecipante.stato !== 'HA PARTECIPATO'"
+                          (change)="updateCheckMail($event.checked, element)"
+                          [(ngModel)]="element.checkMail"></mat-checkbox>
+                      </span>
+                    </div>
+                       <!-- OGGETTO SONO DElLE CHECKBOX tutor -->
+                       <div *ngSwitchCase="'checkbox1'" >
+                        <span>
+                          <mat-checkbox class="example-margin" [disabled]="element.statoPartecipante.stato !== 'HA PARTECIPATO'"
+                            [(ngModel)]="element.checkMail1"></mat-checkbox>
+                        </span>
+                      </div>
+                    <!-- OGGETTO SONO DEI TOGGLE -->
+                    <div *ngSwitchCase="'toggle'">
+                      <span>
+                        <mat-slide-toggle [disabled]="element.toggle!.disabled" [checked]="element.toggle!.checked"
+                          (toggleChange)="element.toggle!.checked = !element.toggle!.checked">
+                          {{element.toggle!.checked == true ?element.toggle?.label[0]:element.toggle?.label[1]}}
+                        </mat-slide-toggle>
+                      </span>
+                    </div>
+
+                    <!-- ICONE DI AZIONI -->
+                    <div *ngSwitchCase="'action'">
+                      <span *ngFor="let icon of column.iconAction">
+                        <button *ngIf="icon.always || icon?.viewCondition(element)" mat-icon-button
+                          attr.aria-label={{icon.ariaLabel}} (click)="icon?.actionClick(element)">
+                          <mat-icon [ngClass]="icon?.cssClass" [ngStyle]="icon?.style"
+                            [matTooltip]="icon? icon.matTooltip : '' ">
+                            {{icon?.matIcon}}
+                          </mat-icon>
+                        </button>
+                      </span>
+                    </div>
+                    <!-- ICONE DI AZIONI -->
+                    <div *ngSwitchCase="'customAction'">
+                      <span *ngFor="let icon of element.icons">
+
+                        <ng-container *ngIf="icon?.matIcon !== 'expand'; else expand">
+                          <button mat-icon-button *ngIf=" !icon.viewCondition || (icon.viewCondition && icon.viewCondition(element))" [ngClass]="'btn--' + (icon.matTooltip | lowercase)"
+                            attr.aria-label={{icon.ariaLabel}} (click)="icon?.actionClick(element)">
+                            <mat-icon [ngClass]="icon?.cssClass" [ngStyle]="icon?.style"
+                              [matTooltip]="icon? icon.matTooltip : '' ">
+                              {{icon?.matIcon}}
+                            </mat-icon>
+                          </button>
+                        </ng-container>
+                        <ng-template #expand>
+                          <button mat-icon-button aria-label="informazioni aggiuntive" (click)="(expandedElement = expandedElement === element
+                                                ? null : element);
+                            $event.stopPropagation();
+                            icon?.actionClick(element)">
+                            <mat-icon role="presentation" *ngIf="expandedElement !== element" [ngClass]="icon?.cssClass"
+                              [matTooltip]="'espandi'" aria-label="espandi contenuto">keyboard_arrow_down </mat-icon>
+                            <mat-icon role="presentation" *ngIf="expandedElement === element" [ngClass]="icon?.cssClass"
+                              [matTooltip]="'chiudi'" aria-label="riduci contenuto">keyboard_arrow_up</mat-icon>
+                          </button>
+                        </ng-template>
+
+
+                      </span>
+                    </div>
+
+                    <!-- OGGETTO CON SPECIFICI ATTRIBUTI -->
+                    <div *ngSwitchCase="'label'">
+                      <span class="d-flex">
+
+                        {{element[column.name].simple}}
+                        <mat-icon role="presentation" [ngClass]="element[column.name].icon?.cssClass"
+                          [ngStyle]="element[column.name].icon?.style"
+                          [matTooltip]="element[column.name].icon? element[column.name].icon.matTooltip : '' ">
+                          {{element[column.name].icon?.matIcon}}
+                        </mat-icon>
+                      </span>
+                    </div>
+                    <!-- simple è default -->
+                    <div *ngSwitchDefault [ngStyle]="['luogo','emailSg'].includes(column.name)  ? { 'min-width': '250px' } : {}">
+                      <span>
+                        {{element[column.name] }}
+                      </span>
+                    </div>
+
+                  </ng-container>
+                </td>
+
+              </div>
+
+            </ng-container>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container *ngIf="tableSettings.enableExpansion" matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="columnNames.length">
+              <div class="table-element-expanded" style="min-height: 200px;"
+                [ngClass]="'row--' + (element == expandedElement ? 'expanded' : 'collapsed')"
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                <ng-container *ngIf="!tableSettings.innerTableSettings; else innerTable">
+                  <div *ngFor="let content of element.extendedContent" class="data-table-element-expanded">
+                    {{content}}
+                  </div>
+
+                </ng-container>
+                <ng-template #innerTable>
+                  <div class="mt-5"></div>
+                  <app-table [rowData]="element.contentExp"
+                    [tableSettings]="tableSettings.innerTableSettings!.tableSettings"
+                    [columnList]="tableSettings.innerTableSettings!.columns"
+                    [buttonList]="tableSettings.innerTableSettings!.buttons" [keepPagination]="true"></app-table>
+                </ng-template>
+                <div class="mb-5"></div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Per mostrare l'header in pratica si lega al th mat-header-cell -->
+          <tr mat-header-row *matHeaderRowDef="columnNames; sticky:true;"></tr>
+
+          <!-- Per mostrare le colonne -->
+          <tr mat-row *matRowDef="let element; columns: columnNames;" class="table-element-row"
+            [class.table-expanded-row]="tableSettings.enableExpansion &&
+                            expandedElement === element">
+
+
+          </tr>
+
+          <!-- Per l'espansione -->
+          <div *ngIf="tableSettings.enableExpansion">
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="table-row table-row-expansion">
+            </tr>
+          </div>
+
+          <!-- Row shown when there is no matching data that will be provided to the wrapper table. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="columns.length">
+              Nessun dato è stato trovato.</td>
+          </tr>
+
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- impaginazione -->
+  <ng-container *ngIf="tableSettings && tableSettings.enablePagination">
+    <mat-paginator [length]="tableSettings.length" [pageSize]="tableSettings.pageSize"
+      [pageIndex]="tableSettings.pageIndex" [pageSizeOptions]="tableSettings.pageSizeOptions"
+      [length]="tableSettings.length" [showFirstLastButtons]="tableSettings.showFirstLastButtons"
+      (page)="updatePage($event)">
+    </mat-paginator>
+  </ng-container>
+
+  <!-- Table buttons -->
+  <div class="mt-3 navigation" *ngIf="tableSettings.enableButtons">
+    <button *ngIf="tableSettings.enableExport" mat-button class="btn--plain-text--primary" (click)="export()">
+      SCARICA XLS</button>
+    <div class="row justify-content-between" *ngIf="buttons">
+      <div *ngFor="let btn of buttons" class="col-auto">
+        <button [ngClass]="btn.cssClass" attr.aria-label={{btn.ariaLabel}}
+          (click)="btn.actionClick(tableSettings.isRadio ?selectedRadio :selection.selected)" color="primary">
+          {{btn.text}}</button>
+      </div>
+    </div>
+  </div>
+
+</div>

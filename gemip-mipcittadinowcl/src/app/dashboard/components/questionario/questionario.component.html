@@ -1,0 +1,398 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="container p-5" id="topComponent">
+  <form [formGroup]="risposte_questionario" (ngSubmit)="onSubmit()">
+    <h2 style="margin-bottom: 40px">Aiutaci a migliorare il servizio</h2>
+
+    <div *ngIf="questionarioInviato" class="alert alert-warning" Aria-atomic="true" role="alert">
+      <p class="col-md-10" style="max-width: 1000px">Attenzione! <br> 
+      <strong>Hai già compilato</strong> il questionario e non è possibile effettuare nessuna modifica. 
+      </p>
+    </div>
+
+    <mat-card *ngIf="domande.length > 0">
+      <mat-card-content>
+        <div class="container" *ngFor="let d of domande; let i = index">
+          <!-- CASO 1: DOMANDA RISPOSTA CHIUSA SINGOLA -->
+          <div
+            class="margin row"
+            *ngIf="
+              d.tipoDomanda === 'chiusa' &&
+              !(d.risposte[0].testoRisposta === 'Molto soddisfacente') &&
+              !d.idRispostaCondizionale
+            "
+          >
+            <div style="max-width: 294px" *ngIf="i == 0">
+              <img
+                [src]="'/assets/dashboard/' + questionario.icon + '.svg'"
+                style="max-width: 294px"
+                class="image"
+              />
+            </div>
+            <div class="col">
+              <h5>{{ d.testoDomanda }}</h5>
+              <mat-radio-group
+                *ngIf="d.tipoDomanda === 'chiusa'"
+                aria-label="Select an option"
+                formControlName="{{ d.idDomanda }}"
+                class="radio-container"
+                (change)="onSelectedRadio($event, d.idDomanda)"
+              >
+                <mat-radio-button
+                  *ngFor="let risposta of d.risposte; let j = index"
+                  [color]="'primary'"
+                  value="{{ risposta.testoRisposta }}"
+                  style="margin: 20px"
+                >
+                  {{ risposta.testoRisposta }}
+                </mat-radio-button>
+              </mat-radio-group>
+
+              <!--CASO RISPOSTA NO CON NUMERAZIONE  NUMERICA-->
+              <div *ngFor="let risposta of d.risposte">
+                <div
+                  class="col"
+                  *ngIf="
+                    noConditionSelected &&
+                    risposta.flgRichiestoDettaglio &&
+                    !d.idRispostaCondizionale
+                  "
+                >
+                  <div>
+                    <p
+                      *ngIf="
+                        risposta.flgRichiestoDettaglio &&
+                        (textAreaMap[d.idDomanda] == '' ||
+                          textAreaMap[d.idDomanda] == undefined)
+                      "
+                      style="color: red"
+                    >
+                      risposta obbligatoria*
+                    </p>
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ risposta.placeholder }}</mat-label>
+                      <textarea
+                        matInput
+                        style="height: 150px"
+                        maxlength="255"
+                        (input)="onTextareaInput($event, d.idDomanda)"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- CASO SI CHE MOSTRA DOMANDE IN PIU' -->
+          <div class="margin row" *ngIf="d.idRispostaCondizionale && showDom">
+            <div class="col" *ngIf="showDom">
+              <h5>{{ d.testoDomanda }}</h5>
+              <!--CASO RADIO-->
+              <mat-radio-group
+                *ngIf="d.tipoDomanda === 'chiusa'"
+                aria-label="Select an option"
+                formControlName="{{ d.idDomanda }}"
+                class="radio-container"
+                (change)="onSelectedIntraRadio($event, d.idDomanda)"
+              >
+                <mat-radio-button
+                  *ngFor="let risposta of d.risposte; let j = index"
+                  [color]="'primary'"
+                  value="{{ risposta.testoRisposta }}"
+                  style="margin: 20px"
+                >
+                  {{ risposta.testoRisposta }}
+                </mat-radio-button>
+              </mat-radio-group>
+              <!-- se rispondo si ai radio button, mostro la textarea obbligatoria -->
+              <div *ngFor="let risposta of d.risposte">
+                <div
+                  class="col"
+                  *ngIf="risposta.flgRichiestoDettaglio && requiredTextarea"
+                >
+                  <p
+                    *ngIf="
+                      risposta.flgRichiestoDettaglio &&
+                      (textAreaMap[d.idDomanda] == '' ||
+                        textAreaMap[d.idDomanda] == undefined)
+                    "
+                    style="color: red"
+                  >
+                    risposta obbligatoria*
+                  </p>
+                  <mat-form-field appearance="outline">
+                    <mat-label>{{ risposta.placeholder }}</mat-label>
+                    <textarea
+                      matInput
+                      style="height: 150px"
+                      maxlength="255"
+                      (input)="onTextareaInput($event, d.idDomanda)"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- CASO TEXTAREA -->
+              <mat-form-field
+                appearance="outline"
+                *ngIf="d.tipoDomanda === 'aperta'"
+              >
+                <mat-label>{{ d.placeholder }}</mat-label>
+                <textarea
+                  matInput
+                  style="height: 150px"
+                  maxlength="255"
+                  formControlName="{{ d.idDomanda }}"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- CASO 1BIS: FACCINE -->
+          <div
+            *ngIf="
+              d.tipoDomanda === 'chiusa' &&
+              isDomandaFaccine(d) &&
+              !d.idRispostaCondizionale
+            "
+            class="margin row"
+          >
+            <div class="col" style="display: flex; margin: auto" *ngIf="i == 0">
+              <img
+                alt=""
+                [src]="'/assets/dashboard/' + questionario.icon + '.svg'"
+                class=""
+                style="max-height: 300px; margin: auto"
+              />
+            </div>
+            <div style="display: none">
+              <mat-radio-group
+                aria-label="Select an option"
+                formControlName="{{ d.idDomanda }}"
+              >
+                <mat-radio-button
+                  [color]="'primary'"
+                  *ngFor="let risposta of d.risposte; let j = index"
+                  value="{{ risposta.testoRisposta }}"
+                  >{{ risposta.testoRisposta }}</mat-radio-button
+                >
+              </mat-radio-group>
+            </div>
+            <h5>{{ d.testoDomanda }}</h5>
+            <div class="col container-faccine">
+              <app-faccina
+                *ngFor="let risposta of d.risposte; let j = index"
+                [checked]="
+                  risposte_questionario.get(d.idDomanda.toString()).value ==
+                  risposta.testoRisposta
+                "
+                [label]="risposta.testoRisposta"
+                (changeCheck)="changeRisposta(d.idDomanda, risposta, $event)"
+              ></app-faccina>
+            </div>
+            <div *ngFor="let risposta of d.risposte">
+              <div
+                class="row"
+                *ngIf="
+                  faccineMap[d.idDomanda] && risposta.flgRichiestoDettaglio
+                "
+              >
+                <p
+                  *ngIf="
+                    risposta.flgRichiestoDettaglio &&
+                    !textAreaMapFaccine[d.idDomanda]
+                  "
+                  style="color: red"
+                >
+                  risposta obbligatoria*
+                </p>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ risposta.placeholder }}</mat-label>
+                  <textarea
+                    matInput
+                    style="height: 150px"
+                    maxlength="255"
+                    (input)="onTextareaInputFaccine($event, d.idDomanda)"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- CASO 2: DOMANDA RISPOSTA CHIUSA MULTIRISPOSTA -->
+          <div
+            class="margin row"
+            *ngIf="
+              d.tipoDomanda === 'chiusa_scelta_multipla' &&
+              !d.idRispostaCondizionale
+            "
+          >
+            <div class="col" style="max-width: 294px" *ngIf="i == 0">
+              <img
+                style="max-width: 294px"
+                [src]="'/assets/dashboard/' + questionario.icon + '.svg'"
+                class="image"
+              />
+            </div>
+            <div class="col">
+              <h5>{{ d.testoDomanda }}</h5>
+              <div formArrayName="{{ d.idDomanda }}">
+                <div
+                  *ngFor="
+                    let opzioneCtrl of risposte_questionario.get(
+                      d.idDomanda.toString()
+                    ).controls;
+                    let j = index
+                  "
+                >
+                  <mat-checkbox
+                    *ngIf="!d.risposte[j].flgRichiestoDettaglio"
+                    [color]="'primary'"
+                    style="margin: 10px; margin-left: 0px; display: flex"
+                    [formControl]="opzioneCtrl"
+                    value="{{ opzioneCtrl.testoRisposta }}"
+                  >
+                    {{ d.risposte[j].testoRisposta }}
+                  </mat-checkbox>
+                  <mat-checkbox
+                    *ngIf="d.risposte[j].flgRichiestoDettaglio"
+                    [color]="'primary'"
+                    style="margin: 10px; margin-left: 0px; display: flex"
+                    (change)="showTextArea($event, i, j)"
+                  >
+                    {{ d.risposte[j].testoRisposta }}
+                  </mat-checkbox>
+                  <mat-form-field
+                    *ngIf="show_textarea && d.risposte[j].flgRichiestoDettaglio"
+                    appearance="outline"
+                  >
+                    <mat-label>{{ d.risposte[j].placeholder }}</mat-label>
+                    <textarea
+                      matInput
+                      style="height: 150px"
+                      maxlength="255"
+                      [formControl]="opzioneCtrl"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- CASO 3: DOMANDA RISPOSTA APERTA -->
+          <div
+            class="margin row"
+            *ngIf="d.tipoDomanda === 'aperta' && !d.idRispostaCondizionale"
+          >
+            <div class="col" style="max-width: 294px" *ngIf="i == 0">
+              <img
+                style="max-width: 294px"
+                [src]="'/assets/dashboard/' + questionario.icon + '.svg'"
+                class="image"
+              />
+            </div>
+            <div class="col">
+              <h5>{{ d.testoDomanda }}</h5>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ d.placeholder }}</mat-label>
+                <textarea
+                  matInput
+                  style="height: 150px"
+                  maxlength="255"
+                  formControlName="{{ d.idDomanda }}"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <hr
+            *ngIf="!d.idRispostaCondizionale && !showDom"
+            [ngStyle]="{
+              color: i == domande.length - 1 ? 'transparent' : 'gray'
+            }"
+            style="margin: 20px"
+          />
+          <hr
+            *ngIf="d.idRispostaCondizionale && showDom"
+            [ngStyle]="{
+              color: i == domande.length - 1 ? 'transparent' : 'gray'
+            }"
+            style="margin: 20px"
+          />
+          <hr
+            *ngIf="showDom && !d.idRispostaCondizionale"
+            [ngStyle]="{
+              color: i == domande.length - 1 ? 'transparent' : 'gray'
+            }"
+            style="margin: 20px"
+          />
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Pulsanti fondo -->
+    <div class="row" style="flex-wrap: wrap; margin-top: 20px">
+      <div
+        class="col"
+        style="display: flex; justify-content: left; margin-bottom: 10px"
+      >
+        <button
+          class="btn btn--link-primary"
+          type="button"
+          [routerLink]="'/dashboard/home'"
+        >
+          indietro
+        </button>
+      </div>
+      <div
+        class="col"
+        style="display: flex; justify-content: right; margin-bottom: 10px"
+      >
+        <button class="btn btn-primary" type="submit" [disabled]="checkCampi() || questionarioInviato">
+          INVIA
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #attenzione>
+  <!-- Title -->
+  <h2 mat-dialog-title>Attenzione!</h2>
+  <!-- Content -->
+  <section mat-dialog-content style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row py-3"><p>
+      <mat-icon class="done-icon-title" style="color: white; background-color: red  !important; margin-right: 10px;">close</mat-icon>
+      <strong>Hai già compilato</strong> il questionario e non è possibile effettuare nessuna modifica.  </p></div>
+  </section>
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="dati non salvati correttamente torna alla home"
+              [routerLink]="'/dashboard/home'">
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>

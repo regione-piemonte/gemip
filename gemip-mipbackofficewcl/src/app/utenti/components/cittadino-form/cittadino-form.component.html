@@ -1,0 +1,700 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="row not-stampa">
+  <button class="col-auto d-flex justify-content-start" mat-button aria-label="Indietro" (click)="tornaIndietro()"><mat-icon role="presentation">arrow_back</mat-icon></button>
+  <button class="col-auto ms-auto d-flex justify-content-end" mat-button (click)="selectedTab = 1" aria-label="Stampa"><mat-icon role="presentation">print</mat-icon></button>
+</div>
+
+<mat-tab-group class="mt-3"
+              [selectedIndex]="selectedTab"
+              (selectedIndexChange)="selectedTab = $event;">
+
+<!-- Handle dati identificativi -->
+<mat-tab label="Cittadino">
+<mat-card class="myDivToPrint">
+<form [formGroup]="form">
+  <mat-card-header class="">
+    <mat-card-title>
+        <h5 class="mb-5">Dati anagrafici</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+    <div class="row">
+
+
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 p-4">
+        <div class="row">
+          <h3>{{anagrafica?.cittadino?.nome}}  {{anagrafica?.cittadino?.cognome}}</h3>
+        </div>
+        <div class="row">
+          <div class="col-6"> Codice Fiscale</div>
+        </div>
+        <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+          <div class="col-6"> {{anagrafica?.cittadino?.codiceFiscale}}</div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Data di nascita</mat-label>
+              <input
+                matInput
+                [matDatepickerFilter]="myFilter"
+                readonly="true"
+                [matDatepicker]="picker"
+                formControlName="dataNascita"
+                >
+
+              <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+              <mat-datepicker #picker  ></mat-datepicker>
+              <mat-error>
+                <app-control-messages [control]="form.controls['dataNascita'] |castFromControl"></app-control-messages>
+              </mat-error>
+            </mat-form-field>
+            <div class="mt-2 mb-3">
+              <mat-label class="me-3">Sesso: </mat-label>
+              <mat-radio-group formControlName="sesso" >
+                <mat-radio-button class="me-2" value="F">F</mat-radio-button>
+                <mat-radio-button value="M">M</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div class="mt-2 mb-3">
+            <mat-label class="me-3">Luogo di nascita: </mat-label>
+            <mat-radio-group formControlName="luogoNascita" (change)="onLuogoDiNascitaChange()">
+              <mat-radio-button class="me-2" value="1">Italia</mat-radio-button>
+              <mat-radio-button value="2">Estero</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <ng-container *ngIf="form.controls['luogoNascita'].value == '1'; else nascitaEstero">
+          <!-- Provincia nascita -->
+          <div class="col-6">
+            <mat-form-field class="col-6" appearance="legacy">
+              <mat-label>Provincia di nascita</mat-label>
+              <mat-select formControlName="provinciaNascita" (selectionChange)="fetchComuni(form.controls['provinciaNascita'].value!)">
+                <mat-option *ngFor="let provincia of listProvince" [value]="provincia.codiceProvincia">
+                  {{provincia.descrizioneProvincia}}
+                </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-control-messages
+                  [control]="form.controls['provinciaNascita'] | castFromControl">
+                </app-control-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Luogo nascita -->
+          <div class="col-6">
+            <mat-form-field class="col-6" appearance="legacy">
+              <mat-label>Comune di nascita</mat-label>
+              <mat-select formControlName="comuneNascita" >
+                <mat-option [value]="null">--</mat-option>
+                <mat-option *ngFor="let comune of listCitta"
+                  [value]="comune.codiceIstatComune">{{comune.descrizioneComune}} </mat-option>
+              </mat-select>
+              <mat-error>
+                <app-control-messages
+                  [control]="form.controls['comuneNascita'] | castFromControl"></app-control-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <!-- recapito telefonico -->
+            <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+              <mat-label>Telefono</mat-label>
+              <input matInput formControlName="telefono" maxlength="14">
+              <mat-error>
+                <app-control-messages
+                  [control]="form.controls['telefono']|castFromControl "></app-control-messages>
+              </mat-error>
+            </mat-form-field>
+            <!-- recapito telefonico -->
+            <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+              <mat-label>Telefono alternativo</mat-label>
+              <input matInput formControlName="telefono2" maxlength="14">
+              <mat-error>
+                <app-control-messages
+                  [control]="form.controls['telefono2']|castFromControl "></app-control-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <!-- Email -->
+            <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" maxlength="100">
+              <mat-error>
+                <app-control-messages
+                  [control]="form.controls['email']|castFromControl "></app-control-messages>
+              </mat-error>
+            </mat-form-field>
+            <!-- Email alternativa -->
+            <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+              <mat-label>Email alternativa</mat-label>
+              <input matInput formControlName="email2" maxlength="100">
+              <mat-error>
+                <app-control-messages
+                  [control]="form.controls['email2']|castFromControl "></app-control-messages>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #nascitaEstero>
+      <form [formGroup]="natalitaEstero" class="row">
+      <!-- Stato -->
+      <div class="col-md-6 col-sm-12">
+        <mat-form-field class="w-100" appearance="legacy">
+          <mat-label>Stato estero di nascita </mat-label>
+          <mat-select formControlName="stato">
+            <mat-option *ngFor="let statoEstero of statiEsteriList" [value]="statoEstero.codStato?.toString()">{{statoEstero.descrizioneStato}}</mat-option>
+          </mat-select>
+          <mat-error>
+            <app-control-messages [control]="natalitaEstero.controls['stato']"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Citta -->
+      <div class="col-md-6 col-sm-12">
+        <mat-form-field class="w-100" appearance="legacy">
+          <mat-label>Citta di nascita</mat-label>
+          <input matInput formControlName="citta" [maxlength]="100">
+          <mat-error>
+            <app-control-messages [control]="natalitaEstero.controls['citta']"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      </form>
+      </ng-template>
+  </mat-card-content>
+
+
+  <!-- ------------------------------------------------------------ -->
+  <mat-card-header class="">
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Residenza</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+  <div formGroupName="residenza" class="row">
+
+    <!-- indirizzo -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Provincia di Residenza</mat-label>
+      <mat-select formControlName="provinciaResidenza" (selectionChange)="onProvinciaResidenzaChange(residenza.controls['provinciaResidenza'].value!)">
+        <mat-option *ngFor="let provincia of listProvince" [value]="provincia.codiceProvincia" >
+          {{provincia.descrizioneProvincia}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages
+          [control]="residenza.controls['provinciaResidenza'] |castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- citta -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Comune di Residenza</mat-label>
+      <mat-select formControlName="cittaResidenza">
+        <mat-option *ngFor="let comune of listCittaResidenzaFiltrate"
+          [value]="comune.codiceIstatComune">{{comune.descrizioneComune}} </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages
+          [control]="residenza.controls['cittaResidenza'] |castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- provincia -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>indirizzo</mat-label>
+      <input matInput formControlName="indirizzoResidenza" maxlength="100">
+      <mat-error>
+        <app-control-messages
+          [control]="residenza.controls['indirizzoResidenza']|castFromControl "></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- cap -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>CAP</mat-label>
+        <input matInput formControlName="capResidenza" maxlength="5">
+      <mat-error>
+        <app-control-messages
+          [control]="residenza.controls['capResidenza']|castFromControl "></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle class="example-margin" [checked]="!domicilioCoincide"
+      (toggleChange)="onDomicilioDiversoResidenzaChange()" (keydown.enter)="onDomicilioDiversoResidenzaChange()" [attr.aria-label]="domicilioCoincide ?'il domicilio coincide con la residenza':'il domicilio non coincide con la residenza'">
+      Il domicilio non coincide con la residenza
+    </mat-slide-toggle>
+  </div>
+
+  </mat-card-content>
+
+  <!-- ------------------------------------------------------------ -->
+  <ng-container *ngIf="!domicilioCoincide" >
+  <mat-card-header class="">
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Domicilio</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <!-- Domicilio -->
+  <mat-card-content class="container-fluid">
+    <div formGroupName="domicilio" class="row">
+      <mat-form-field class="col-6" appearance="legacy">
+        <mat-label>Provincia di Domicilio</mat-label>
+        <mat-select formControlName="provinciaDomicilio" (selectionChange)="onProvinciaDomicilioChange(domicilio.controls['provinciaDomicilio'].value!)" >
+          <mat-option *ngFor="let provincia of listProvince" [value]="provincia.codiceProvincia" >{{provincia.descrizioneProvincia}}</mat-option>
+
+        </mat-select>
+        <mat-error>
+          <app-control-messages [control]="domicilio.controls['provinciaDomicilio'] | castFromControl"></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+
+    <!-- Comune Domicilio-->
+
+      <mat-form-field class="col-6" appearance="legacy">
+        <mat-label>Comune di Domicilio</mat-label>
+        <mat-select formControlName="cittaDomicilio">
+          <mat-option *ngFor="let comune of listCittaDomicilioFiltrate"
+            [value]="comune.codiceIstatComune">{{comune.descrizioneComune}} </mat-option>
+
+        </mat-select>
+        <mat-error>
+          <app-control-messages [control]="domicilio.controls['cittaDomicilio'] | castFromControl"></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+
+
+    <!-- indirizzo Domicilio-->
+
+      <mat-form-field class="col-6" appearance="legacy">
+        <mat-label>indirizzo</mat-label>
+        <input matInput formControlName="indirizzoDomicilio" maxlength="100">
+        <mat-error>
+          <app-control-messages [control]="domicilio.controls['indirizzoDomicilio'] | castFromControl"></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+
+    <!-- CAP Domicilio-->
+
+      <mat-form-field class="col-6" appearance="legacy">
+        <mat-label>CAP</mat-label>
+        <input matInput formControlName="capDomicilio" maxlength="5">
+        <mat-error>
+          <app-control-messages [control]="domicilio.controls['capDomicilio'] | castFromControl"></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+  </mat-card-content>
+  </ng-container>
+
+  <!-------ALTRO     -->
+  <mat-card-header class="">
+    <mat-card-title>
+        <!-- Titolo -->
+    <h5 class="mb-5">Altre informazioni</h5>
+
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+    <form [formGroup]="cittadinanza">
+      <div class="row">
+        <mat-form-field class="col-6" appearance="legacy">
+          <mat-label>Cittadinanza</mat-label>
+          <mat-select  formControlName="cittadinanza"  (selectionChange)="checkCittadinanza(cittadinanza.controls['cittadinanza'].value!)">
+            <mat-option *ngFor="let cittadinanza of listCittadinanza"
+              [value]="cittadinanza.codiceCittadinanza" >{{cittadinanza.descrizione}} </mat-option>
+          </mat-select>
+          <mat-error>
+            <app-control-messages
+              [control]="cittadinanza.controls['cittadinanza']| castFromControl "></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+          <mat-label>Cittadinanza altro specificare</mat-label>
+          <input matInput formControlName="descCittadinanzaAltro" maxlength="1000">
+          <mat-error>
+            <app-control-messages
+              [control]="cittadinanza.controls['descCittadinanzaAltro']|castFromControl "></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-6" *ngIf="isExtraComunitario" appearance="legacy" >
+          <mat-label>Titolo di Soggiorno</mat-label>
+          <mat-select formControlName="tipoSoggiorno">
+            <mat-option *ngFor="let el of soggiornoSelect"
+              [value]="el" (click)="onTipoSoggiornoSelected(el)">
+              {{el}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <!-- campi permesso di soggiorno -->
+        <mat-form-field *ngIf="isExtraComunitario && (permessoSelected || cartaSelected)" class="col-6" appearance="legacy">
+          <mat-label *ngIf="permessoSelected">Numero Permesso di Soggiorno</mat-label>
+          <mat-label *ngIf="cartaSelected">Numero Carta di Soggiorno</mat-label>
+          <input matInput formControlName="permessoDiSoggiorno">
+          <mat-error>
+            <app-control-messages
+              [control]="cittadinanza.controls['permessoDiSoggiorno'] | castFromControl"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="isExtraComunitario && (permessoSelected || cartaSelected)" class="col-6" appearance="legacy">
+          <mat-label *ngIf="permessoSelected">Permesso di soggiorno rilasciato da</mat-label>
+          <mat-label *ngIf="cartaSelected">Carta di soggiorno rilasciato da</mat-label>
+          <input matInput formControlName="permessoDiSoggiornoRilasciatoDa">
+          <mat-error>
+            <app-control-messages
+              [control]="cittadinanza.controls['permessoDiSoggiornoRilasciatoDa'] | castFromControl"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="isExtraComunitario && (permessoSelected || cartaSelected)" class="col-md-6 col-sm-12" appearance="legacy">
+          <mat-label *ngIf="permessoSelected">Scadenza titolo di soggiorno</mat-label>
+          <mat-label *ngIf="cartaSelected">Scadenza carta di soggiorno</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="dataScadPermessoSoggiorno"
+            >
+
+          <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+          <mat-datepicker #picker  ></mat-datepicker>
+          <mat-error>
+            <app-control-messages [control]="cittadinanza.controls['dataScadPermessoSoggiorno'] |castFromControl"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="isExtraComunitario && (permessoSelected || cartaSelected)" class="col-6" appearance="legacy">
+          <mat-label *ngIf="permessoSelected">Motivo permesso di soggiorno </mat-label>
+          <mat-label *ngIf="cartaSelected">Motivo carta di soggiorno </mat-label>
+          <input matInput formControlName="descrMotivoPermessoDiSoggiorno">
+          <mat-error>
+            <app-control-messages
+              [control]="cittadinanza.controls['descrMotivoPermessoDiSoggiorno'] | castFromControl"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </form>
+
+    <!-- Titolo studio -->
+    <div class="row">
+      <mat-form-field class="col-6" appearance="legacy" >
+        <mat-label>Titolo di studio</mat-label>
+        <mat-select formControlName="titoloDiStudio">
+          <mat-option *ngFor="let titoloDiStudio of listTitoliStudio"
+            [value]="titoloDiStudio.codiceTitoloDiStudio">
+            {{titoloDiStudio.descrizioneTitoloDiStudio}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <app-control-messages
+            [control]="form.controls['titoloDiStudio'] |castFromControl"></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+        <mat-label>Titolo di studio altro specificare</mat-label>
+        <input matInput formControlName="titoloDiStudioAltro" maxlength="100">
+        <mat-error>
+          <app-control-messages
+            [control]="form.controls['titoloDiStudioAltro']|castFromControl "></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+
+
+
+    <!-- Indice di vulnerabilità abitativo -->
+
+      <mat-form-field class="col-6" appearance="legacy">
+        <mat-label>Indice di vulnerabilità abitativo</mat-label>
+        <mat-select formControlName="indiceVulnerabilitaAbitativo">
+          <mat-option *ngFor="let indiceVuln of listIndiciVulnerabilitaAbitativo" [value]="indiceVuln.id">
+            {{indiceVuln.descrizioneSvantaggioAbitativo}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <app-control-messages
+            [control]="form.controls['indiceVulnerabilitaAbitativo'] | castFromControl"></app-control-messages>
+        </mat-error>
+      </mat-form-field>
+
+    <!-- Situazione lavorativa -->
+
+    <mat-form-field class="col-6" appearance="legacy">
+      <mat-label>Situazione lavorativa</mat-label>
+      <mat-select formControlName="situazioneLavorativa">
+        <mat-option *ngFor="let situazioneLavorativa of listCondizioneOccupazionale"
+          [value]="situazioneLavorativa.codiceCondizioneOccupazionale">
+          {{situazioneLavorativa.descrizioneCondizioneOccupazionale}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages
+          [control]="form.controls['situazioneLavorativa'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Situazione lavorativa altro specificare</mat-label>
+      <input matInput formControlName="situazioneLavorativaAltro" maxlength="100">
+      <mat-error>
+        <app-control-messages
+          [control]="form.controls['situazioneLavorativaAltro']|castFromControl "></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  </mat-card-content>
+
+</form>
+</mat-card>
+
+
+<div class="btn--group-card">
+  <div class="ms-auto p-2">
+    <button mat-button
+            class="btn btn--primary"
+            (click)="onSalva()">SALVA</button>
+  </div>
+</div>
+</mat-tab>
+
+<!-- Handle dati identificativi -->
+<mat-tab label="Stampa">
+<mat-card class="myDivToPrint">
+  <mat-card-header class="">
+    <mat-card-title>
+        <h5 class="mb-5">Dati anagrafici</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+  <div class="row">
+    <div class="row">
+      <div class="col-6"> Nome</div>
+      <div class="col-6"> Cognome</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.cittadino?.nome}}</div>
+      <div class="col-6"> {{anagrafica?.cittadino?.cognome}}</div>
+    </div>
+    <div class="row">
+      <div class="col-6"> Codice Fiscale</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.cittadino?.codiceFiscale}}</div>
+    </div>
+    <!--Sesso-->
+    <div class="row">
+      <div class="col-6">Sesso</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.sesso}}</div>
+    </div>
+    <!-- email -->
+    <!-- telefonoF -->
+    <div class="row">
+      <div class="col-6"> Email</div>
+      <div class="col-6"> Email alternativa</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6 text-overflow"> {{anagrafica?.recapitoEmail}}</div>
+      <div class="col-6 text-overflow"> {{anagrafica?.recapitoEmail2}}</div>
+    </div>
+    <!-- email -->
+    <!-- telefonoF -->
+    <div class="row">
+      <div class="col-6"> Telefono </div>
+      <div class="col-6"> Telefono alternativo</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.recapitoTelefono}}</div>
+      <div class="col-6"> {{anagrafica?.recapitoTelefono2}}</div>
+    </div>
+  </div>
+  </mat-card-content>
+
+  <!-- ------------------------------------------------------------ -->
+  <mat-card-header class="">
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Residenza</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+  <div class="row">
+
+    <!-- Provincia & Comune -->
+    <div class="row">
+      <div class="col-6"> Provincia di Residenza</div>
+      <div class="col-6"> Comune di Residenza</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.comuneResidenza?.provincia?.descrizioneProvincia}}</div>
+      <div class="col-6"> {{anagrafica?.comuneResidenza?.descrizioneComune}}</div>
+    </div>
+
+    <!-- Indirizzo & cap -->
+    <div class="row">
+      <div class="col-6"> indirizzo</div>
+      <div class="col-6"> CAP</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.indirizzoResidenza}}</div>
+      <div class="col-6"> {{anagrafica?.capResidenza}}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-6"> Il domicilio {{domicilioCoincide ? "":"non"}} coincide con la residenza</div>
+    </div>
+  </div>
+
+  </mat-card-content>
+
+  <!-- ------------------------------------------------------------ -->
+  <ng-container *ngIf="!domicilioCoincide" >
+  <mat-card-header class="">
+    <mat-card-title>
+      <!-- Titolo -->
+        <h5 class="mb-5">Domicilio</h5>
+    </mat-card-title>
+  </mat-card-header>
+
+  <!-- Domicilio -->
+  <mat-card-content class="container-fluid">
+    <!-- Provincia & Comune -->
+    <div class="row">
+      <div class="col-6"> Provincia di Residenza</div>
+      <div class="col-6"> Comune di Residenza</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.comuneDomicilio?.provincia?.descrizioneProvincia}}</div>
+      <div class="col-6"> {{anagrafica?.comuneDomicilio?.descrizioneComune}}</div>
+    </div>
+
+    <!-- Indirizzo & cap -->
+    <div class="row">
+      <div class="col-6"> indirizzo</div>
+      <div class="col-6"> CAP</div>
+    </div>
+    <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+      <div class="col-6"> {{anagrafica?.indirizzoDomicilio}}</div>
+      <div class="col-6"> {{anagrafica?.capDomicilio}}</div>
+    </div>
+  </mat-card-content>
+  </ng-container>
+
+  <!-------ALTRO     -->
+  <mat-card-header class="">
+    <mat-card-title>
+        <!-- Titolo -->
+    <h5 class="mb-5">Altre informazioni</h5>
+
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+    <div class="row">
+      <div class="row">
+        <div class="col-6"> Cittadinanza</div>
+        <div class="col-6"> Cittadinanza altro specificare </div>
+      </div>
+      <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+        <div class="col-6"> {{anagrafica?.codiceCittadinanza?.descrizione}}</div>
+        <div class="col-6">{{anagrafica?.descCittadinanzaAltro}}</div>
+      </div>
+    </div>
+
+    <!-- permesso di soggiorno -->
+    <div *ngIf="isExtraComunitario && (permessoSelected || cartaSelected)" class="row">
+      <div class="row">
+        <div class="col-6" *ngIf="permessoSelected"> Numero Permesso di Soggiorno</div>
+        <div class="col-6" *ngIf="permessoSelected"> Permesso di soggiorno rilasciato da </div>
+        <div class="col-6" *ngIf="cartaSelected"> Numero Carta di Soggiorno</div>
+        <div class="col-6" *ngIf="cartaSelected"> Carta di soggiorno rilasciato da </div>
+      </div>
+      <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+        <div class="col-6"> {{anagrafica?.numeroPermessoDiSoggiorno}}</div>
+        <div class="col-6">{{anagrafica?.permessoDiSoggiornoRilasciatoDa}}</div>
+      </div>
+    </div>
+    <div *ngIf="isExtraComunitario && (permessoSelected || cartaSelected)" class="row">
+      <div class="row">
+        <div class="col-6" *ngIf="permessoSelected"> Scadenza titolo di soggiorno </div>
+        <div class="col-6" *ngIf="permessoSelected"> Motivo permesso di soggiorno </div>
+        <div class="col-6" *ngIf="cartaSelected"> Scadenza carta di soggiorno </div>
+        <div class="col-6" *ngIf="cartaSelected"> Motivo carta di soggiorno </div>
+      </div>
+      <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+        <div class="col-6">{{anagrafica?.dataScadPermessoSoggiorno | date :"dd-MM-yyyy"}}</div>
+        <div class="col-6">{{anagrafica?.descrMotivoPermessoDiSoggiorno}}</div>
+      </div>
+    </div>
+   
+    <div  class="row">
+      <div class="row">
+        <div class="col-6"> Titolo di studio</div>
+        <div class="col-6"> Titolo di studio altro specificare </div>
+      </div>
+      <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+        <div class="col-6">{{ anagrafica?.codiceTitoloDiStudio?.descrizioneTitoloDiStudio }}</div>
+        <div class="col-6">{{ anagrafica?.titoloDiStudioAltro }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="col-6">Indice di vulnerabilità abitativo </div>
+      </div>
+      <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+        <div class="col-6">{{anagrafica?.svantaggioAbitativo?.descrizioneSvantaggioAbitativo}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="col-6"> Situazione lavorativa </div>
+        <div class="col-6"> Situazione lavorativa altro specificare </div>
+      </div>
+      <div class="row" style="font-weight: bold; margin-top: 7px; margin-bottom:20px;">
+        <div class="col-6">{{ anagrafica?.codiceCondizioneOccupazionale?.descrizioneCondizioneOccupazionale }}</div>
+        <div class="col-6">{{anagrafica?.condizioneOccupazionaleAltro}}</div>
+      </div>
+    </div>
+
+  </mat-card-content>
+
+</mat-card>
+<div class="btn--group-card">
+  <div class="ms-auto p-2">
+    <button mat-button
+            class="btn btn--primary"
+            (click)="print()">STAMPA</button>
+  </div>
+</div>
+</mat-tab>
+
+</mat-tab-group>

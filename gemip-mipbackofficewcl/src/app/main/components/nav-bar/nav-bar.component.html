@@ -1,0 +1,100 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+
+<mat-sidenav-container  autosize> <!--class="mat-sidenav-container"-->
+  <mat-sidenav class="not-stampa" #sidenav [mode]='modeSideNav ? "side":"over"' opened="true">
+    <mat-nav-list>
+      <mat-list-item  (click)="isExpanded = !isExpanded"
+                      [ngClass]="isExpanded ? 'px-5' : ''"
+                      aria-label="menu-key"
+                      class="list-menu--openclose">
+        <mat-icon class="expantion-button"
+                  aria-label="key_row"
+                  [ngClass]="isExpanded ? '' : 'rotated'">keyboard_arrow_left</mat-icon>
+      </mat-list-item>
+
+      <div *ngFor="let singleItem of navbarItemsList">
+      <mat-list-item
+        *ngIf="!singleItem.isSubSection || isExpanded"
+
+        [attr.aria-label]="singleItem.isActive ? 'La voce di menu ' + singleItem.label + ' è attiva' : 'La voce di menu ' + singleItem.label + ' non è attiva'"
+
+        [class.list-item--home]="singleItem.label === 'Home'"
+        [class.list-item-active]="singleItem.isActive"
+        [ngClass]="{'categoriaSideMenu': singleItem.subItems && singleItem.label!=='Home',
+                    'menu-expanded px-4': isExpanded}"
+
+        (click)="navigate(singleItem.path)">
+
+        <!-- -------END------- -->
+          <a class="nav-a" [routerLink]="singleItem.path">
+            <mat-icon role="presentation" mat-list-icon> {{singleItem.icon}} </mat-icon>
+            <span [hidden]="!isExpanded"
+                  class="menu-item">
+              {{singleItem.label}}
+            </span>
+          </a>
+      </mat-list-item>
+      <ng-container *ngIf="singleItem.subItems">
+      <div *ngFor="let subItem of singleItem.subItems">
+      <mat-list-item
+        *ngIf="isExpanded"
+
+        routerLinkActive
+        #routerLinkActiveInstance="routerLinkActive"
+
+        [attr.aria-label]="routerLinkActiveInstance.isActive ? 'La voce di menu ' + subItem.label + ' è attiva' : 'La voce di menu ' + singleItem.label + ' non è attiva'"
+
+        [class.list-item-active]="routerLinkActiveInstance.isActive"
+        [ngClass]="{'menu-expanded px-4': isExpanded}"
+        [title]="subItem.disabled===true ? 'Funzionalità in via di sviluppo' : ''"
+
+        (click)="subItem.disabled===true || navigate(subItem.path)">
+
+        <!-- -------END------- -->
+          <a class="nav-a"
+          [routerLink]="subItem.disabled===true ? undefined : subItem.path"
+            >
+            <mat-icon role="presentation" mat-list-icon
+                      [ngClass]="{'me-2' : subItem.icon}">
+                      {{subItem.icon}}</mat-icon>
+            <span [hidden] = "!isExpanded"
+                  class="menu-item"
+                  [style.color]="subItem.disabled===true ? 'gray' : undefined">
+                  {{subItem.label}}</span>
+          </a>
+      </mat-list-item>
+      </div>
+      </ng-container>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+  <!-- Content - rendered Content for the current router path into the <router-outlet>, e.g. /dashboard or /info-->
+  <mat-sidenav-content  class="stampa pt-5 pb-5 px-3">
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

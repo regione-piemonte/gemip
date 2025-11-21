@@ -1,0 +1,56 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="row">
+<p>
+  il finto codice fiscale per poter funzionare deve essere di 16 caratteri e in posizione 10 e 11 devono essere numeri,
+  se maggiore di 40 è una donna, minore di 40 è un uomo
+</p>
+<form [formGroup]="formPerAntonio" class="col-6">
+  <mat-form-field class="w-100" appearance="legacy">
+    <mat-label>Codice Fiscale</mat-label>
+    <input matInput formControlName="codfisc" >
+  </mat-form-field>
+  <mat-form-field class="w-100" appearance="legacy">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="nome" >
+    <mat-error>
+      <app-control-messages [control]="formPerAntonio.controls['nome'] |castFromControl"></app-control-messages>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="w-100" appearance="legacy">
+    <mat-label>Cognome</mat-label>
+    <input matInput formControlName="cognome" >
+    <mat-error>
+      <app-control-messages [control]="formPerAntonio.controls['cognome'] |castFromControl"></app-control-messages>
+    </mat-error>
+  </mat-form-field>
+  <button (click)="click()">INVIA</button>
+</form>
+
+</div>
+
+
+
+
+

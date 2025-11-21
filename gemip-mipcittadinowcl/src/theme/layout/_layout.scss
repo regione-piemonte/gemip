@@ -1,0 +1,311 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#mip-cittadino{
+  // Sidenav
+  .mat-sidenav-container {
+    min-height: 100vh;
+  }
+  .mat-select-panel{
+    max-width: 100% !important;
+  }
+
+  .mat-sidenav {
+
+    background-color: #272727;
+    color: #ffffff;
+
+    .mat-nav-list {
+      .mat-list-item {
+        cursor: default;
+      }
+      .menu-item {
+        margin-left: 8px;
+        .is-active {
+          text-decoration: underline;
+        }
+      }
+      .chevron-button {
+        transition: 300ms ease-in-out;
+        transform: rotate(0deg);
+      }
+      .chevron-button.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .border-bold {
+    border-width: 3px !important;
+  }
+
+  .border {
+    &-black {
+      border-color: $black;
+    }
+  }
+
+  // Form field
+  mat-form-field {
+    width: 100%;
+  }
+
+  .mat-icon {
+    vertical-align: middle;
+  }
+
+  // Arrow
+  .arrow {
+    min-width: 300px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+    color: $white;
+    &-blue {
+      background: $blue;
+    }
+    &-grey {
+      background: $grey;
+      color: $black;
+    }
+    &-green {
+      background: $green;
+    }
+  }
+
+  .arrow:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid $white;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+  }
+  .arrow-blue:before {
+    content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid $blue;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+  }
+
+  .arrow-green:before {
+    content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid $green;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+  }
+
+  .arrow-grey:before {
+    content: "";
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid $grey;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+  }
+
+
+  @mixin backGoundCustom ($colorBG:null, $colorText:null) {
+    @if $colorBG == null{
+      background: $blue;
+    }
+    @else{
+      background: $colorBG;
+    }
+    @if $colorText == null{
+      color: $white;
+    }
+    @else{
+      color: $colorText;
+    }
+  }
+  .arrow-legenda {
+    width: 30px;
+    height: 40px;
+    position: relative;
+    margin-right: 30px;
+
+    &-blue {
+      @include backGoundCustom();
+      &::before{
+        border-left: 20px solid $blue;
+      }
+    }
+    &-grey {
+      @include backGoundCustom($grey, $black);
+      &::before{
+        border-left: 20px solid $grey;
+      }
+    }
+    &-green {
+      @include backGoundCustom($green);
+      &::before{
+        border-left: 20px solid $green;
+      }
+    }
+
+    &::after{
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      border-left: 20px solid $white;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+    }
+    &::before{
+      content: "";
+      position: absolute;
+      right: -20px;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+    }
+  }
+
+
+
+  @media (max-width: 1200px){
+    .container-incontro{
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 600px) {
+    .container-incontro{
+      padding: 3rem 1rem!important;
+    }
+  }
+
+
+  .card-dove-quando{
+    min-height: 480px !important;
+    padding: 0px!important;
+  }
+  .contenitore-testo-immagine{
+    @extend .row;
+    width: 100%;
+    padding-top: 20px;
+    .testo{
+      @extend .col-12;
+      top: 0px;
+      order: 2;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+    .immagine{
+      @extend .col-12;
+      top: 0px;
+      order: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+  }
+
+  .img-icon{
+    height: 200px;
+  }
+  .container-data-incontro{
+    display: inherit;
+    flex-direction: inherit;
+    align-items: inherit;
+    border-left: #1F66AB solid 10px;
+    width: 90%;
+    margin-bottom: 20px;
+  }
+  .action-incontro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    padding-bottom: 30px;
+  }
+
+
+  @media (max-width: 1200px) {
+    .contenitore-testo-immagine{
+      margin-bottom: 2rem;
+      .testo{
+        width: 40%;
+        order: 1;
+        align-items: start;
+      }
+      .immagine{
+        width: 60%;
+        order: 2;
+      }
+    }
+    .card-dove-quando{
+      min-height: 380px!important;
+    }
+  }
+  @media (max-width: 600px){
+    .contenitore-testo-immagine{
+     .immagine{
+        .img-icon{
+          height: 150px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 450px){
+    .text-small-450{
+      white-space: normal;
+    }
+  }
+  mat-option-text{
+    overflow: visible !important;
+  }
+  mat-option{
+    padding-top: 9px;
+    padding-bottom: 9px;
+    white-space: inherit;
+    line-height: normal;
+    overflow: visible;
+    height: auto;
+  }
+}

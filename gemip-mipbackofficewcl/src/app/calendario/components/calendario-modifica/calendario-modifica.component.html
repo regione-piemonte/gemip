@@ -1,0 +1,64 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<form [formGroup]="form">
+  <mat-card>
+    <mat-card-header>
+     <h3> Modifica importazione ics</h3>
+    </mat-card-header>
+      <mat-card-content class="container-fluid">
+        <div class="col-md-6 col-sm-12">
+          Numero eventi:
+        </div>
+        <div class="row">
+
+          <div class="col-md-6 col-sm-12 mt-3" appearance="legacy" >
+            <mat-label class="pe-2">abilitato</mat-label>
+            <mat-checkbox formControlName="abilitato"></mat-checkbox>
+
+          </div>
+
+
+          <mat-form-field class="col-12" appearance="legacy" >
+          <mat-label>Descrizione </mat-label>
+          <textarea matInput class="custom-textarea" formControlName="descrizione" [maxlength]="250"> </textarea>
+          <mat-error>
+            <app-control-messages [control]="form.controls['descrizione'] | castFromControl"></app-control-messages>
+          </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="d-flex border-top border-1 justify-content-between mt-3">
+      <div class="p-2  ">
+        <button  mat-button class="btn btn--outline-primary" aria-label="annulla modifica" (click)="onAnnulla()">
+          ANNULLA
+        </button>
+      </div>
+      <div class="p-2">
+        <button mat-raised-button class="btn btn--primary" aria-label="conferma modifica"
+          (click)="onSalva()">CONFERMA</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+
+</form>

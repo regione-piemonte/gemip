@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering SYSTEM "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+
+<hibernate-reverse-engineering>
+
+    <type-mapping>
+        <!-- jdbc-type is name for java.sql.Types -->
+        <sql-type jdbc-type="VARCHAR" length='1' hibernate-type="java.lang.Character" />
+        <sql-type jdbc-type="CHAR" length='1' hibernate-type="java.lang.Character" />
+        <sql-type jdbc-type="NUMERIC" scale='0' hibernate-type="java.lang.Long" />
+    </type-mapping>
+
+    <!--schema-selection match-schema="gemip"/-->
+    <schema-selection match-schema="gemip" match-table="mip_d_testo_email"/>
+    
+    <!--table-filter match-name="DoNotWantIt" exclude="true" /-->
+
+    <!-- table allows you to override/define how reverse engineering 
+     is done for a specific table -->
+    <!--table name="ORDERS">
+        <primary-key>
+            <generator class="sequence">
+                <param name="table">seq_table</param>
+            </generator>
+            <key-column name="CUSTID"/>
+        </primary-key>
+        <column name="NAME" property="orderName" type="string" />
+        <foreign-key constraint-name="ORDER_CUST">
+            <many-to-one property="customer"/>
+            <set property="orders"/>
+        </foreign-key>
+        <foreign-key constraint-name="ADDRESS_PERSON">
+            <one-to-one exclude="false"/>
+            <inverse-one-to-one exclude="true"/>
+        </foreign-key>
+    </table-->
+
+</hibernate-reverse-engineering>

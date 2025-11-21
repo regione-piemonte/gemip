@@ -1,0 +1,229 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#mip-cittadino{
+  footer {
+    color: $white;
+    margin-top: 3px;
+
+    .footer-author {
+      font-weight: 500;
+      color: #255d91;
+      width: 100%;
+      margin-bottom: 3px;
+    }
+
+    .upper-footer {
+      background: #fff;
+      padding: 2rem 0;
+      color: #000;
+
+      .apl {
+        img{height: 50px;}
+      }
+
+      @media (min-width: 992px) {
+        .brb {
+          border-left: 1px solid #255d91;
+          padding-left: 45px;
+          margin-left: 20px;
+        }
+
+        .apl {
+          display: flex;
+          justify-content: flex-end !important;
+          img{height: 70px;}
+        }
+
+      }
+      @media (max-width: 991.98px) {
+        .col-md-6{
+          margin-top: 30px;
+        }
+      }
+
+
+     
+    }
+
+    .blu {
+      background: #255d91;    padding: 40px 0;
+      img {
+        margin:0px auto 0 auto;
+      }
+      .logo_csi {
+        text-align:right;
+        img{
+          margin: 0px auto 30px auto;
+        }
+      }  
+
+      a, a:hover {
+        font-weight:bold;
+        color: $white;
+        text-decoration: underline;
+      }
+      .b-menu-footer-link a:after {
+        content: "-";
+        display: inline-block;
+        margin-left: 12px;
+        margin-right: 8px;
+      }
+    
+      ul {
+        margin-top: 2rem;
+        padding: 0;
+        margin-bottom: 0;
+        li {
+          display: inline;
+          padding: 0;
+          a {
+            padding: 25px 0px 25px 0;
+          }
+        
+        }
+        li:last-child a:after {
+          content: "";
+          margin: 0;
+        }
+      }
+      p {
+        margin-bottom: 0;
+      }
+
+    }//blu
+
+    .hr{
+      border-bottom: 1px solid #939393;
+    }
+    img{
+      &.logo-mip{height: 60px; margin-right: 30px;}
+      
+      &.logo-partner {
+        height: 27px;
+        width: auto;
+     
+
+        @media screen and (min-width: 43.76em){
+        height: 35px;
+        }
+        
+        @media screen and (min-width: 31.26em){
+        height: 35px;
+        }
+
+        @media screen and (min-width: 56.26em){
+              height: 40px;
+        }
+
+        @media screen and (min-width: 68.76em){
+             height: 50px;
+        }
+      }
+
+    }
+
+    .logos_wrapper {
+      width: 100%;
+      display: table-cell;
+      display: -moz-box;
+      display: -webkit-flexbox;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      -moz-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      -o-flex-wrap: wrap;
+      flex-wrap: wrap;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      -ms-align-items: center;
+      -o-align-items: center;
+      align-items: center;
+      -webkit-justify-content: space-between;
+      -moz-justify-content: space-between;
+      -ms-justify-content: space-between;
+      -o-justify-content: space-between;
+      justify-content: space-between;
+  }
+
+
+    .mat-icon {
+      height: 16px;
+      width: 16px;
+      overflow: hidden;
+      font-size: 16px;
+      margin-bottom: -2px;
+    }
+
+  }//footer
+
+
+}
+
+
+  @media (max-width: 991.98px) {
+    footer {
+      font-size: 14px;
+    }
+    footer .blu img {
+      margin: 20px 10px;
+    }
+
+    footer .blu .logo_csi img {
+      margin: 0px auto 20px auto;
+    }
+    footer .blu ul {
+      padding: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    footer, footer .footer-author, 
+    footer .blu .logo_csi {
+      text-align:center;
+    }
+    footer .blu img {
+      margin: 20px 10px;
+    }
+    footer .blu .logo_csi img{
+      margin: 20px auto 40px auto;
+    }
+    footer .blu ul {
+      padding: 0;
+    }
+    footer .blu ul li {
+      display: block;
+      padding: 5px 0px 5px 0;
+    }
+    footer .blu ul li a {
+      padding: 15px 15px 15px 0;
+    }
+    footer .blu ul li a:after {
+      content: "";
+      margin: 0;
+    }
+  }//footer
+

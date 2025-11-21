@@ -1,0 +1,2743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://flaidoorsrv.interfacecsi.orchflai.flaidoor.csi.it/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://flaidoorsrv.interfacecsi.orchflai.flaidoor.csi.it/" xmlns:intf="http://flaidoorsrv.interfacecsi.orchflai.flaidoor.csi.it/" xmlns:tns1="http://api.coopdiag.csi.it" xmlns:tns2="http://exceptions.policy.iride2.csi.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Nov 13, 2013 (09:13:21 GMT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://flaidoorsrv.interfacecsi.orchflai.flaidoor.csi.it/" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://api.coopdiag.csi.it"/>
+   <import namespace="http://exceptions.policy.iride2.csi.it"/>
+   <element name="testResources">
+    <complexType/>
+   </element>
+   <element name="testResourcesResponse">
+    <complexType>
+     <sequence>
+      <element name="testResourcesReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="CSIException">
+    <sequence>
+     <element name="nestedExcClassName" nillable="true" type="xsd:string"/>
+     <element name="nestedExcMsg" nillable="true" type="xsd:string"/>
+     <element name="stackTraceMessage" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="fault" type="impl:CSIException"/>
+   <element name="selfCheck">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="in0" type="tns1:CalledResource"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="selfCheckResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="selfCheckReturn" type="tns1:InvocationNode"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_InvocationNode">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:InvocationNode"/>
+    </sequence>
+   </complexType>
+   <complexType name="UserException">
+    <complexContent>
+     <extension base="impl:CSIException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CertRevokedException">
+    <complexContent>
+     <extension base="tns2:CertException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="NoSuchUseCaseException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="NoSuchApplicationException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AuthException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="SystemException">
+    <complexContent>
+     <extension base="impl:CSIException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CommunicationException">
+    <complexContent>
+     <extension base="impl:SystemException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="InternalException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="CertOutsideValidityException">
+    <complexContent>
+     <extension base="tns2:CertException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IdentitaNonAutenticaException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="IdProviderNotFoundException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MalformedUsernameException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="BadRuoloException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="UnrecoverableException">
+    <complexContent>
+     <extension base="impl:CSIException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="hasSelfCheck">
+    <complexType/>
+   </element>
+   <element name="hasSelfCheckResponse">
+    <complexType>
+     <sequence>
+      <element name="hasSelfCheckReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="identificaUserPassword">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="identificaUserPasswordResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="identificaUserPasswordReturn" type="impl:Identita"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Identita">
+    <sequence>
+     <element name="codFiscale" nillable="true" type="xsd:string"/>
+     <element name="cognome" nillable="true" type="xsd:string"/>
+     <element name="idProvider" nillable="true" type="xsd:string"/>
+     <element name="livelloAutenticazione" type="xsd:int"/>
+     <element name="mac" nillable="true" type="xsd:string"/>
+     <element name="nome" nillable="true" type="xsd:string"/>
+     <element name="rappresentazioneInterna" nillable="true" type="xsd:string"/>
+     <element name="timestamp" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="fault1" type="impl:SystemException"/>
+   <element name="fault2" type="impl:UnrecoverableException"/>
+   <element name="fault3" type="impl:InternalException"/>
+   <element name="fault4" type="impl:AuthException"/>
+   <element name="fault5" type="impl:IdProviderNotFoundException"/>
+   <element name="fault6" type="impl:MalformedUsernameException"/>
+   <element name="identificaUserPasswordPIN">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+      <element minOccurs="0" name="in2" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="identificaUserPasswordPINResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="identificaUserPasswordPINReturn" type="impl:Identita"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findUseCasesForPersonaInApplication">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:Application"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Application">
+    <sequence>
+     <element name="id" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="findUseCasesForPersonaInApplicationResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findUseCasesForPersonaInApplicationReturn" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="UseCase">
+    <sequence>
+     <element name="appId" nillable="true" type="impl:Application"/>
+     <element name="id" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="fault7" type="impl:IdentitaNonAutenticaException"/>
+   <element name="fault8" type="impl:NoSuchApplicationException"/>
+   <element name="findUseCasesForPersonaRoleInApplication">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+      <element minOccurs="0" name="in2" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findUseCasesForPersonaRoleInApplicationResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findUseCasesForPersonaRoleInApplicationReturn" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="fault9" type="impl:BadRuoloException"/>
+   <element name="findActorsForPersonaInApplication">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:Application"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findActorsForPersonaInApplicationResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findActorsForPersonaInApplicationReturn" type="impl:Actor"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Actor">
+    <sequence>
+     <element name="appId" nillable="true" type="impl:Application"/>
+     <element name="id" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="findActorsForPersonaInUseCase">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findActorsForPersonaInUseCaseResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findActorsForPersonaInUseCaseReturn" type="impl:Actor"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="fault10" type="impl:NoSuchUseCaseException"/>
+   <element name="isIdentitaAutentica">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isIdentitaAutenticaResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="isIdentitaAutenticaReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getInfoPersonaSchema">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Ruolo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Ruolo">
+    <sequence>
+     <element name="codiceDominio" nillable="true" type="xsd:string"/>
+     <element name="codiceRuolo" nillable="true" type="xsd:string"/>
+     <element name="mnemonico" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="getInfoPersonaSchemaResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="getInfoPersonaSchemaReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findElencoMenuDiApplicativoForUtenteInRuolo">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+      <element minOccurs="0" name="in2" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findElencoMenuDiApplicativoForUtenteInRuoloResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findElencoMenuDiApplicativoForUtenteInRuoloReturn" type="impl:MenuDiApplicativo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Funzionalita">
+    <sequence>
+     <element name="codiceActor" nillable="true" type="xsd:string"/>
+     <element name="dataCessazione" nillable="true" type="xsd:dateTime"/>
+     <element name="descrizioneBreve" nillable="true" type="xsd:string"/>
+     <element name="descrizioneEstesa" nillable="true" type="xsd:string"/>
+     <element name="id" nillable="true" type="xsd:int"/>
+     <element name="idMenuDiApplicativo" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfFunzionalita">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="impl:Funzionalita"/>
+    </sequence>
+   </complexType>
+   <complexType name="MenuDiApplicativo">
+    <sequence>
+     <element name="codApplicativo" nillable="true" type="xsd:string"/>
+     <element name="descrizione" nillable="true" type="xsd:string"/>
+     <element name="elencoFunzionalita" nillable="true" type="impl:ArrayOfFunzionalita"/>
+     <element name="id" nillable="true" type="xsd:int"/>
+     <element name="link" nillable="true" type="xsd:string"/>
+     <element name="servizioEsterno" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="findElencoMenuDiApplicativoForUtenteDelegato">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+      <element minOccurs="0" name="in2" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findElencoMenuDiApplicativoForUtenteDelegatoResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findElencoMenuDiApplicativoForUtenteDelegatoReturn" type="impl:MenuDiApplicativo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findMessaggioByCodApplicativo">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findMessaggioByCodApplicativoResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="findMessaggioByCodApplicativoReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getMessaggiBachecaByUtente">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:int"/>
+      <element minOccurs="0" name="in2" type="xsd:string"/>
+      <element minOccurs="0" name="in3" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getMessaggiBachecaByUtenteResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="getMessaggiBachecaByUtenteReturn" type="impl:MessaggioBacheca"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="MessaggioBacheca">
+    <sequence>
+     <element name="codice" nillable="true" type="xsd:string"/>
+     <element name="dataInserimento" nillable="true" type="xsd:dateTime"/>
+     <element name="dataScadenza" nillable="true" type="xsd:dateTime"/>
+     <element name="descrizioneAzione" nillable="true" type="xsd:string"/>
+     <element name="descrizioneMessaggio" nillable="true" type="xsd:string"/>
+     <element name="letto" type="xsd:boolean"/>
+     <element name="titoloMessaggio" nillable="true" type="xsd:string"/>
+     <element name="urgente" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <element name="setElencoMessaggioComeLetti">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setElencoMessaggioComeLettiResponse">
+    <complexType/>
+   </element>
+   <element name="setElencoMessaggioComeNonLetti">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="in0" type="xsd:string"/>
+      <element minOccurs="0" name="in1" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setElencoMessaggioComeNonLettiResponse">
+    <complexType/>
+   </element>
+   <element name="findActorsForPersonaInUseCaseConcurrent">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findActorsForPersonaInUseCaseConcurrentResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findActorsForPersonaInUseCaseConcurrentReturn" type="impl:Actor"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findActorsForPersonaInApplicationConcurrent">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:Application"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findActorsForPersonaInApplicationConcurrentResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findActorsForPersonaInApplicationConcurrentReturn" type="impl:Actor"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getInfoPersonaInUseCaseConcurrent">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getInfoPersonaInUseCaseConcurrentResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="getInfoPersonaInUseCaseConcurrentReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="identificaCertificato">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="xsd:base64Binary"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="identificaCertificatoResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="identificaCertificatoReturn" type="impl:Identita"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="fault11" type="impl:CertOutsideValidityException"/>
+   <element name="fault12" type="impl:CertRevokedException"/>
+   <element name="isPersonaAutorizzataInUseCase">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isPersonaAutorizzataInUseCaseResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="isPersonaAutorizzataInUseCaseReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isPersonaInRuolo">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:Ruolo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isPersonaInRuoloResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="isPersonaInRuoloReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getInfoPersonaInUseCase">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getInfoPersonaInUseCaseResponse">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="getInfoPersonaInUseCaseReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findRuoliForPersonaInUseCase">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:UseCase"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findRuoliForPersonaInUseCaseResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findRuoliForPersonaInUseCaseReturn" type="impl:Ruolo"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findRuoliForPersonaInApplication">
+    <complexType>
+     <sequence>
+      <element minOccurs="0" name="in0" type="impl:Identita"/>
+      <element minOccurs="0" name="in1" type="impl:Application"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findRuoliForPersonaInApplicationResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="findRuoliForPersonaInApplicationReturn" type="impl:Ruolo"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://api.coopdiag.csi.it" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://flaidoorsrv.interfacecsi.orchflai.flaidoor.csi.it/"/>
+   <import namespace="http://exceptions.policy.iride2.csi.it"/>
+   <complexType name="ResourceType">
+    <sequence>
+     <element name="cod" nillable="true" type="xsd:string"/>
+     <element name="descr" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="CalledResource">
+    <sequence>
+     <element name="codRisorsa" nillable="true" type="xsd:string"/>
+     <element name="codSistema" nillable="true" type="xsd:string"/>
+     <element name="tipoRisorsa" nillable="true" type="tns1:ResourceType"/>
+    </sequence>
+   </complexType>
+   <complexType name="Outcome">
+    <sequence>
+     <element name="eccezione" nillable="true" type="impl:CSIException"/>
+     <element name="messaggio" nillable="true" type="xsd:string"/>
+     <element name="status" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="InvocationNode">
+    <sequence>
+     <element name="childs" nillable="true" type="impl:ArrayOf_tns1_InvocationNode"/>
+     <element name="outcome" nillable="true" type="tns1:Outcome"/>
+     <element name="resource" nillable="true" type="tns1:CalledResource"/>
+     <element name="startTime" type="xsd:long"/>
+     <element name="stopTime" type="xsd:long"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://exceptions.policy.iride2.csi.it" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://flaidoorsrv.interfacecsi.orchflai.flaidoor.csi.it/"/>
+   <import namespace="http://api.coopdiag.csi.it"/>
+   <complexType abstract="true" name="CertException">
+    <complexContent>
+     <extension base="impl:UserException">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="findRuoliForPersonaInUseCaseRequest">
+
+      <wsdl:part element="impl:findRuoliForPersonaInUseCase" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaAutorizzataInUseCaseRequest">
+
+      <wsdl:part element="impl:isPersonaAutorizzataInUseCase" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="testResourcesRequest">
+
+      <wsdl:part element="impl:testResources" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInApplicationConcurrentRequest">
+
+      <wsdl:part element="impl:findActorsForPersonaInApplicationConcurrent" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="isIdentitaAutenticaRequest">
+
+      <wsdl:part element="impl:isIdentitaAutentica" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordRequest">
+
+      <wsdl:part element="impl:identificaUserPassword" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findElencoMenuDiApplicativoForUtenteDelegatoRequest">
+
+      <wsdl:part element="impl:findElencoMenuDiApplicativoForUtenteDelegato" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getMessaggiBachecaByUtenteResponse">
+
+      <wsdl:part element="impl:getMessaggiBachecaByUtenteResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="CertOutsideValidityException">
+
+      <wsdl:part element="impl:fault11" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaInUseCaseConcurrentRequest">
+
+      <wsdl:part element="impl:getInfoPersonaInUseCaseConcurrent" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findUseCasesForPersonaInApplicationRequest">
+
+      <wsdl:part element="impl:findUseCasesForPersonaInApplication" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElencoMessaggioComeLettiResponse">
+
+      <wsdl:part element="impl:setElencoMessaggioComeLettiResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="hasSelfCheckResponse">
+
+      <wsdl:part element="impl:hasSelfCheckResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaAutorizzataInUseCaseResponse">
+
+      <wsdl:part element="impl:isPersonaAutorizzataInUseCaseResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaInUseCaseResponse">
+
+      <wsdl:part element="impl:getInfoPersonaInUseCaseResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInApplicationConcurrentResponse">
+
+      <wsdl:part element="impl:findActorsForPersonaInApplicationConcurrentResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaInUseCaseRequest">
+
+      <wsdl:part element="impl:getInfoPersonaInUseCase" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="testResourcesResponse">
+
+      <wsdl:part element="impl:testResourcesResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="CSIException">
+
+      <wsdl:part element="impl:fault" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findElencoMenuDiApplicativoForUtenteInRuoloResponse">
+
+      <wsdl:part element="impl:findElencoMenuDiApplicativoForUtenteInRuoloResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElencoMessaggioComeNonLettiRequest">
+
+      <wsdl:part element="impl:setElencoMessaggioComeNonLetti" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordPINRequest">
+
+      <wsdl:part element="impl:identificaUserPasswordPIN" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findMessaggioByCodApplicativoResponse">
+
+      <wsdl:part element="impl:findMessaggioByCodApplicativoResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInApplicationRequest">
+
+      <wsdl:part element="impl:findRuoliForPersonaInApplication" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInApplicationResponse">
+
+      <wsdl:part element="impl:findRuoliForPersonaInApplicationResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInUseCaseConcurrentResponse">
+
+      <wsdl:part element="impl:findActorsForPersonaInUseCaseConcurrentResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getMessaggiBachecaByUtenteRequest">
+
+      <wsdl:part element="impl:getMessaggiBachecaByUtente" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaSchemaResponse">
+
+      <wsdl:part element="impl:getInfoPersonaSchemaResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findElencoMenuDiApplicativoForUtenteDelegatoResponse">
+
+      <wsdl:part element="impl:findElencoMenuDiApplicativoForUtenteDelegatoResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInApplicationResponse">
+
+      <wsdl:part element="impl:findActorsForPersonaInApplicationResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="BadRuoloException">
+
+      <wsdl:part element="impl:fault9" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findRuoliForPersonaInUseCaseResponse">
+
+      <wsdl:part element="impl:findRuoliForPersonaInUseCaseResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="selfCheckRequest">
+
+      <wsdl:part element="impl:selfCheck" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaCertificatoResponse">
+
+      <wsdl:part element="impl:identificaCertificatoResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElencoMessaggioComeLettiRequest">
+
+      <wsdl:part element="impl:setElencoMessaggioComeLetti" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findMessaggioByCodApplicativoRequest">
+
+      <wsdl:part element="impl:findMessaggioByCodApplicativo" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="UnrecoverableException">
+
+      <wsdl:part element="impl:fault2" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaCertificatoRequest">
+
+      <wsdl:part element="impl:identificaCertificato" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findUseCasesForPersonaRoleInApplicationResponse">
+
+      <wsdl:part element="impl:findUseCasesForPersonaRoleInApplicationResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="MalformedUsernameException">
+
+      <wsdl:part element="impl:fault6" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="NoSuchApplicationException">
+
+      <wsdl:part element="impl:fault8" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findUseCasesForPersonaInApplicationResponse">
+
+      <wsdl:part element="impl:findUseCasesForPersonaInApplicationResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="CertRevokedException">
+
+      <wsdl:part element="impl:fault12" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="selfCheckResponse">
+
+      <wsdl:part element="impl:selfCheckResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findUseCasesForPersonaRoleInApplicationRequest">
+
+      <wsdl:part element="impl:findUseCasesForPersonaRoleInApplication" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInUseCaseRequest">
+
+      <wsdl:part element="impl:findActorsForPersonaInUseCase" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="InternalException">
+
+      <wsdl:part element="impl:fault3" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaSchemaRequest">
+
+      <wsdl:part element="impl:getInfoPersonaSchema" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInUseCaseConcurrentRequest">
+
+      <wsdl:part element="impl:findActorsForPersonaInUseCaseConcurrent" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="IdProviderNotFoundException">
+
+      <wsdl:part element="impl:fault5" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="hasSelfCheckRequest">
+
+      <wsdl:part element="impl:hasSelfCheck" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="isIdentitaAutenticaResponse">
+
+      <wsdl:part element="impl:isIdentitaAutenticaResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="IdentitaNonAutenticaException">
+
+      <wsdl:part element="impl:fault7" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInfoPersonaInUseCaseConcurrentResponse">
+
+      <wsdl:part element="impl:getInfoPersonaInUseCaseConcurrentResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElencoMessaggioComeNonLettiResponse">
+
+      <wsdl:part element="impl:setElencoMessaggioComeNonLettiResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaInRuoloResponse">
+
+      <wsdl:part element="impl:isPersonaInRuoloResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInApplicationRequest">
+
+      <wsdl:part element="impl:findActorsForPersonaInApplication" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordPINResponse">
+
+      <wsdl:part element="impl:identificaUserPasswordPINResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="SystemException">
+
+      <wsdl:part element="impl:fault1" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findElencoMenuDiApplicativoForUtenteInRuoloRequest">
+
+      <wsdl:part element="impl:findElencoMenuDiApplicativoForUtenteInRuolo" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="identificaUserPasswordResponse">
+
+      <wsdl:part element="impl:identificaUserPasswordResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="isPersonaInRuoloRequest">
+
+      <wsdl:part element="impl:isPersonaInRuolo" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="AuthException">
+
+      <wsdl:part element="impl:fault4" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="findActorsForPersonaInUseCaseResponse">
+
+      <wsdl:part element="impl:findActorsForPersonaInUseCaseResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="NoSuchUseCaseException">
+
+      <wsdl:part element="impl:fault10" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="orchflaiFlaidoorsrv">
+
+      <wsdl:operation name="testResources">
+
+         <wsdl:input message="impl:testResourcesRequest" name="testResourcesRequest"/>
+
+         <wsdl:output message="impl:testResourcesResponse" name="testResourcesResponse"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="selfCheck">
+
+         <wsdl:input message="impl:selfCheckRequest" name="selfCheckRequest"/>
+
+         <wsdl:output message="impl:selfCheckResponse" name="selfCheckResponse"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="hasSelfCheck">
+
+         <wsdl:input message="impl:hasSelfCheckRequest" name="hasSelfCheckRequest"/>
+
+         <wsdl:output message="impl:hasSelfCheckResponse" name="hasSelfCheckResponse"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaUserPassword">
+
+         <wsdl:input message="impl:identificaUserPasswordRequest" name="identificaUserPasswordRequest"/>
+
+         <wsdl:output message="impl:identificaUserPasswordResponse" name="identificaUserPasswordResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:AuthException" name="AuthException"/>
+
+         <wsdl:fault message="impl:MalformedUsernameException" name="MalformedUsernameException"/>
+
+         <wsdl:fault message="impl:IdProviderNotFoundException" name="IdProviderNotFoundException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaUserPasswordPIN">
+
+         <wsdl:input message="impl:identificaUserPasswordPINRequest" name="identificaUserPasswordPINRequest"/>
+
+         <wsdl:output message="impl:identificaUserPasswordPINResponse" name="identificaUserPasswordPINResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:AuthException" name="AuthException"/>
+
+         <wsdl:fault message="impl:MalformedUsernameException" name="MalformedUsernameException"/>
+
+         <wsdl:fault message="impl:IdProviderNotFoundException" name="IdProviderNotFoundException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findUseCasesForPersonaInApplication">
+
+         <wsdl:input message="impl:findUseCasesForPersonaInApplicationRequest" name="findUseCasesForPersonaInApplicationRequest"/>
+
+         <wsdl:output message="impl:findUseCasesForPersonaInApplicationResponse" name="findUseCasesForPersonaInApplicationResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findUseCasesForPersonaRoleInApplication">
+
+         <wsdl:input message="impl:findUseCasesForPersonaRoleInApplicationRequest" name="findUseCasesForPersonaRoleInApplicationRequest"/>
+
+         <wsdl:output message="impl:findUseCasesForPersonaRoleInApplicationResponse" name="findUseCasesForPersonaRoleInApplicationResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:BadRuoloException" name="BadRuoloException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInApplication">
+
+         <wsdl:input message="impl:findActorsForPersonaInApplicationRequest" name="findActorsForPersonaInApplicationRequest"/>
+
+         <wsdl:output message="impl:findActorsForPersonaInApplicationResponse" name="findActorsForPersonaInApplicationResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInUseCase">
+
+         <wsdl:input message="impl:findActorsForPersonaInUseCaseRequest" name="findActorsForPersonaInUseCaseRequest"/>
+
+         <wsdl:output message="impl:findActorsForPersonaInUseCaseResponse" name="findActorsForPersonaInUseCaseResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isIdentitaAutentica">
+
+         <wsdl:input message="impl:isIdentitaAutenticaRequest" name="isIdentitaAutenticaRequest"/>
+
+         <wsdl:output message="impl:isIdentitaAutenticaResponse" name="isIdentitaAutenticaResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaSchema">
+
+         <wsdl:input message="impl:getInfoPersonaSchemaRequest" name="getInfoPersonaSchemaRequest"/>
+
+         <wsdl:output message="impl:getInfoPersonaSchemaResponse" name="getInfoPersonaSchemaResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:BadRuoloException" name="BadRuoloException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findElencoMenuDiApplicativoForUtenteInRuolo">
+
+         <wsdl:input message="impl:findElencoMenuDiApplicativoForUtenteInRuoloRequest" name="findElencoMenuDiApplicativoForUtenteInRuoloRequest"/>
+
+         <wsdl:output message="impl:findElencoMenuDiApplicativoForUtenteInRuoloResponse" name="findElencoMenuDiApplicativoForUtenteInRuoloResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findElencoMenuDiApplicativoForUtenteDelegato">
+
+         <wsdl:input message="impl:findElencoMenuDiApplicativoForUtenteDelegatoRequest" name="findElencoMenuDiApplicativoForUtenteDelegatoRequest"/>
+
+         <wsdl:output message="impl:findElencoMenuDiApplicativoForUtenteDelegatoResponse" name="findElencoMenuDiApplicativoForUtenteDelegatoResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findMessaggioByCodApplicativo">
+
+         <wsdl:input message="impl:findMessaggioByCodApplicativoRequest" name="findMessaggioByCodApplicativoRequest"/>
+
+         <wsdl:output message="impl:findMessaggioByCodApplicativoResponse" name="findMessaggioByCodApplicativoResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getMessaggiBachecaByUtente">
+
+         <wsdl:input message="impl:getMessaggiBachecaByUtenteRequest" name="getMessaggiBachecaByUtenteRequest"/>
+
+         <wsdl:output message="impl:getMessaggiBachecaByUtenteResponse" name="getMessaggiBachecaByUtenteResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElencoMessaggioComeLetti">
+
+         <wsdl:input message="impl:setElencoMessaggioComeLettiRequest" name="setElencoMessaggioComeLettiRequest"/>
+
+         <wsdl:output message="impl:setElencoMessaggioComeLettiResponse" name="setElencoMessaggioComeLettiResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElencoMessaggioComeNonLetti">
+
+         <wsdl:input message="impl:setElencoMessaggioComeNonLettiRequest" name="setElencoMessaggioComeNonLettiRequest"/>
+
+         <wsdl:output message="impl:setElencoMessaggioComeNonLettiResponse" name="setElencoMessaggioComeNonLettiResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInUseCaseConcurrent">
+
+         <wsdl:input message="impl:findActorsForPersonaInUseCaseConcurrentRequest" name="findActorsForPersonaInUseCaseConcurrentRequest"/>
+
+         <wsdl:output message="impl:findActorsForPersonaInUseCaseConcurrentResponse" name="findActorsForPersonaInUseCaseConcurrentResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInApplicationConcurrent">
+
+         <wsdl:input message="impl:findActorsForPersonaInApplicationConcurrentRequest" name="findActorsForPersonaInApplicationConcurrentRequest"/>
+
+         <wsdl:output message="impl:findActorsForPersonaInApplicationConcurrentResponse" name="findActorsForPersonaInApplicationConcurrentResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaInUseCaseConcurrent">
+
+         <wsdl:input message="impl:getInfoPersonaInUseCaseConcurrentRequest" name="getInfoPersonaInUseCaseConcurrentRequest"/>
+
+         <wsdl:output message="impl:getInfoPersonaInUseCaseConcurrentResponse" name="getInfoPersonaInUseCaseConcurrentResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaCertificato">
+
+         <wsdl:input message="impl:identificaCertificatoRequest" name="identificaCertificatoRequest"/>
+
+         <wsdl:output message="impl:identificaCertificatoResponse" name="identificaCertificatoResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:CertRevokedException" name="CertRevokedException"/>
+
+         <wsdl:fault message="impl:CertOutsideValidityException" name="CertOutsideValidityException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:IdProviderNotFoundException" name="IdProviderNotFoundException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaAutorizzataInUseCase">
+
+         <wsdl:input message="impl:isPersonaAutorizzataInUseCaseRequest" name="isPersonaAutorizzataInUseCaseRequest"/>
+
+         <wsdl:output message="impl:isPersonaAutorizzataInUseCaseResponse" name="isPersonaAutorizzataInUseCaseResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaInRuolo">
+
+         <wsdl:input message="impl:isPersonaInRuoloRequest" name="isPersonaInRuoloRequest"/>
+
+         <wsdl:output message="impl:isPersonaInRuoloResponse" name="isPersonaInRuoloResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:BadRuoloException" name="BadRuoloException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaInUseCase">
+
+         <wsdl:input message="impl:getInfoPersonaInUseCaseRequest" name="getInfoPersonaInUseCaseRequest"/>
+
+         <wsdl:output message="impl:getInfoPersonaInUseCaseResponse" name="getInfoPersonaInUseCaseResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInUseCase">
+
+         <wsdl:input message="impl:findRuoliForPersonaInUseCaseRequest" name="findRuoliForPersonaInUseCaseRequest"/>
+
+         <wsdl:output message="impl:findRuoliForPersonaInUseCaseResponse" name="findRuoliForPersonaInUseCaseResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchUseCaseException" name="NoSuchUseCaseException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInApplication">
+
+         <wsdl:input message="impl:findRuoliForPersonaInApplicationRequest" name="findRuoliForPersonaInApplicationRequest"/>
+
+         <wsdl:output message="impl:findRuoliForPersonaInApplicationResponse" name="findRuoliForPersonaInApplicationResponse"/>
+
+         <wsdl:fault message="impl:UnrecoverableException" name="UnrecoverableException"/>
+
+         <wsdl:fault message="impl:IdentitaNonAutenticaException" name="IdentitaNonAutenticaException"/>
+
+         <wsdl:fault message="impl:CSIException" name="CSIException"/>
+
+         <wsdl:fault message="impl:SystemException" name="SystemException"/>
+
+         <wsdl:fault message="impl:NoSuchApplicationException" name="NoSuchApplicationException"/>
+
+         <wsdl:fault message="impl:InternalException" name="InternalException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="orchflaiFlaidoorsrvSoapBinding" type="impl:orchflaiFlaidoorsrv">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="testResources">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="testResourcesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="testResourcesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="selfCheck">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="selfCheckRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="selfCheckResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="hasSelfCheck">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="hasSelfCheckRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="hasSelfCheckResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaUserPassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="identificaUserPasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="identificaUserPasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthException">
+
+            <wsdlsoap:fault name="AuthException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MalformedUsernameException">
+
+            <wsdlsoap:fault name="MalformedUsernameException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdProviderNotFoundException">
+
+            <wsdlsoap:fault name="IdProviderNotFoundException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaUserPasswordPIN">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="identificaUserPasswordPINRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="identificaUserPasswordPINResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="AuthException">
+
+            <wsdlsoap:fault name="AuthException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="MalformedUsernameException">
+
+            <wsdlsoap:fault name="MalformedUsernameException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdProviderNotFoundException">
+
+            <wsdlsoap:fault name="IdProviderNotFoundException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findUseCasesForPersonaInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findUseCasesForPersonaInApplicationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findUseCasesForPersonaInApplicationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findUseCasesForPersonaRoleInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findUseCasesForPersonaRoleInApplicationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findUseCasesForPersonaRoleInApplicationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="BadRuoloException">
+
+            <wsdlsoap:fault name="BadRuoloException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findActorsForPersonaInApplicationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findActorsForPersonaInApplicationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findActorsForPersonaInUseCaseRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findActorsForPersonaInUseCaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault name="NoSuchUseCaseException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isIdentitaAutentica">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isIdentitaAutenticaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isIdentitaAutenticaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaSchema">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getInfoPersonaSchemaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getInfoPersonaSchemaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="BadRuoloException">
+
+            <wsdlsoap:fault name="BadRuoloException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findElencoMenuDiApplicativoForUtenteInRuolo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findElencoMenuDiApplicativoForUtenteInRuoloRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findElencoMenuDiApplicativoForUtenteInRuoloResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findElencoMenuDiApplicativoForUtenteDelegato">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findElencoMenuDiApplicativoForUtenteDelegatoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findElencoMenuDiApplicativoForUtenteDelegatoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findMessaggioByCodApplicativo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findMessaggioByCodApplicativoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findMessaggioByCodApplicativoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getMessaggiBachecaByUtente">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getMessaggiBachecaByUtenteRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getMessaggiBachecaByUtenteResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElencoMessaggioComeLetti">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setElencoMessaggioComeLettiRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setElencoMessaggioComeLettiResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElencoMessaggioComeNonLetti">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setElencoMessaggioComeNonLettiRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setElencoMessaggioComeNonLettiResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInUseCaseConcurrent">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findActorsForPersonaInUseCaseConcurrentRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findActorsForPersonaInUseCaseConcurrentResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault name="NoSuchUseCaseException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findActorsForPersonaInApplicationConcurrent">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findActorsForPersonaInApplicationConcurrentRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findActorsForPersonaInApplicationConcurrentResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaInUseCaseConcurrent">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getInfoPersonaInUseCaseConcurrentRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getInfoPersonaInUseCaseConcurrentResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault name="NoSuchUseCaseException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="identificaCertificato">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="identificaCertificatoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="identificaCertificatoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CertRevokedException">
+
+            <wsdlsoap:fault name="CertRevokedException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CertOutsideValidityException">
+
+            <wsdlsoap:fault name="CertOutsideValidityException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdProviderNotFoundException">
+
+            <wsdlsoap:fault name="IdProviderNotFoundException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaAutorizzataInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isPersonaAutorizzataInUseCaseRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isPersonaAutorizzataInUseCaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault name="NoSuchUseCaseException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isPersonaInRuolo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isPersonaInRuoloRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isPersonaInRuoloResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="BadRuoloException">
+
+            <wsdlsoap:fault name="BadRuoloException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInfoPersonaInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getInfoPersonaInUseCaseRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getInfoPersonaInUseCaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault name="NoSuchUseCaseException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInUseCase">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findRuoliForPersonaInUseCaseRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findRuoliForPersonaInUseCaseResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchUseCaseException">
+
+            <wsdlsoap:fault name="NoSuchUseCaseException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="findRuoliForPersonaInApplication">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findRuoliForPersonaInApplicationRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findRuoliForPersonaInApplicationResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="UnrecoverableException">
+
+            <wsdlsoap:fault name="UnrecoverableException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="IdentitaNonAutenticaException">
+
+            <wsdlsoap:fault name="IdentitaNonAutenticaException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="CSIException">
+
+            <wsdlsoap:fault name="CSIException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="SystemException">
+
+            <wsdlsoap:fault name="SystemException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="NoSuchApplicationException">
+
+            <wsdlsoap:fault name="NoSuchApplicationException" use="literal"/>
+
+         </wsdl:fault>
+
+         <wsdl:fault name="InternalException">
+
+            <wsdlsoap:fault name="InternalException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="orchflaiFlaidoorsrvService">
+
+      <wsdl:port binding="impl:orchflaiFlaidoorsrvSoapBinding" name="orchflaiFlaidoorsrv">
+
+         <wsdlsoap:address location="http://tst-applogic.reteunitaria.piemonte.it/orchflai-jb64ApplFlaidoorsrvWsfad/services/orchflaiFlaidoorsrv"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

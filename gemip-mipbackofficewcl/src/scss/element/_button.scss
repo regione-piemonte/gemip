@@ -1,0 +1,139 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-mip {
+  .tool-bar-button {
+    .mat-button-wrapper{
+      display: flex;
+      flex-direction: column;
+      align-items:center;
+      justify-content: center;
+      text-align: center;
+
+      .button-text {
+        font-weight: bold;
+        margin-top: -10px; /* Puoi regolare questa dimensione per spaziare il testo dalla icona. */
+      }
+    }
+  }
+
+
+  .btn-home-link {
+    border: 2px solid $primary-color;
+    @extend .py-3;
+    @extend .w-100;
+  }
+
+
+
+
+  .btn-link {
+
+    &--primary {
+      @extend .fw-bold;
+      @extend .btn-link;
+      color: $primary-color;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+
+/*
+  i button sono divisi:
+  per tipo (border - plain - full colored)
+  e per colore (primary - danger - warning - success)
+  btn full-colored = btn--primary
+  btn border = btn--ouline-primary
+  btn plain = btn--plain-text
+  viene aggiunto il suffisso primary / danger / warning per la gestione del colore
+  il mixin di riferimento per i button @mixin buttonColor($color) => @include buttonColor(variabile-colore);
+*/
+
+  .btn{
+    &--primary {
+      @include buttonColor($primary-color);
+    }
+    &--outline-primary {
+      box-shadow: none;
+      &:not(:hover) {
+        color: $primary;
+        background-color: $white;
+      }
+      @extend .btn-outline-primary;
+      border: 2px solid $primary-color;
+      @extend %upperBold;
+    }
+    &--plain-text {
+      @extend %upperBold;
+      &--primary{
+        color: $primary;
+        @extend %upperBold;
+      }
+      &--danger{
+        color: $danger;
+        @extend %upperBold;
+      }
+    }
+    &--success {
+      @include buttonColor($green-600);
+    }
+    &--danger{
+      @include buttonColor($red);
+    }
+    &--warning{
+      @include buttonColor($orange-500, $black);
+    }
+    &--logout {
+      @extend .px-0;
+      @extend .me-2;
+      &::before {
+        content: '';
+        // background-image: url('#{$pathImage}/icons/exit-icon.svg');
+        width: 21px;
+        height: 16px;
+        @extend .d-inline-block;
+      }
+    }
+    &--group-card {
+      @extend .d-flex;
+      @extend .mt-4;
+    }
+    font-size: 14px;
+  }
+  // .btn:hover{
+  //   background: #fff;
+  //   color: $primary-color;
+  //   border: $primary-color solid;
+  // }
+  // .btn{
+  //   border:solid;
+  // }
+  .c-pointer{
+    cursor: pointer;
+  }
+}
+

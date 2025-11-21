@@ -1,0 +1,305 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div *ngIf="!isNuovo" class="row not-stampa">
+  <button class="col-auto d-flex justify-content-start" mat-button aria-label="Indietro" (click)="tornaIndietro()"><mat-icon role="presentation">arrow_back</mat-icon></button>
+  <button class="col-auto ms-auto d-flex justify-content-end" mat-button (click)="selectedTab = 4" aria-label="Stampa"><mat-icon role="presentation">print</mat-icon></button>
+</div>
+
+
+<mat-tab-group class="mt-3"
+              [selectedIndex]="selectedTab"
+              (selectedIndexChange)="selectedTab = $event;"
+              (selectedIndexChange)="onTabSelected($event)">
+
+<!-- Handle dati identificativi -->
+<mat-tab label="Pre accoglienza">
+<form [formGroup]="form" class="myDivToPrint">
+  <mat-card>
+  <mat-card-content class="container-fluid">
+    <div class="row">
+      <span class="col-6 mb-3"><strong>Identificativo incontro: </strong>{{incontro ? incontro.id : "--"}}</span>
+    </div>
+    <div class="row">
+    <!-- Data -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+        <mat-label>Data</mat-label>
+        <input matInput
+
+                [matDatepicker]="data"
+                [matDatepickerFilter]="myFilter"
+                formControlName="data"
+                readonly>
+        <mat-datepicker-toggle matSuffix [for]="data" ></mat-datepicker-toggle>
+        <mat-datepicker  #data ></mat-datepicker>
+        <mat-error>
+          <app-control-messages [control]="form.controls['data'] | castFromControl"></app-control-messages>
+        </mat-error>
+    </mat-form-field>
+
+    <!--Numero partecipanti -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Numero massimo partecipanti</mat-label>
+      <input matInput   formControlName ="numMax">
+      <mat-error>
+        <app-control-messages [control]="form.controls['numMax'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Ora inizio-->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Ora inizio</mat-label>
+      <input matInput type="time" formControlName ="oraInizio">
+      <mat-error>
+        <app-control-messages [control]="form.controls['oraInizio'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+
+
+  <mat-slide-toggle class="col-md-3 col-sm-12" [checked]="flgDaRemoto" (toggleChange)="onToggleDaRemotoChange()" [disabled]="!canModify || isSaved" >Incontro da remoto</mat-slide-toggle>
+  <mat-checkbox class="col-md-3 col-sm-12" formControlName="incontroTelefonico" (change)="onIncontroTelefonico()" [disabled]="disableIncontroTelefonico">Incontro telefonico</mat-checkbox>
+
+    <!-- Area territoriale -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy" *ngIf="flgDaRemoto; else inpresenza">
+      <mat-label>Seleziona un'area territoriale</mat-label>
+      <mat-select formControlName ="area"
+                    [disabled]="form.controls.luogo.value!=='' && form.controls.luogo.value!==null "
+                    [(ngModel)]="areeTerritorialiSelezionate"
+                    [compareWith]="compareFnIncontro"
+                    multiple>
+        <mat-option *ngFor="let area of areeTerritoriali;"
+                             [value]="area">
+          {{area.descrizioneAreaTerritoriale}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['area'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <ng-template #inpresenza>
+      <mat-form-field class="col-md-6 col-sm-12" appearance="legacy" *ngIf="!flgDaRemoto">
+        <mat-label>Seleziona un'area territoriale</mat-label>
+        <mat-select formControlName ="area"
+                      [disabled]="form.controls.luogo.value!=='' && form.controls.luogo.value!==null "
+                      (selectionChange)="onAreaTerritorialeSelected()"
+                      >
+          <mat-option [value]="null">--</mat-option>
+          <mat-option *ngFor="let area of areeTerritoriali;"
+                              [value]="area.codiceAreaTerritoriale">
+            {{area.descrizioneAreaTerritoriale}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <app-control-messages [control]="form.controls['area'] | castFromControl"></app-control-messages>
+        </mat-error>
+        </mat-form-field>
+      </ng-template>
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy" [hidden]="!flgDaRemoto" >
+      <mat-label>Link per l'incontro</mat-label>
+      <input matInput formControlName ="link" [maxlength]="250" >
+      <mat-error>
+        <app-control-messages [control]="form.controls['link'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy"[hidden]="flgDaRemoto">
+      <mat-label>Seleziona un luogo </mat-label>
+      <mat-select formControlName ="luogo">
+        <mat-option [value]="null">--</mat-option>
+        <mat-option *ngFor="let luogo of sediFiltrate;"
+                             [value]="luogo.id?.toString()">
+          {{luogo.denominazione}} - {{luogo.indirizzo}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['luogo'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- Descrizione -->
+    <mat-form-field class="col-12" appearance="legacy">
+      <mat-label>Descrizione</mat-label>
+      <textarea matInput formControlName ="descrizione" class="custom-textarea" [maxlength]="maxLengthDescrizione" ></textarea>
+      <mat-error>
+        <app-control-messages [control]="form.controls['descrizione'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12" appearance="legacy">
+      <mat-label>Note</mat-label>
+      <textarea matInput formControlName="note" class="custom-textarea" [maxlength]="maxLengthDescrizione" ></textarea>
+      <mat-error>
+        <app-control-messages [control]="form.controls['note'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+  </div>
+  </mat-card-content>
+  </mat-card>
+</form>
+</mat-tab>
+
+<!-- ---------------------------------------------------- -->
+<!-- ################-Operatori presenti-################ -->
+<mat-tab label="Operatori presenti" [disabled]="!isSaved">
+  <app-operatori-incontro></app-operatori-incontro>
+</mat-tab>
+
+<!-- ---------------------------------------------------- -->
+<!-- ################-IDEE IMPRESA-###################### -->
+<mat-tab label="Idee d'impresa" *ngIf="!isNuovo">
+  <app-idee-di-impresa-incontro class="myDivToPrint"></app-idee-di-impresa-incontro>
+</mat-tab>
+
+
+<!-- ---------------------------------------------------- -->
+<!-- ################-Invio-###################### -->
+<mat-tab label="Invio comunicazione"  *ngIf="!isNuovo && !isRegionaleBase">
+  <mat-card class="myDivToPrint">
+
+      <mat-card-header>
+          <mat-card-title>Title</mat-card-title>
+          <mat-card-subtitle>Subtitle</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="myformSendComunicazione" #formSalva="ngForm">
+
+          <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+            <mat-label>Seleziona a chi vuoi inviare una comunicazione </mat-label>
+            <mat-select formControlName ="comunicazioneInviareA">
+              <mat-option value="">Tutti i partecipanti</mat-option>
+              <mat-option *ngFor="let item of listaIdeeImpresa" value="{{item.cittadino?.idCittadino}}">{{item.cittadino?.cognome+" "+item.cittadino?.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-sm-12" appearance="legacy">
+            <mat-label>Oggetto</mat-label>
+            <input matInput formControlName="comunicatoOggetto">
+          </mat-form-field>
+
+          <!-- Corpo -->
+          <mat-form-field class="col-12" appearance="legacy">
+            <mat-label>Corpo</mat-label>
+            <textarea matInput class="custom-textarea" formControlName="comunicatoCorpo" ></textarea>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions [align]="'end'">
+        <button
+                class="btn btn--plain-text--primary" [disabled]="formSalva.untouched  || (formSalva.touched && !formSalva.valid)" (click)="inviaComunicazione()">
+          INVIA COMUNICAZIONE
+        </button>
+      </mat-card-actions>
+  </mat-card>
+</mat-tab>
+
+
+<!-- ---------------------------------------------------- -->
+<!-- ################-Stampa-###################### -->
+<mat-tab label="Stampa"  *ngIf="!isNuovo">
+<div class="myDivToPrint">
+<mat-card class=" mb-3">
+<mat-card-content class="container-fluid">
+  <div class="row">
+    <span class="col-6 mb-3"><strong>Identificativo incontro: </strong>{{incontro ? incontro.id : "--"}}</span>
+  </div>
+<div class="row">
+  <!-- Data -->
+  <div class="col-3 mb-4"><strong>Data</strong></div>
+  <div class="col-3">{{ incontroInsert ?  (incontroInsert.incontroPreaccoglienza!.dataIncontro! | date:"dd/MM/yyyy")  : ""}}</div>
+  <!--Numero partecipanti -->
+  <div class="col-3"><strong>Numero massimo partecipanti</strong></div>
+  <div class="col-3">{{ incontroInsert ? incontroInsert.incontroPreaccoglienza!.numMaxPartecipanti : ""}}</div>
+
+  <!-- Ora inizio-->
+  <div class="col-3 mb-4"><strong>Ora inizio</strong></div>
+  <div class="col-3">{{incontroInsert ? (incontroInsert.incontroPreaccoglienza?.dataIncontro | date:"hh:mm") : ""}}</div>
+  <div class="col-3"><strong>Incontro remoto</strong></div>
+  <div class="col-3">{{incontroInsert ? (incontroInsert.incontroPreaccoglienza?.flgIncontroErogatoDaRemoto? "Si": "No"):""}}</div>
+
+  <!-- Area territoriale -->
+  <div class="col-3 mb-4"><strong>Area territoriale</strong></div>
+  <div class="col-3">{{incontroInsert ? incontroInsert.areaTerritoriale![0].descrizioneAreaTerritoriale :""}}</div>
+
+  <!-- Flag incontro telefonico  -->
+  <div class="col-3"><strong>Incontro telefonico</strong></div>
+  <div class="col-3">{{incontroInsert ? (incontroInsert.incontroPreaccoglienza?.flgIncontroTelefonico? "Si": "No"):""}}</div>
+
+  <!-- Luogo incontro -->
+  <div class="col-3 mb-4"><strong>Luogo incontro</strong></div>
+  <div class="col-3">{{incontroInsert ? incontroInsert.incontroPreaccoglienza?.luogoIncontro?.denominazione:""}}</div>
+
+  <!-- Link Incontro -->
+  <div class="col-3 mb-4"><strong>Link incontro</strong></div>
+  <div class="col-3">{{incontroInsert ?  incontroInsert.incontroPreaccoglienza?.linkIncontroRemoto:""}}</div>
+
+  <!-- Descrizione -->
+  <div class="col-3 mb-4"><strong>Descrizione</strong></div>
+  <div class="col-3">{{incontroInsert ? incontroInsert.incontroPreaccoglienza?.denominazione:""}}</div>
+
+  <!-- Note -->
+  <div class="col-3 mb-4"><strong>Note</strong></div>
+  <div class="col-3">{{incontroInsert ? incontroInsert.incontroPreaccoglienza?.note:""}}</div>
+
+</div>
+</mat-card-content>
+</mat-card>
+
+<app-operatori-incontro [isStampa]="true"></app-operatori-incontro>
+<div class="mb-3"></div>
+
+<app-idee-di-impresa-incontro [isStampa]="true" ></app-idee-di-impresa-incontro>
+<div class="mb-3"></div>
+</div>
+
+<div class="btn--group-card">
+  <div class="ms-auto p-2">
+    <button mat-button
+            class="btn btn--primary"
+            aria-label="Stampa dati incontro"
+            (click)="print()">STAMPA</button>
+  </div>
+
+</div>
+
+</mat-tab>
+
+</mat-tab-group>
+
+<div class="btn--group-card">
+  <div *ngIf="!isModifica && !isNuovo && selectedTab == 0" class="col-6 d-flex justify-content-start">
+    <button mat-button
+            *ngIf="selectedTab==0"
+            class="btn btn--primary"
+            aria-label="salva dati incontro"
+            (click)="onGoToNew()">Nuovo</button>
+  </div>
+  <div [ngClass]="!isModifica && !isNuovo ? 'col-6 d-flex justify-content-end' : 'col-12 d-flex justify-content-end mr-3'">
+    <button mat-button *ngIf="selectedTab==0 && canModify"
+            class="btn btn--primary"
+            aria-label="salva dati incontro"
+            (click)="onSalva()">SALVA</button>
+  </div>
+</div>
+
+
+
+

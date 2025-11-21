@@ -1,0 +1,82 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+$white: #FFFFFF;
+$black: #000000;
+
+$blue: #006CB4; //barra blu alert info || primary color
+$blue-300: #DBEEF7; //sfondo blu alert info
+$blue-400: #178CD6;
+$blue-700: #005CA9;
+$blue-900: #213366;
+
+$yellow: #F8E60D; //barra gialla alert warning
+$yellow-400: #FDF9E5; //sfondo giallo alert warning
+
+$orange: #bf5a0c;
+
+$red: #FF0000; //barra rosso alert error
+$red-400: #f1dddd; //sfondo rosso alert error
+
+$green: #61B87A; //barra verde alert success
+$green-400: #DFF0D9; //sfondo verde alert success
+$green-600: #007E2C;
+
+
+$grey: #D3D3D3;
+$grey-200: #F7F7F7;
+$grey-300: #f0f3f8;
+$grey-400: #EAEAEA;
+$grey-900: #939393;
+
+
+$primary-color: $blue;
+$secondary-color: $orange;
+
+$success: $green;
+$info: $blue;
+$danger: $red;
+$warning: $yellow;
+$light: $white;
+$dark: $black;
+
+$theme-colors: (
+  "primary":    $primary-color,
+  "secondary":  $secondary-color,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+)!default;
+
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+)!default;

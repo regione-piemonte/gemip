@@ -1,0 +1,557 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+.green-icon, .finished-activity {
+  color: #2db14a;
+}
+a {
+  text-decoration: none !important;
+  color: #000000;
+}
+.current-activity {
+  color: #3c8af8;
+}section
+.border-dashed {
+  border-style: dashed !important;
+  border-color: #d6860f !important;
+}
+.dash-item-icon {
+  height: 50px;
+}
+.clear-both{
+  clear: both;
+}
+
+section{
+  font-size: 1.12em;
+  font-weight: 400;
+}
+
+article{
+  margin: 0 30px;
+}
+#dashboardSaluto{
+  li::marker {
+  
+    font-weight: bold; 
+    font-size: 20px;
+    color: green !important;
+    list-style-position:inside !important;
+  }
+  ul{
+    padding-left: 32px;
+    list-style: disc !important;
+  }
+
+  figure {
+    width: 50%; 
+    display: inline-block;
+    max-width: 145px;
+    padding: 15px 15px 15px 0px;
+    img{
+      width: 90%; 
+      margin-bottom: 0px;
+    }
+  }
+  h2{
+    display: inline;
+  }
+  div:first-child{
+    width: 60%; 
+    display: inline-block;
+  }
+  
+  
+}
+
+#dashboardIncontroCollettivo{
+  margin-bottom: 90px;
+  clear: both;
+
+  figure{
+    display: flex; 
+    justify-content: center; 
+    img{
+      width: 80%;
+    }
+  }
+
+  button{
+    width: 30%;
+
+  }
+
+}
+
+#dashboardPunto{
+  div{
+    .alert:first-child{
+      display: flex;
+      font: normal normal 700 18px/24px Titillium Web;
+      div{
+        display: inline-block;
+        width: 10%; 
+
+      }
+
+      p{
+        margin-left: 5px;
+      }
+    }
+    .card--dashboard{
+      margin-bottom: 30px;
+      min-height: 395px;
+
+      .mat-card-header .mat-card-title{
+        font-size: 1em;
+        font-weight: 200;
+      }
+      .mat-card-content{
+        gap:0px;
+        min-height: 192px;
+        div{
+          width: 60%;
+        }
+      } 
+      .btn--secondary{
+        color:black;
+        border: #000000 solid 2px;
+      }
+      figure{
+        img{
+          height: 130px;
+        }
+      }
+
+      .card-content--tutor{
+        flex-direction: column;
+        padding: 15px 5px;
+        gap: 15px;
+        div{
+          width: 90%;
+        }
+        .alert{
+          display: block;
+        }
+      }
+    }
+
+    h3 .done-icon-title{
+      font-size: 18px;
+      height: 20px;
+      width: 20px;
+      overflow: visible !important;
+    }
+
+    h3 .notDone-icon-title{
+      font-size: 18px;
+      height: 20px;
+      width: 20px;
+      overflow: visible !important;
+    }
+
+    .prenotato-modifica button{
+      color:black;
+      border: #000000 solid 2px;
+      width: 200px;
+    }
+
+    .card--tutor-scelto{
+      min-height: 215px;
+      gap: 0;
+      
+      .card-content--tutor-scelto{
+        padding-top: 10px;
+        display: block;
+        figure{
+          padding: 0 5%;
+          margin-top: 10px;
+          width: 90%;
+          display: inline-block;
+          margin: auto;
+        }
+        div{
+          padding-top: 10px;
+          margin: auto;
+          width: 90%;
+          p:last-child{
+            width: 90%;
+            margin-left: 20px;
+          }
+        }
+      }
+      
+    }
+
+    .card--adesso{
+
+      .card-content--adesso{
+        padding-top: 0;
+        display: block;
+        figure{
+          width: 90%;
+          padding-left: 5%;
+          margin: auto;
+        }
+        div{
+          width: 80%;
+          margin: auto;
+          ul{
+            font-size: 1.25em;
+            margin-top: 20px;
+            list-style-position: initial;
+          }
+          
+        
+          li::marker {
+            font-size: 1.7em;
+            color: #429A36;
+            font-weight: 900;
+            line-height: 1em;
+          }
+          p:last-child{
+            width: 100%;
+          }
+        }
+        div > span{
+          padding: 10px;
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+
+  }
+}
+
+#questionario{
+  div{
+    button{
+      border: #000000 2px solid;
+      color: #000000;
+      font-weight: bolder;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .a-capo::after{
+    content: "\A";
+    white-space: pre-wrap;
+  }
+
+  section{
+    font-size: 1.1em;
+    font-weight: 400;
+    line-height: 1.2em;
+    padding: 0;
+  }
+  article{
+    margin:0;
+    padding: 0 20px;
+  }
+
+  #dashboardIncontroCollettivo{
+    background: linear-gradient(0deg,#FABA09 0%, #FFFFFF 40%);
+  }
+
+  #questionario{
+    figure{
+      img{
+        width: 50%;
+      }
+    }
+    div{
+      padding-top: 0 !important;
+      padding-bottom: 20PX;
+      width: 100%;
+      button{
+        border: #000000 2px solid;
+        color: #000000;
+        font-weight: bolder;
+      }
+    }
+    margin-bottom: 50px;
+  }
+}
+
+
+
+// ################################################################
+// #  piu di 760px
+@media only screen and (min-width: 761px) {
+  section{
+    padding: 0;
+    justify-content: center;
+    padding-top: 60px;
+  }
+  .a-capo-largo::after{
+    content: "\A";
+    white-space: pre-wrap;
+  }
+  section > div{
+    background: linear-gradient(0deg,#FABA09 0%, #FFFFFF 40%);
+  }
+  
+  article{
+    margin-bottom: 100px;
+    max-width: 1260px;
+    width: 100%;
+    margin: auto;
+  }
+
+
+  #dashboardSaluto{
+    figure {
+       float: left;
+       width: 20%; 
+       min-width: 165px;
+       padding: 0;
+       margin-left: 2%;
+       margin-bottom: 0;
+       img{
+         width: 90%; 
+         margin-bottom: 80px;
+       }
+     }
+     h2{
+      padding-left: 5%;
+      float: left ;
+      width: 70%;
+      padding-bottom: 15px;
+     }
+     div{
+      padding-left: 5%;
+       float: left;
+       width: 75%;
+       
+     }
+     
+   }
+
+   #dashboardIncontroCollettivo{
+    //margin-top: 50px;
+    align-items: flex-end;
+
+    div{
+      padding: 0;
+      padding-bottom: 50px;
+      margin: 0;
+
+      
+      button{
+        width: 100px;
+        margin-top: 25px;
+       }
+    }
+    figure{
+      padding: 0 10px;
+    }
+   }
+
+   #dashboardPunto{
+    h2{
+      margin-bottom: 50px;
+    }
+    div{
+      .alert:first-child{
+        display: flex;
+        width: 100%;
+        font: normal normal 700 18px/24px Titillium Web;
+        gap:10px;
+        margin-top: 20px;
+        div{
+          width: auto; 
+          
+          mat-icon{
+            font-size: 40px;
+            width: 42px;
+            height: 42px;
+          }
+        }
+  
+        p{
+          margin-left: 5px;
+          margin-bottom: 0;
+          width: 80%;
+          max-width: 900px;
+        }
+      }
+      
+      
+      .card--dashboard{
+        min-height: 425px;
+        .mat-card-content{
+          padding-top: 30px;
+          div{
+            width: 80%;
+            
+            h3{
+              margin: auto;
+              width: 79%;
+              font: normal normal bolder 24px/32px Titillium Web;
+            }
+          }
+          
+        } 
+
+        .card-content--tutor{
+          display: block;
+          gap:0;
+          figure{
+            width: 25%;
+            float: left;
+            margin-top: 55px;
+            height: 135px;
+          }
+
+          div{
+            margin-top: 30px;
+            width: 60%;
+            display: inline-block;
+            font-size: 1.25em;
+            text-align: justify;
+
+            p.alert-warning{
+              font-size: 0.97em;
+            }
+          }
+        }
+
+        
+      }
+
+      .card--tutor{
+        min-height: 292px;
+      }
+
+      h3 .done-icon-title{
+        font-size: 28px;
+        height: 30px;
+        width: 30px;
+        overflow: visible !important;
+        margin-right: 15px;
+      }
+      .prenotato{
+        min-height: 300px !important;
+        padding-top: 0 !important;
+      }
+      .card-content--prenotato{
+        display: flex;
+        padding-top: 0 !important;
+        figure{
+          width: 45%;
+          img{
+            height: 250px;
+          }
+        }
+        .data{
+          width: 40% !important;
+        }
+        .orario{
+          width: 50% !important;
+        }
+      }
+
+      .card--tutor-scelto{
+        min-height: 215px;
+        gap: 0;
+        .card-content--tutor-scelto{
+          padding-top: 0;
+          display: flex;
+          justify-content: flex-start;
+          width: 100%;
+          figure{
+            padding: 0 5%;
+            width: 20%;
+            padding: 0;
+            img{
+              width: 100%;
+              
+            }
+          }
+          div{
+            padding-top: 10px;
+            width: 65%;
+            p:last-child{
+              width: 90%;
+            }
+          }
+        }
+        
+      }
+
+      .card--adesso{
+
+        .card-content--adesso{
+          padding-top: 30px;
+          display: flex;
+          justify-content: flex-start;
+          width: 100%;
+          figure{
+            width: 40%;
+            
+            img{
+              height: 250px;
+            }
+          }
+          div{
+            padding-top: 30px 0;
+
+            width: 50%;
+            ul{
+              font-size: 1.25em;
+              margin-top: 20px;
+              margin-left: 50px;
+              width: 90%;
+            }
+        
+            li::marker {
+              font-size: 1.7em;
+              color: #429A36;
+              font-weight: 900;
+              line-height: 1em;
+            }
+            p:last-child{
+              width: 75%;
+              margin: auto;
+              font-size: 2em !important;
+            }
+          }
+          div > span{
+            padding: 10px;
+            text-align: left;
+            width: auto;
+          }
+        }
+      }
+    }
+    
+  }
+}
+
+@media only screen and (min-width: 761px) and (max-width: 1290px){
+  article{
+    padding: 0 2%;
+  }
+}

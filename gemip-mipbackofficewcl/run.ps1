@@ -1,0 +1,1 @@
+docker run -v ${PWD}:/app -p 4200:4200 --rm -it --network host docker-base.ecosis.csi.it/angular:12.2.12-node16-csi-r1 ng serve --host 0.0.0.0 --poll

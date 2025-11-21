@@ -1,0 +1,121 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h5 class="mb-5">Elenco idee d'impresa iscritte</h5>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container-fluid">
+    <ng-container *ngIf="!isStampa" >
+      <div  class="row">
+        <div class="col-12 d-flex justify-content-end">
+          <button
+              mat-button
+              class="btn btn--primary"
+              aria-label="esporta l'elenco partecipanti in excel"
+              (click)="exportExcel()">
+              Esporta partecipanti
+          </button>
+
+            <button
+            mat-button
+            class="btn btn--primary ms-2"
+            (click)="exportPdf()"
+            >Stampa foglio presenze</button>
+        </div>
+      </div>
+    </ng-container>
+
+
+      <!-- Tabella -->
+      <!-- <div class="mt-5"> -->
+      <div>
+        <app-table
+          [rowData]="rowDataIdeeImp"
+          [buttonList]="buttonsTabellaIdeeImp"
+          [tableSettings]="tableSettingsIdeeImp"
+          [columnList]="columnListIdeeImp"
+          [isStampa]="isStampa"
+          (pageIndexSizeChange)="onPageIndexSizeChange($event)"
+        >
+        </app-table>
+      </div>
+
+
+  </mat-card-content>
+</mat-card>
+
+<!-- Modale raggruppa -->
+<!--
+  <ng-template #utentiIdee>
+  <div>
+    
+  </div>
+  <h2 mat-dialog-title>Selezionare utenti da raggruppare</h2>
+  <hr />
+
+  
+  <section mat-dialog-content class="dialog-content">
+    <div class="container">
+      <div *ngFor="let persona of ideeImpToMerge" class="row">
+        <div class="col-12">
+          <mat-checkbox [(ngModel)]="persona.merge" [attr.aria-label]="'raggruppa '+persona.titolo+ '  ' + persona.nominativoCittadino ">
+            </mat-checkbox>
+          {{persona.titolo + " / " + persona.nominativoCittadino}}
+        </div>
+        <hr />
+      </div>
+    </div>
+  </section>
+  <div
+    mat-dialog-actions
+    [align]="'end'"
+    class="d-flex border-top border-1 justify-content-between mt-3"
+  >
+    <div class="p-2">
+      <button
+        mat-dialog-close
+        mat-button
+        class="btn btn--outline-primary"
+        aria-label="annulla modifica"
+      >
+        ANNULLA
+      </button>
+    </div>
+    <div class="p-2">
+      <button
+        mat-dialog-close
+        mat-raised-button
+        class="btn btn--primary"
+        aria-label="conferma modifica"
+        (click)="onClickRaggruppa()"
+      >
+        CONFERMA
+      </button>
+    </div>
+  </div>
+</ng-template>
+-->
+

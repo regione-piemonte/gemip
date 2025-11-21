@@ -1,0 +1,156 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-mip {
+  .menu-home {
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 300px;
+    max-width: 500px;
+    background-color: rgb(255, 255, 255);
+    @extend .p-2;
+    @extend .rounded-bottom;
+  }
+
+  .menu-home .menu-home-item {
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+    min-width: 64px;
+    line-height: 36px;
+
+    @extend .p-2;
+    @extend .d-flex;
+    @extend .flex-row;
+
+    font-size: large;
+  }
+
+  .menu-home .menu-home-item:hover {
+    background-color: $grey-500;
+  }
+  .mat-list-item {
+    &:not(.menu-expanded):not(.list-menu--openclose) {
+      .mat-list-item-content {
+        @extend .justify-content-center;
+      }
+    }
+
+  }
+
+
+  .menu-expanded  {
+    .mat-icon{
+      color: $primary-color;
+    }
+    .menu-item {
+      padding-left: 12px;
+      color: $primary-color;
+      @extend .fw-bold;
+    }
+
+    &.list-item-active {
+      .mat-list-item-content {
+        .nav-a {
+          border-left: 3px solid $red;
+          margin-left: -3px;
+          color: $black;
+        }
+
+      }
+
+    }
+    &:not(.categoriaSideMenu):not(.list-item--home) { //-Se mettiamo delle sotto categorie
+      .menu-item {
+        padding-left: 20px!important;
+      }
+    }
+
+    &.categoriaSideMenu {
+      &.list-item-active {
+        background-color: transparent;
+        .mat-list-item-content {
+            // box-shadow: -3px 0px $red;
+            // color: $black;
+          .menu-item {
+            box-shadow: none;
+          }
+        }
+
+      }
+      .menu-item {
+        color: $black;
+      }
+    }
+  }
+
+
+
+  //================================================================
+  //-Menu laterale
+  .mat-sidenav {
+    .mat-nav-list {
+      .expantion-button {
+        transition: 300ms ease-in-out;
+        transform: rotate(0deg);
+      }
+      .expantion-button.rotated {
+        transform: rotate(180deg);
+      }
+
+      .categoriaSideMenu{
+        text-decoration: solid;
+        //cursor: context-menu;
+      }
+
+      .categoriaSideMenu:hover{
+        background-color: rgba($primary-color, .1);
+      }
+      .nav-a{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+      }
+    }
+  }
+  .list-menu--openclose {
+    padding-right: 0px!important;
+    .mat-list-item-content {
+      justify-content: end;
+    }
+  }
+  .mat-sidenav-container {
+    // min-height: calc(100vh - 100px);
+    height: 100%;
+    background-color: $grey-300;
+  }
+  .categoriaSideMenu {
+    &.list-item-active {
+      background-color: rgba($primary-color, .2);
+    }
+  }
+
+}

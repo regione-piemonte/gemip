@@ -1,0 +1,148 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<section class="container-fluid">
+
+  <!-- Titolo -->
+<div class="row">
+  <div class="col">
+    <h2>Scegli il soggetto attuatore (tutor)</h2>
+  </div>
+</div>
+
+  <!-- il tuo tutor -->
+  <mat-card class="my-5 border border-2">
+    <mat-card-content class="container-fluid">
+      <div class="row">
+        <!-- Icona -->
+        <figure class="col-md-4 col-xs-12">
+          <img alt="scelta tutor"
+              [src]="'/assets/scelta-tutor/tutor.svg'">
+        </figure>
+
+        <div class="col-md-8 col-xs-12">
+          <div class="row" >
+            <!-- Titolo dell'idea-->
+            <div class="col-12" >
+              <p>Regione Piemonte ha istituito un elenco regionale di <strong> soggetti attuatori</strong> specializzati nella realizzazione di servizi a sostegno della creazione d'impresa e del lavoro autonomo</p>
+              <p>In questa <a href="https://www.mettersinproprio.it/cose-mip" target="_blank"><strong>pagina</strong></a>, puoi consultare una<strong> breve descrizione</strong> dei soggetti attuatori operanti nelle diverse aree territoriali del Piemonte</p>
+              <p><strong> Seleziona</strong> il soggetto attuatore operante sulla tua area con il quale intendi intraprendere il percorso di accompagnamento</p>
+
+            </div>
+
+            <!-- Come hai conosciuto MIP -->
+            <form [formGroup]="formScelta">
+              <div class="col-6" >
+                <mat-form-field *ngIf="sbloccoAreaTerritoriale" appearance="legacy">
+                  <mat-label>Area Territoriale</mat-label>
+                  <mat-select formControlName="soggettoArea" (selectionChange)="onAreaTerritorialeChange()">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let area of areeTerriList;
+                      index as i;" [value]="area.codiceAreaTerritoriale">
+                      {{area.descrizioneAreaTerritoriale}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field  appearance="legacy">
+                  <mat-label>Soggetti attuatori </mat-label>
+                  <mat-select formControlName="soggettoAttuatore">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let s of soggettiAttuatori" [value]="s">
+                      {{s.soggettoAttuatore?.gruppoOperatore! + s.soggettoAttuatore?.codOperatore + "-"}}{{s.soggettoAttuatore?.denominazione}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+
+
+  <!-- Piulsanti In fondo -->
+  <div class="row mt-5">
+    <div class="col-6 d-flex justify-content-start" ><button mat-button  class="btn btn--link-primary" aria-label="torna alla home" [routerLink]="'/dashboard/home'">INDIETRO</button></div>
+    <div class="col-6 d-flex justify-content-end" ><button [disabled]="!formScelta.valid"  mat-button  class="btn btn--primary" aria-label="conferma scelta tutor"  (click)="openDialogConferma()" >INVIA</button></div>
+  </div>
+
+</section>
+
+
+
+<ng-template #conferma>
+
+  <!-- Title -->
+  <h2 mat-dialog-title>Invio dati</h2>
+
+  <!-- Content -->
+  <section mat-dialog-content style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row py-3"><p>
+      <mat-icon class="done-icon-title" style="margin-right: 10px;">done</mat-icon>
+      I dati sono stati inviati correttamente.</p></div>
+  </section>
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="dati salvati correttamente torna alla home"
+              (click)="onConfermaVerifica()">
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #attenzione>
+  <!-- Title -->
+  <h2 mat-dialog-title>Attenzione!</h2>
+  <!-- Content -->
+  <section mat-dialog-content style="max-height: 70vh">
+    <!-- Date & Time -->
+    <div class="row py-3"><p>
+      <mat-icon class="done-icon-title" style="color: white; background-color: red  !important; margin-right: 10px;">close</mat-icon>
+      Hai già effettuato la scelta del tutor e non è possibile modificarla.</p></div>
+  </section>
+  <!-- Actions -->
+  <div  mat-dialog-actions
+        [align]="'end'">
+    <div class="p-2">
+      <button mat-dialog-close
+              mat-raised-button
+              class="btn btn--primary"
+              aria-label="dati non salvati correttamente torna alla home"
+              [routerLink]="'/dashboard/home'">
+        TORNA ALLA HOME PAGE
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+

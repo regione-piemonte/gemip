@@ -1,0 +1,242 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-mip {
+  background-color: $grey-300;
+  font-family: $font-titillium !important;
+
+#content{border-top: 3px solid #1F66AB; }
+  .main-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    app-nav-bar{
+      flex: 1; /* Prende lo spazio rimanente nel container */
+    }
+
+    .mat-tab-label, .mat-tab-link {
+      color: #000;
+      opacity: 1;
+      &.mat-tab-disabled, &.mat-tab-disabled {
+        color: rgba(0, 0, 0, 0.87);
+        opacity: .6;
+      }
+    }
+  }
+
+
+
+  @mixin backGoundCustom ($colorBG:null, $colorText:null) {
+    @if $colorBG == null{
+      background: $red;
+    }
+    @else{
+      background: $colorBG;
+    }
+    @if $colorText == null{
+      color: $white;
+    }
+    @else{
+      color: $colorText;
+    }
+  }
+  .legenda{
+    background-color: white!important;
+    margin:0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  ul{
+      text-align: left;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin:0;
+      .circle {
+
+      &-blue::marker {
+        font-size: 2rem;
+       color:#1e90ff;
+      }
+      &-yellow::marker {
+        font-size: 2rem;
+        color:#e3bc08;
+      }
+
+
+    }
+  }
+
+  .mat-drawer-inner-container {
+   // height: calc(100vh);
+   min-height: 1130px;
+  }
+  .mat-sidenav-container {
+    min-height: 1130px;
+    .mat-list-base .mat-list-item.mat-list-item-with-avatar, .mat-list-base .mat-list-option.mat-list-item-with-avatar {
+      height: 50px;
+    }
+  }
+.mat-drawer-content {height: auto;}
+.mat-stroked-button{ border: 2px solid $primary; margin-left: 8px; color:  $primary; font-weight: bold;}
+.navigation{padding: 24px 0;}
+  // .status-container{
+  //   padding-top: 0.5rem;
+  //   margin-left: auto;
+  //   margin-right: 0.5rem;
+  // }
+
+  // .info-container{
+  //   @extend .card-body--info;
+  //   border-radius: 5px;
+  //   padding: 1.5rem;
+  // }
+
+
+  // .myDivToPrint {
+  //   display: none;
+  // }
+
+  .btn:disabled{
+      color: #fff !important;
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+  }
+  .mat-select-disabled .mat-select-value{color: #6c757d !important;}
+  .mat-checkbox-disabled .mat-checkbox-label {
+    color: #6c757d !important;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  #app-mip {
+    font-size: 14px;
+    line-height: 18px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    overflow: visible!important;
+
+    .not-stampa {
+      display: none;
+    }
+
+    button {
+      display: none;
+    }
+
+    .btn--group-card {
+      display: none;
+    }
+
+    ::-webkit-scrollbar {
+      // nasconde le scrollbar in chrome e safari
+      display: none;
+    }
+
+    // vari comonenti material da nascondere:
+
+    .mat-tab-body-content {
+      overflow: visible!important;
+    }
+
+    .mat-tab-body {
+      overflow: visible!important;
+    }
+
+    mat-sidenav-content {
+      margin: 0!important;
+    }
+
+    mat-tab-header {
+      display: none;
+    }
+
+    .mat-card {
+      box-shadow: none;
+      margin: 0;
+    }
+
+    h5.mb-5 {
+      margin-bottom: 5px!important;
+    }
+
+    /* div {
+      border: solid 1px; //debug
+    } */
+  }
+}
+
+#app-mip .btn--plain-text--primary.esporta-excel {
+  box-shadow: none;
+  border:0 ;
+  width: auto;
+}
+table.mat-table thead th .mat-checkbox-frame {
+  border-color: #fff;
+}
+table.mat-table thead th{ color: #fff; background: $primary;border-right: 1px solid #fff; font-size: 14px; font-weight: bold;}
+table.mat-table tr:nth-child(even) {background: #f7f7f9;}
+table.mat-table tr:nth-child(odd) {background: #fff;}
+.mat-expansion-panel-header-title.search-icon {
+  background: url("../../assets/image/search.svg") 0 0 no-repeat;
+  padding-left: 25px;
+}
+/*salta contenuto*/
+.skip-link{
+  border:0;clip:rect(1px,1px,1px,1px);
+  -webkit-clip-path:inset(50%);
+  clip-path:inset(50%);
+  height:1px;margin:-1px;
+  overflow:hidden;
+  padding:0;
+  position:absolute;
+  width:1px;
+  word-wrap:normal!important;
+  }
+
+  .skip-link:focus{
+  background-color:#fff;
+  clip:auto!important;
+  -webkit-clip-path:none;
+  clip-path:none;
+  color:#005b9f;
+  display:block;
+  font-size:1em;
+  height:auto;
+  left:5px;
+  line-height:normal;
+  padding:15px 23px 14px;
+  text-decoration:none;
+  top:5px;
+  width:auto;
+  z-index:100000;
+  }
+  .text-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

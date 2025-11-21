@@ -1,0 +1,112 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-mip {
+  header{ background: #fff;}
+  .toolbar {
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .title{
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 40px;
+      margin-left: 30px;
+      color: #2066AB;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .mat-toolbar {
+      background-color: $white;
+      color: #1F66AB;
+      font-family: $font-titillium;
+      
+     .bry{
+        border-bottom: 8px solid #FABA00; 
+      }
+
+    }
+    .mat-toolbar-row{padding: 0;}
+    .mat-toolbar-row--second{  
+   
+      background: $primary;
+      color: #fff;
+        .container-fluid{
+
+          .container-header--second{
+            display: flex;
+            justify-content: flex-end;
+            //@extend .p-5;
+            .btn-user{
+              &--menu {
+                @extend .d-inline-flex;
+                @extend .align-items-center;
+                @extend .justify-content-center;
+                @include btn-app(round, white);
+                border: 1px solid #fff;
+                width: 40px;
+                height: 40px
+              }
+            }
+            .tool-bar-button {
+              margin-right: 2rem;
+              .mat-button-wrapper{
+                display: flex;
+                flex-direction: column;
+                align-items:center;
+                justify-content: center;
+                text-align: center;
+
+                .button-text {
+                  font-weight: bold;
+                  margin-top: -10px; /* Puoi regolare questa dimensione per spaziare il testo dalla icona. */
+                }
+              }
+            }
+
+          }
+    
+        }
+
+
+        .title-h1 {
+          @extend .d-flex;
+          @extend .align-items-center;
+          //white-space: break-spaces;
+
+          .icon-title {
+            svg {
+              filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+            }
+          }
+        }
+  
+    }
+
+    .mat-menu-content:not(:empty){
+      padding: 0px;
+      border: 1px solid;
+    }
+  }
+}
+

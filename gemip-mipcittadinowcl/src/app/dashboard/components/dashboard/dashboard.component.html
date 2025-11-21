@@ -1,0 +1,513 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<section class="container-fluid">
+  <!-- Saluto -->
+  <article id="dashboardSaluto">
+    <figure>
+      <img
+        alt="icona-profilo"
+        aria-label="icona-profilo"
+        src="assets/dashboard/{{ sessoIcon }}.svg"
+      />
+    </figure>
+
+    <h2>Ciao {{ cittadino && cittadino.nome ? cittadino.nome : "" }}</h2>
+
+    <div>
+      <p>
+        <strong>MIP - Mettersi in proprio</strong> è il programma regionale che ti
+        aiuterà a realizzare i tuoi progetti attraverso
+        <span class="a-capo-largo"> </span> servizi di accompagnamento alla
+        creazione d'impresa che prevedono le seguenti fasi:
+      </p>
+      <ul>
+        <li>
+          Partecipazione
+          <strong>all'incontro collettivo di pre-accoglienza</strong> nel quale
+          ti verranno fornite le prime informazioni
+        </li>
+        <li>
+          Possibilità di scegliere un <strong>soggetto attuatore</strong> che
+          con i suoi <strong>tutor</strong> ti affiancherà, gratuitamente,
+          durante il percorso
+        </li>
+        <li>
+          Partecipazione agli <strong>incontri individuali</strong> finalizzati
+          a strutturare il tuo business plan/piano di attività
+        </li>
+        <li>
+          Tutoraggio per l'<strong>avvio della tua attività</strong> di
+          impresa/professionale
+        </li>
+      </ul>
+    </div>
+  </article>
+  <div class="clear-both"></div>
+  <!-- Incontro collettivo -->
+  <div>
+    <article
+      id="dashboardIncontroCollettivo"
+      class="row"
+      *ngIf="lista[0] && !lista[0].completed"
+    >
+      <div class="col-xs-12 col-md-7">
+        <h2>Partecipa all'incontro collettivo</h2>
+        <p>
+          Per partecipare a MIP ti invitiamo a
+          <strong>prenotare uno degli incontri</strong> calendarizzati
+          scegliendo la modalità di partecipazione (online o in presenza) e a
+          <strong>fornirci qualche informazione</strong> su di te e sulla tua
+          idea d'impresa
+        </p>
+        <button class="btn btn--primary" (click)="navigatePath(lista[0].path)">
+          INIZIA
+        </button>
+      </div>
+      <figure class="col-xs-12 col-md-5">
+        <img
+          alt="icona-inizio"
+          aria-label="icona-inizio"
+          [src]="'/assets/dashboard/incontro_collettivo.svg'"
+        />
+      </figure>
+    </article>
+  </div>
+
+  <!-- A che punto sei -->
+  <article id="dashboardPunto">
+    <!-- Titolo 1 -->
+    <h2>A che punto sei?</h2>
+
+    <!-- I vari Step -->
+    <div *ngIf="lista[3] && !lista[3].completed" class="row">
+      <h3>Prenota l'incontro collettivo</h3>
+
+      <div class="col-12">
+        <div class="alert alert-warning" Aria-atomic="true" role="alert">
+          <div class="col-md-2">
+            <mat-icon aria-label="icona-attenzione">warning</mat-icon>
+          </div>
+
+          <p class="col-md-10" style="font-weight: lighter !important;">
+            <strong style="font-size: 30px;">Attenzione!</strong><br> <span class="a-capo"></span> Per portare a termine la
+            prenotazione dell'incontro collettivo, è necessario completare tutti
+            i passi. Se <strong>non viene completata </strong>la registrazione entro <strong>30 giorni</strong>, i dati 
+            verranno <strong>eliminati</strong>.
+          </p>
+        </div>
+      </div>
+      <!-- Alert -->
+      <div class="col-xs-12 col-md-3" *ngFor="let item of lista; let i = index">
+        <mat-card class="card--dashboard card--step">
+          <mat-card-header
+            [ngClass]="item.completed == true ? 'completed' : 'to-complete'"
+          >
+            <mat-card-title>{{
+              item.completed ? "Completato" : "Da completare"
+            }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="card-content--step">
+            <figure class="row">
+              <img
+                alt="icona-{{ item?.icon }}"
+                [attr.aria-label]="'icona-' + item?.icon"
+                [src]="'/assets/dashboard/' + item?.icon + '.svg'"
+              />
+            </figure>
+            <!--Image-->
+            <div class="row">
+              <h3 class="card--label">{{ item?.label }}</h3>
+            </div>
+            <!-- Title -->
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button
+              *ngIf="item.enabled"
+              mat-button
+              class="btn"
+              [ngClass]="item.completed ? 'btn--secondary' : 'btn--primary'"
+              (click)="navigatePath(item.path)"
+            >
+              {{ item.completed ? "MODIFICA" : "INIZIA" }}
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <!-- End opzioni-->
+    </div>
+    <!-- End row-->
+
+    <!-- Conferma del riepilogo -->
+    <div
+      *ngIf="lista[3] && lista[3].completed && !isPresenteAIncontro"
+      class="row"
+    >
+      <div class="col-12 mb-3">
+        <h3 style="display: flex; gap: 20px">
+          <mat-icon
+            class="done-icon-title"
+            [ngStyle]="
+              isAssenteAIncontro || isIncontroDisdetto
+                ? { color: 'white', 'background-color': 'red' }
+                : {}
+            "
+            >{{
+              isAssenteAIncontro || isIncontroDisdetto ? "close" : "done"
+            }}</mat-icon
+          >
+          <p
+            *ngIf="
+              lista[3] &&
+              lista[3].completed &&
+              !isPresenteAIncontro &&
+              !isAssenteAIncontro &&
+              !isIncontroDisdetto
+            "
+          >
+            Hai prenotato la partecipazione all'incontro di pre-accoglienza!
+          </p>
+          <p *ngIf="isAssenteAIncontro">
+            Non hai partecipato all'incontro di pre-accoglienza!
+          </p>
+          <p *ngIf="isIncontroDisdetto">
+            Hai disdetto l'incontro di pre-accoglienza!
+          </p>
+        </h3>
+        <div *ngIf="isAssenteAIncontro || isIncontroDisdetto || incontro" class="alert alert-warning" Aria-atomic="true" role="alert">
+          <p class="col-md-12" style="max-width: 1400px">Attenzione! <br> Per modificare i dati anagrafici selezionare <strong>"Modifica dati personali"</strong> dal profilo utente in alto a destra. Per assistenza 
+            rivolgersi al numero verde <strong>800-146766</strong> oppure inviare una mail a <a style="color:#1F66AB;" href="mailto:infomip@mettersinproprio.it">infomip&#64;mettersinproprio.it</a>.</p>
+        </div>
+      </div>
+      <!--Title2-->
+
+      <div
+        class="col-12 mt-3 mb-2"
+        *ngIf="!isAssenteAIncontro && !isIncontroDisdetto"
+      >
+        <mat-card
+          class="card--dashboard prenotato"
+          style="border: 3px solid #34a02a; border-left-width: 10px"
+        >
+          <mat-card-content class="card-content--prenotato">
+            <figure class="row">
+              <img
+                alt="icona-prenotazione"
+                aria-label="icona-prenotazione"
+                [src]="'/assets/dashboard/prenotazione.svg'"
+                class=""
+              />
+            </figure>
+            <div class="row" style="font-size: 20px">
+              <div *ngIf="!isRemoto">
+                <p>
+                  <strong>{{ incontro?.luogoIncontro?.denominazione }}</strong>
+                </p>
+                <p>{{ incontro?.luogoIncontro?.indirizzo }}</p>
+              </div>
+              <div *ngIf="isRemoto">
+                <p><strong>Webinar</strong></p>
+                <p>
+                  <a href="{{ incontro?.linkIncontroRemoto }}">{{
+                    incontro?.linkIncontroRemoto
+                  }}</a>
+                </p>
+              </div>
+              <div class="col-6 data">
+                <p><strong>Data</strong></p>
+                <p>{{ incontro?.dataIncontro | date : "dd/MM/yyyy" }}</p>
+              </div>
+              <div class="col-6 orario">
+                <p><strong>Orario</strong></p>
+                <p>{{ incontro?.dataIncontro | date : "HH:mm" }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!--Conferma incontro-->
+
+      <div
+        *ngIf="
+          !isAssenteAIncontro && !isIncontroDisdetto && !isPresenteAIncontro
+        "
+        class="col-12 prenotato-modifica"
+        style="display: flex; justify-content: end"
+      >
+        <button
+          [hidden]="isAccorpata"
+          type="button"
+          class="btn btn--secondary"
+          [routerLink]="'/dashboard/incontro-pre-accoglienza'"
+        >
+          MODIFICA
+        </button>
+      </div>
+      <div
+        *ngIf="isAssenteAIncontro || isIncontroDisdetto"
+        class="col-12 prenotato-modifica"
+      >
+        <button
+          [hidden]="isAccorpata"
+          type="button"
+          class="btn btn--secondary"
+          (click)="onPrenotaNuovoIncontro()"
+        >
+          Prenota nuovo incontro
+        </button>
+      </div>
+    </div>
+
+    <!-- Titolo conferma notazione effettuata  -->
+    <div *ngIf="isPresenteAIncontro" class="row">
+      <div class="col-12 mb-3">
+        <h3 style="display: flex; gap: 20px">
+          <mat-icon class="done-icon-title">done</mat-icon>
+          Hai partecipato all'incontro di pre-accoglienza!
+          <p></p>
+        </h3>
+      </div> <!--Title2-->
+      <div *ngIf="isPresenteAIncontro" class="alert alert-warning" Aria-atomic="true" role="alert">
+        <p class="col-md-12" style="max-width: 1400px">Attenzione! <br> Per modificare indirizzo mail e numero di telefono selezionare <strong>"Modifica contatti personali"</strong> dal profilo utente in alto a destra. Per modificare i dati anagrafici, contattare l'assistenza
+          rivolgendosi al numero verde <strong>800-146766</strong> oppure inviare una mail a <a style="color:#1F66AB" href="mailto:infomip@mettersinproprio.it">infomip&#64;mettersinproprio.it</a>.</p></div>
+    </div>
+
+    <!-- Tutor -->
+    <div *ngIf="!isTutorSelezionato" class="row">
+      <!-- Scegli il tutor -->
+      <div class="col-12 mt-5">
+        <h3>{{ tutor?.label }}</h3>
+      </div>
+
+      <div class="col-12 mt-3 mb-5">
+        <mat-card class="card--dashboard card--tutor">
+          <mat-card-header
+            [ngClass]="isPresenteAIncontro ? 'to-complete' : 'to-active'"
+          >
+            <mat-card-title style="font-weight: bold">{{
+              isPresenteAIncontro ? "Da completare" : "Da attivare"
+            }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="card-content--tutor">
+            <figure class="row">
+              <img
+                alt="icona-{{ tutor?.icon }}"
+                [attr.aria-label]="'icon-' + tutor?.icon"
+                [src]="
+                  '/assets/dashboard/' +
+                  tutor?.icon +
+                  (isPresenteAIncontro ? '-to-complete' : '') +
+                  '.svg'
+                "
+                class=""
+              />
+            </figure>
+            <div>
+              <p *ngIf="isPresenteAIncontro">
+                Ora che hai partecipato all'incontro di pre-accoglienza puoi
+                scegliere il soggetto attuatore che ti assegnerà un
+                <strong>tutor.</strong>
+              </p>
+              <p>
+                Dopo una prima valutazione della fattibilità dell'idea
+                imprenditoriale, verrai
+                <strong>affiancato gratuitamente </strong>nel tuo percorso,
+                da<strong> professionisti specializzati</strong> che operano
+                attraverso una rete di Sportelli dislocati su tutto il
+                territorio regionale.
+              </p>
+
+              <p>
+                Potrai usufruire di<strong> 45 ore di consulenza</strong> per
+                definire, sviluppare e realizzare la tua idea di impresa /
+                attività professionale.
+              </p>
+              <p *ngIf="!isPresenteAIncontro" class="alert alert-warning">
+                La possibilità di scelta del soggetto attuatore (tutor) sarà
+                attivata
+                <strong>
+                  dopo aver partecipato all'incontro di pre-accoglienza.</strong
+                >
+              </p>
+
+              <button
+                *ngIf="isPresenteAIncontro && tutor"
+                mat-button
+                class="btn"
+                [ngClass]="
+                  isTutorSelezionato ? 'btn--secondary' : 'btn--primary'
+                "
+                style="width: 250px"
+                (click)="navigatePath(tutor.path)"
+              >
+                {{ isTutorSelezionato ? "MODIFICA" : "INIZIA" }}
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <!--tutor-->
+
+    <!--Dopo scelta tutor-->
+    <div *ngIf="isTutorSelezionato" class="row mt-4">
+      <div class="col-12 mb-3">
+        <h3 style="display: flex; gap: 20px">
+          <mat-icon class="done-icon-title">done</mat-icon>
+          Hai scelto il tuo soggetto attuatore (tutor)!
+        </h3>
+      </div>
+      <!--Title2-->
+
+      <div class="col-12 mt-3 mb-1">
+        <mat-card
+          class="card--dashboard card--tutor-scelto"
+          style="border: 3px solid #34a02a; border-left-width: 10px"
+        >
+          <mat-card-content class="card-content--tutor-scelto">
+          <!-- Icona -->
+          <figure class="row" >
+            <img  alt="icon-tutor" [attr.aria-label]="'icon-tutor'"
+                  [src]="'/assets/scelta-tutor/tutor.svg'"
+                  class=""
+                  >
+          </figure>
+
+          <div class="row" style="font-size: 20px;">
+
+            <p >Il soggetto attuatore che ti accompagnerà è:</p>
+            <p  style="font-size: 24px;"><strong>{{tutorSelezionato?.soggettoAttuatore?.gruppoOperatore!+tutorSelezionato?.soggettoAttuatore?.codOperatore+"-"}}{{tutorSelezionato?.soggettoAttuatore?.denominazione}}</strong></p>
+            <p style="background-color: #FDEDBB"> <span >La scelta può essere modificata solo per motivate esigenze rivolgendosi al <br> numero verde <strong>800-146766</strong> oppure inviare una mail a <a style="color:#1F66AB">{{'infomip@mettersinproprio.it'}}</a></span>  </p>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+      </div>
+    </div>
+    <!--dopo scelta tutor-->
+
+    <div *ngIf="isTutorSelezionato" class="row mt-4">
+      <div class="col-12 mb-3">
+        <h3 style="display: flex; gap: 20px">
+          E adesso? il tuo percorso con noi è solo all'inizio!
+        </h3>
+      </div>
+      <!--Title2-->
+
+      <div class="col-12 mt-3 mb-5">
+        <mat-card class="card--dashboard card--adesso">
+          <mat-card-content class="card-content--adesso">
+            <!-- Icona -->
+            <figure class="row">
+              <img
+                alt="icona-adesso"
+                [attr.aria-label]="'icona-adesso'"
+                [src]="'/assets/dashboard/e_adesso.svg'"
+              />
+            </figure>
+
+            <div class="row">
+              <span
+                class="col-8"
+                style="
+                  font-size: 24px !important;
+                  background-color: #429a36;
+                  color: white;
+                "
+                >Il tuo percorso con MIP prosegue!</span
+              >
+              <ul>
+                <li>
+                  Il tuo tutor provvederà a contattarti<strong>
+                    telefonicamente</strong
+                  >
+                  o con una<strong> email</strong> per concordare il primo
+                  incontro
+                </li>
+                <li>
+                  Avrai a disposizione<strong>
+                    45 ore complessive di consulenza</strong
+                  >
+                  per sviluppare la tua idea di impresa o attività di lavoro
+                  autonomo attraverso la redazione di un business plan/piano di
+                  attività
+                </li>
+                <li>
+                  Acquisirai tutte le informazioni necessarie per l'<strong
+                    >avvio della tua impresa o attività professionale</strong
+                  >
+                </li>
+              </ul>
+
+              <div class="col-md-3"></div>
+              <p
+                class="col-md-9"
+                style="
+                  font-size: 1.125em;
+                  background-color: #0294f0;
+                  color: white;
+                "
+              >
+                <strong>Mettersi in proprio</strong> resta al tuo fianco per
+                aiutarti a realizzare i tuoi progetti
+              </p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!--E_Adesso-->
+    </div>
+  </article>
+
+  <!-- Questionario -->
+  <ng-container *ngIf="questionarioIf !== null  ">
+    <div style="background: linear-gradient(0deg,#FABA09 0%, #FFFFFF 50%);">
+      <article class="container-fluid" id="questionario">
+        <div class="row px-md-5" >
+          <figure class="col-md-6 col-xs-12" style="
+                              display: flex;
+                              justify-content: center;">
+          <img *ngIf="questionario?.icon"
+                    alt="icon-questionario" [attr.aria-label]="'icona-questionario'"
+                    [src]="'/assets/dashboard/' + questionario?.icon + '.svg'"
+                    class="">
+        </figure>
+        <div class="col-md-6 col-xs-12">
+          <h2 class="mb-md-5 ,b-md-2">{{questionario?.label || ""}}</h2>
+<ng-template *ngIf="questionarioIf == 2; then thenBlock else elseBlock"></ng-template>
+            <ng-template  #thenBlock>
+              <p class="mb-md-5 md-xs-2"> Una volta avviato il percorso con il tutor, dalla tua area riservata, potrai lasciarci i tuoi suggerimenti per aiutarci a migliorare il servizio del Programma Mip.</p>
+            </ng-template>
+            <ng-template  #elseBlock>
+          <p class="mb-md-5 md-xs-2">Se ti va, dedica qualche minuto a rispondere al nostro questionario.</p>
+</ng-template>
+          <button mat-raised-button class="btn btn--secondary" routerLink="/dashboard/questionario">VAI AL QUESTIONARIO</button>
+        </div>
+        </div> <!--End row-->
+      </article>
+    </div>
+  </ng-container>
+</section>

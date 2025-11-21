@@ -1,0 +1,128 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-mip {
+  .table-container{
+    position: relative;
+    overflow: auto;
+    .mat-card {
+      overflow: auto;
+    }
+    .table-results {
+      width: 100%;
+      //overflow-x: auto;
+      //white-space: nowrap; 
+      @media all and (max-width: 992px) {
+        width: 1600px;
+      }
+      .mat-sort-header-content {
+        text-align: left;
+      }
+    }
+  }
+
+  .table-container-report{
+    .mat-card {
+      overflow: auto;
+    }
+    .table-results {
+      width: 100%;
+      //overflow-x: auto;
+      //white-space: nowrap; 
+      @media all and (max-width: 992px) {
+        width: 1600px;
+      }
+      .mat-sort-header-content {
+        text-align: left;
+      }
+    }
+  }
+
+  .table-row {
+    height: 0;
+  }
+
+  .table-element-row:not(.table-expanded-row):hover {
+    background: $grey-200;
+  }
+  .table-element-row:not(.table-expanded-row):active {
+    background: $grey-400;
+  }
+  // .table-element-row td {
+  //   border-bottom-width: 0;
+  // }
+
+
+  .table-element-expanded {
+    overflow: hidden;
+    &.row--expanded {
+      padding-top: 15px;
+      border-bottom: 1px solid $grey-100;
+    }
+
+    .table-container {
+      margin-top: -80px;
+      margin-bottom: -50px;
+    }
+    .table-container-report {
+      margin-top: -80px;
+      margin-bottom: -50px;
+    }
+    .data-table-element-expanded {
+      &:not(:last-child) {
+        margin-bottom: 10px;
+        border-bottom: 1px solid $grey-500;
+      }
+
+    }
+  }
+
+  .mat-column-icone, .mat-column-icons {
+    div{
+      display: flex; /* Utilizziamo Flexbox per allineare gli elementi */
+      align-items: center; /* Allineiamo gli elementi verticalmente al centro */
+      justify-content: center;
+      min-width: unset; /* Rimuoviamo la larghezza minima */
+      width: auto; 
+    }
+    .mat-icon {
+      color: $primary;
+    }
+  }
+
+  .mat-column-icone .mat-icon[ng-reflect-message="Elimina"], .btn--elimina .mat-icon {
+    color: $red;
+  }
+
+  .mat-header-cell, .mat-cell {
+    &:not(:last-of-type) {
+      padding-right: 10px;
+    }
+    &:first-of-type {
+      padding-left: 0px;
+    }
+    &:last-of-type {
+      padding-right: 0px;
+    }
+  }
+}

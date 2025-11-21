@@ -1,0 +1,89 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+
+<div class="container mt-5">
+<div class="row justify-content-center">
+<div class="col-12 col-lg-10">
+<div class="row mb-5">
+
+
+
+  <div *ngFor="let menu of menuList, let i = index"
+      class="col-lg-6 col-md-12 mt-5">     
+      <mat-card class="btn shadow-lg"
+                [class]="menu.cssClass"
+                cdkMenuItem
+                [cdkMenuTriggerFor]="menu.disableLabel ? null : menu_scorrevole"
+                class="card-btn--menu"
+                (click)="onClick(menu.disableLabel!,menu.url!)">
+        <mat-card-content>
+          <div class="container d-flex">
+            <div class="row justify-content-center align-self-center w-100 ps-2"
+                style="min-height: 100px;">
+              <div class="align-self-center" style="max-width: 40px !important;margin-right: 1rem;">
+                <mat-icon role="presentation" style="transform: scale(2);color: #005e9ce3;"> {{menu.icon}} </mat-icon>
+              </div>
+              <div class="col-xl-9 col-6 align-self-center me-auto">
+                <span class="h5" >{{menu.label}}</span>
+                <mat-icon role="presentation" *ngIf="menu.toolTip"
+                          class="icona-presentazione"
+                          [matTooltip]="menu.toolTip"
+                          [matTooltipClass]="'toolTip-presentazione'"> warning </mat-icon>
+
+              </div>
+              <div *ngIf="!menu.disableLabel" class="col-1 align-self-center">
+                <mat-icon role="presentation" class="me-5 icon-arrow"
+                          style="color: gray;"
+                          [ngClass]="{'rotated': menuListOP[i]}">
+                          keyboard_arrow_down
+                </mat-icon>
+              </div>
+              </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    
+
+      <ng-template #menu_scorrevole>
+        <div class="menu-home border shadow"
+              cdkMenu
+              role="list"
+              [ngStyle]="{'width': menuWidth + 'px', 'max-width': menuWidth + 'px'}">
+          <button *ngFor="let item of menu.items"
+                  class="menu-home-item"
+                  role="listitem"
+                  [disabled]="item.disabled===true"
+                  [title]="item.disabled===true ? 'Funzionalità in via di sviluppo' : ''"
+                  cdkMenuItem (click)="navigate(item.url!)">
+            {{item.label}}
+          </button>
+        </div>
+      </ng-template>
+  </div>
+
+
+</div>
+</div>
+</div>
+</div>

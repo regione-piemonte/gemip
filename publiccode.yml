@@ -1,0 +1,108 @@
+publiccodeYmlVersion: 0.5.0
+name: GEMIP
+applicationSuite: Regione Piemonte Formazione Professionale
+url: https://github.com/regione-piemonte/gemip
+landingURL: https://github.com/regione-piemonte/gemip.git
+softwareVersion: 1.7.0
+releaseDate: 2025-11-30
+platforms:
+  - web
+categories:
+  - business-process-management
+  - workflow-management
+  - customer-service-and-support
+developmentStatus: stable
+softwareType: standalone/web
+description:
+  it:
+    shortDescription: Gestione Mettersi in Proprio
+    longDescription: >-
+      Nell’ambito della programmazione e gestione delle misure a favore
+      dell’autoimpiego e della creazione d’impresa/lavoro autonomo, nel corso
+      del 2023 è stato realizzato il prodotto GEMIP (Gestione MIP) per
+      permettere ai cittadini di prenotare un incontro di pre-accoglienza e
+      orientamento.  
+
+
+      Il servizio di pre-accoglienza costituisce una parte della soluzione
+      complessiva più ampia a supporto dell’erogazione dei servizi per
+      l’imprenditoria e si concretizza in un prodotto accessibile al cittadino
+      tramite autenticazione attraverso SPID, CIE, TS-CNS.
+
+
+      La soluzione vede quali destinatari del servizio di registrazione
+      dell’utenza e di gestione della pre-accoglienza sia i cittadini
+      potenzialmente interessati al Programma MIP (Mettersi in proprio), che i
+      soggetti coinvolti nella gestione in senso ampio di tale Programma, ovvero
+      i funzionari pubblici e i soggetti con ruoli di gestione del Programma,
+      ovvero - in primis - l’appaltatore dei servizi trasversali, nonché i
+      soggetti attuatori. 
+
+
+      Il servizio prevede una componente di front-end, (applicazione
+      _partecipa_), rivolta ai cittadini per la gestione della pre-accoglienza
+      ovvero quella fase volta a permettere ai cittadini interessati di
+      prenotare un incontro introduttivo con gli operatori qualificati dei
+      servizi trasversali che descriveranno al potenziale imprenditore le
+      caratteristiche del Programma Mip e forniranno le informazioni
+      preliminari. Il servizio di pre-accoglienza, infatti, secondo le regole
+      definite dall’avviso di riferimento, costituisce la condizione
+      obbligatoria per poter accedere al percorso MIP di Misura 1 con il
+      soggetto attuatore.  
+
+
+      Il cittadino potrà accedere tramite SPID, CIE, TS-CNS alla propria area
+      riservata dalla quale, dopo l’incontro di pre-accoglienza, potrà scegliere
+      il soggetto attuatore per avviare il percorso di Misura 1 e potrà
+      compilare i questionari di gradimento del servizio nei diversi momenti di
+      rilevazione previsti. 
+
+
+      A seguito della prenotazione e dell’inserimento dei dati richiesti, il
+      cittadino utente del sistema riceverà una mail automatica di conferma
+      della prenotazione alla pre-accoglienza. Successivamente alla
+      partecipazione alla pre-accoglienza, l’utente verrà abilitato ad
+      effettuare la scelta dell’Ente Attuatore: in seguito a tale scelta, il
+      soggetto attuatore potrà prendere in carico l’utente, registrando l’avvio,
+      o meno, del percorso di Misura 1.  
+
+
+      Il servizio di back-end, (applicazione _operatori_), consente agli
+      operatori, in base al ruolo, di visualizzare l’elenco delle idee di
+      impresa inserite con possibilità di accedere al dettaglio della scheda
+      registrata, di visualizzare e gli incontri di pre-accoglienza disponibili,
+      di visualizzare tutte le informazioni relative all’incontro (data, orari,
+      sede, capienza massima della sala), di scegliere il nominativo
+      dell’operatore che ha tenuto l’incontro di pre-accoglienza, di
+      visualizzare l’elenco di tutti gli utenti che si sono prenotati per
+      partecipare a quello specifico incontro di pre-accoglienza, di aggiornare
+      lo stato relativo alla partecipazione del destinatario all’incontro, di
+      inviare comunicazioni agli iscritti all’incontro etc. 
+
+
+      Il soggetto attuatore potrà visualizzare gli utenti che hanno scelto di
+      effettuare il percorso individuale con il solo soggetto attuatore loggato,
+      visualizzare il dettaglio della proposta imprenditoriale, il questionario
+      di gradimento compilato e indicare, al termine del primo incontro
+      individuale, se è stata erogata la prima ora di accompagnamento e se è
+      stato firmato il patto di servizio.  
+    features:
+      - Gestione Preaccoglienza Cittadino
+      - Gestione Operatori
+legal:
+  license: EUPL-1.2
+maintenance:
+  type: internal
+  contacts:
+    - name: Anna Nicchi
+      email: anna.nicchi@csi.it
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - it-IT
+IT:
+  countryExtensionVersion: "1.0"
+  piattaforme:
+    anpr: false
+    pagopa: false
+    io: false

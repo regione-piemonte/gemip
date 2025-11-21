@@ -1,0 +1,126 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-serse {
+  .breadcrumb{
+    list-style:none;
+    display: inline-block;
+
+    li{
+      float:left;
+      a{
+        color:#FFF;
+        display:block;
+        background: $blue;
+        text-decoration: none;
+        position:relative;
+        height: 40px;
+        line-height:40px;
+        padding: 0 10px 0 5px;
+        text-align: center;
+        margin-right: 23px;
+      }
+      &.active{
+        a{
+          background-color: $blue-900;
+
+          &:before{
+            border-color:$blue-900;
+            border-left-color:transparent;
+           }
+          &:after{
+            border-left-color:$blue-900;
+          }
+        }
+      }
+
+      &:first-child{
+        a{
+          padding-left:15px;
+          @include border-radius(4px 0 0 4px);
+          &:before{
+            border:none;
+           }
+        }
+      }
+      &:last-child{
+        a{
+          padding-right:15px;
+          @include border-radius(0 4px 4px 0);
+          &:after{
+            border:none;
+           }
+        }
+      }
+
+      a{
+        &:before,
+        &:after{
+          content: "";
+          position:absolute;
+          top: 0;
+          border:0 solid $blue;
+          border-width:20px 10px;
+          width: 0;
+          height: 0;
+        }
+        &:before{
+          left:-18px;
+          border-left-color:transparent;
+        }
+        &:after{
+          left:100%;
+          border-color:transparent;
+          border-left-color:$blue;
+        }
+
+        &.notActive{
+          &:hover{
+            background-color: $blue-300;
+            color: $blue-900;
+
+            &:before{
+              border-color:$blue-300;
+              border-left-color:transparent;
+            }
+            &:after{
+              border-left-color:$blue-300;
+            }
+          }
+        }
+
+        &.active{
+          background-color: $blue-900;
+
+          &:before{
+            border-color:$blue-900;
+            border-left-color:transparent;
+           }
+          &:after{
+            border-left-color:$blue-900;
+          }
+        }
+      }
+    }
+  }
+}

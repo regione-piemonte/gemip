@@ -1,0 +1,93 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<mat-toolbar class="tool-bar-row">
+  <mat-toolbar-row class="mat-toolbar-row--first container-xxl">
+    <div id="site-logo"
+          class="clr site-logo">
+      <div id="site-logo-inner"
+            class="clr">
+          <a href="#" [routerLink]="'/dashboard/home'"
+              class="custom-logo-link"
+              rel="home"
+              aria-current="page">
+            <img width="2638"
+                height="1423"
+                src="/assets/mip-logo.svg"
+                alt="mip-logo"
+                decoding="async"
+                sizes="(max-width: 2638px) 100vw, 2638px"
+                style="max-height: 72px; max-width: 133px; margin-top: 20px;">
+          </a>
+      </div><!-- #site-logo-inner -->
+    </div><!-- #site-logo -->
+
+    <span class="ms-4" *ngIf="!showTitleResponsive()"><h1><strong>MIP - Mettersi in proprio</strong></h1></span>
+    <span class="menu-spacer"></span>
+    <div class="col-auto">
+      <button mat-icon-button
+              class="tool-bar-button pr-6"
+              (click)="onDownloadManuale()"
+              aria-label="manuale"
+              [matTooltip]="'Manuale'">
+      <mat-icon  role="presentation">assignment</mat-icon>
+      <span class="button-text">Manuale</span>
+      </button>
+    </div>
+    <div>
+      <div>
+
+        <button mat-icon-button [matMenuTriggerFor]="userInfoMenu" class="btn btn--menu"  [attr.aria-label]="'menu utente'">
+          {{user?.cognome | firstLetter}}{{user?.nome | firstLetter}}
+        </button>
+      </div>
+      <mat-menu #userInfoMenu="matMenu" yPosition="below">
+        <div class="m-2">
+          <ul class="list-unstyled px-3">
+            <li>
+              {{user?.cognome}}
+            </li>
+            <li>
+              {{user?.nome}}
+            </li>
+            <li>
+              {{user?.codiceFiscale}}
+            </li>
+          </ul>
+          
+          <hr>
+          <div class="px-3">
+            <div *ngIf="modificaContatti">
+              <button class="btn btn-link--primary" (click)="modificaAnagrafica()">
+                {{ getVoceMenu() }}
+              </button>
+            </div>
+            <button class="btn btn-link--primary" (click)="logout()" [attr.aria-label]="'disconnessione '">
+              Log out
+            </button>
+          </div>
+        </div>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

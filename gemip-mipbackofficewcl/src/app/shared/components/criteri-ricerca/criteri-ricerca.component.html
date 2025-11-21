@@ -1,0 +1,385 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<!-- Expansion panel per la ricerca -->
+<mat-expansion-panel  class="mt-3"
+                      [expanded]="panelOpenState"
+                      (opened)="openPanel()"
+                      (closed)="closePanel()">
+
+  <mat-expansion-panel-header>
+    <mat-panel-title class="search-icon">
+      <!--mat-icon role="presentation">search</mat-icon-->
+      <strong class="ms-2">Criteri di ricerca</strong>
+      <mat-icon role="presentation">{{!panelOpenState ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</mat-icon>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+<ng-template matExpansionPanelContent>
+<form [formGroup]="form">
+
+
+  <div class="row">
+    <!-- DATA INIZIO -->
+    <mat-form-field *ngIf="form.controls['dataInizio']" class="col-md-6 col-sm-12" appearance="legacy">
+        <mat-label>Data inizio</mat-label>
+        <!-- [matDatepickerFilter]="myFilter" -->
+        <input matInput
+                [matDatepicker]="dataInizio"
+                formControlName="dataInizio"
+                [matDatepickerFilter]="myFilterDinizio" >
+        <mat-datepicker-toggle matSuffix [for]="dataInizio"></mat-datepicker-toggle>
+        <mat-datepicker #dataInizio></mat-datepicker>
+        <mat-error>
+          <app-control-messages [control]="form.controls['dataInizio'] | castFromControl"></app-control-messages>
+        </mat-error>
+    </mat-form-field>
+
+    <!-- DATA FINE -->
+    <mat-form-field *ngIf="form.controls['dataFine']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Data fine</mat-label>
+      <!-- [matDatepickerFilter]="myFilter" -->
+      <input matInput
+              [matDatepicker]="dataFine"
+              [matDatepickerFilter]="myFilterDFine"
+              formControlName="dataFine">
+      <mat-datepicker-toggle matSuffix [for]="dataFine"></mat-datepicker-toggle>
+      <mat-datepicker #dataFine></mat-datepicker>
+      <mat-error>
+        <app-control-messages [control]="form.controls['dataFine'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+
+    <!-- DATA DA-A  -->
+    <mat-form-field class="col-md-6 col-sm-12" appearance="legacy" *ngIf="form.controls['dataDa']">
+      <mat-label>Date incontro:</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" formControlName="dataDa">
+        <input matEndDate placeholder="End date" formControlName="dataA">
+      </mat-date-range-input>
+      <mat-hint>Date incontro da – a</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <!-- DATA DA -->
+    <!--mat-form-field *ngIf="form.controls['dataDa']" class="col-md-6 col-sm-12" appearance="legacy">
+
+
+      <input matInput
+              [matDatepicker]="dataDa"
+              formControlName="dataDa">
+      <mat-datepicker-toggle matSuffix [for]="dataDa"></mat-datepicker-toggle>
+      <mat-datepicker #dataDa></mat-datepicker>
+      <mat-error>
+        <app-control-messages [control]="form.controls['dataDa'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field-->
+
+    <!-- DATA FINE -->
+    <!--mat-form-field *ngIf="form.controls['dataA']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Data incontro fino al:</mat-label>
+
+      <input matInput
+              [matDatepicker]="dataA"
+              formControlName="dataA">
+      <mat-datepicker-toggle matSuffix [for]="dataA"></mat-datepicker-toggle>
+      <mat-datepicker #dataA></mat-datepicker>
+      <mat-error>
+        <app-control-messages [control]="form.controls['dataA'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field-->
+    <!-- OPERATORI -->
+    <mat-form-field *ngIf="form.controls['operatore']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Selezionare un operatore </mat-label>
+        <mat-select formControlName="operatore" (selectionChange)="onAreaTerritorialeChange()">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let operatore of operatori;
+                      index as i;" [value]="operatore.id">
+            {{operatore.nome + "  " + operatore.cognome}}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['operatore'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- AREA TERRITORIALE -->
+    <mat-form-field *ngIf="form.controls['areaTerritoriale']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Selezionare un area territoriale </mat-label>
+        <mat-select formControlName="areaTerritoriale" (selectionChange)="onAreaTerritorialeChange()">
+          <mat-option [value]="null">--</mat-option>
+          <mat-option *ngFor="let area of areeTerriList;
+                      index as i;" [value]="area.codiceAreaTerritoriale">
+            {{area.descrizioneAreaTerritoriale}}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['areaTerritoriale'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- soggetto attuatore -->
+    <mat-form-field *ngIf="form.controls['soggettoAttuatore']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Selezionare un soggetto attuatore </mat-label>
+        <mat-select formControlName="soggettoAttuatore">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let soggAtt of tutorList;
+                    index as i;" [value]="soggAtt.id">
+          {{soggAtt.soggettoAttuatore?.gruppoOperatore!+  soggAtt.soggettoAttuatore?.codOperatore +"-"+soggAtt.soggettoAttuatore?.denominazione }}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['soggettoAttuatore'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- SEDE -->
+    <mat-form-field *ngIf="form.controls['sede']" class="col-md-6 col-sm-12" appearance="legacy">
+       <mat-label>Sede </mat-label>
+        <mat-select formControlName="sede">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let sede of sediFiltred;
+                      index as i;" [value]="sede.id">
+            {{sede.denominazione}}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['sede'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    
+    <!-- UTENTE -->
+    <mat-form-field *ngIf="form.controls['utente']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Utente</mat-label>
+      <input matInput formControlName="utente">
+      <mat-error>
+        <app-control-messages [control]="form.controls['utente'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- UTENTE COGNOME-->
+    <mat-form-field *ngIf="form.controls['utenteCognome']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Cognome utente</mat-label>
+      <input matInput formControlName="utenteCognome">
+      <mat-error>
+        <app-control-messages [control]="form.controls['utenteCognome'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+
+    <!-- UTENTE NOME-->
+    <mat-form-field *ngIf="form.controls['utenteNome']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Nome utente</mat-label>
+      <input matInput formControlName="utenteNome">
+      <mat-error>
+        <app-control-messages [control]="form.controls['utenteNome'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+
+
+    <!-- STATUS -->
+    <mat-form-field *ngIf="form.controls['status']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Selezionare uno stato </mat-label>
+        <mat-select (ngModelChange)="onChangeStatoIdea()" formControlName="status">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let stato of statoIdeaList;
+                      index as i;" [value]="stato.id">
+            {{stato.descrizioneStatoIdeaDiImpresa}}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['status'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- STATUS PRESENZA 
+    <mat-form-field  *ngIf="form.controls['statoPresenze']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Selezionare status presenza </mat-label>
+        <mat-select [disabled]=" form.controls['status'].value! !== 6"  formControlName="statoPresenze">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let stato of statoPresenze;
+                      index as i;" [value]="stato">
+            {{stato}}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['status'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>-->
+    <mat-form-field *ngIf="form.controls['statoPresenze']" class="col-md-6 col-sm-12" appearance="legacy" >
+      <mat-label>Selezionare status presenza</mat-label>
+      <mat-select formControlName ="statoPresenze"
+                    [disabled]=" form.controls['status'].value! !== 6"
+                    multiple>
+        <!--<mat-option [value]="null">--</mat-option>-->
+        <mat-option *ngFor="let stato of statoPresenze;"
+                             [value]="stato">
+          {{stato}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['statoPresenze'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    
+    <!-- IDEA IMPRESA -->
+    <mat-form-field *ngIf="form.controls['ideaImpresa']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Idea impresa</mat-label>
+      <input matInput formControlName="ideaImpresa">
+      <mat-error>
+        <app-control-messages [control]="form.controls['ideaImpresa'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+     
+
+    <!-- identificativo -->
+    <mat-form-field *ngIf="form.controls['identificativo']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Identificativo</mat-label>
+      <input type="number" matInput formControlName="identificativo">
+      <mat-error>
+        <app-control-messages [control]="form.controls['identificativo'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- abilitato -->
+    <!-- <mat-radio-group *ngIf="form.controls['abilitato']" class="col-md-6 col-sm-12" aria-label="Select an option" formControlName="abilitato">
+      <mat-label>Abilitato: </mat-label>
+      <mat-radio-button class="m-2" value="si">Si</mat-radio-button>
+      <mat-radio-button class="m-2" value="no">No</mat-radio-button>
+    </mat-radio-group> -->
+    <div *ngIf="form.controls['abilitato']" class="col-md-6 col-sm-12" >
+      <span>Abilitato:</span>
+      <mat-slide-toggle
+          class="col-md-6 col-sm-12"
+          [checked]="abilitato"
+          aria-label="abilita/disabilita"
+          (toggleChange)="onToggle()">
+      </mat-slide-toggle>
+    </div>
+
+    <!-- cognome -->
+    <mat-form-field *ngIf="form.controls['cognome']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Cognome</mat-label>
+      <input matInput formControlName="cognome">
+      <mat-error>
+        <app-control-messages [control]="form.controls['cognome'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- nome -->
+    <mat-form-field *ngIf="form.controls['nome']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome">
+      <mat-error>
+        <app-control-messages [control]="form.controls['nome'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- email -->
+    <mat-form-field *ngIf="form.controls['email']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error>
+        <app-control-messages [control]="form.controls['email'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- codice fiscale cittadino -->
+    <mat-form-field *ngIf="form.controls['codiceFiscale']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Codice Fiscale</mat-label>
+      <input matInput formControlName="codiceFiscale">
+      <mat-error>
+        <app-control-messages [control]="form.controls['codiceFiscale'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- SOGGETTO -->
+    <mat-form-field *ngIf="form.controls['soggetto']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Selezionare un soggetto </mat-label>
+        <mat-select formControlName="soggetto">
+          <mat-option>--</mat-option>
+          <mat-option value="attuatore">Soggetto Attuatore</mat-option>
+          <mat-option value="affidatario">Soggetto Affidatario</mat-option>
+          <mat-option value="regione">Referente Regionale</mat-option>
+          <mat-option value="apl">APL</mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['soggetto'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- ====================================================================================== -->
+    <!-- Reportistica ============================================================================ -->
+    <!-- ====================================================================================== -->
+    <!-- TIPO REPORT -->
+    <mat-form-field *ngIf="form.controls['tipoReport']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Tipo report</mat-label>
+        <mat-select formControlName="tipoReport" (selectionChange)="onTipoReportSelezionato($event)">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let tipo of repoTipoReport;
+                      index as i;" [value]="tipo.value">
+            {{tipo.label}}
+          </mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['tipoReport'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+
+<!-- ====================================================================================== -->
+<!-- Documenti ============================================================================ -->
+<!-- ====================================================================================== -->
+    <!-- Titolo -->
+    <mat-form-field *ngIf="form.controls['titolo']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Titolo</mat-label>
+      <input matInput formControlName="titolo" maxlength="250">
+      <mat-error>
+        <app-control-messages [control]="form.controls['titolo'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+    <!-- Gruppo -->
+ <mat-form-field *ngIf="form.controls['gruppo']" class="col-md-6 col-sm-12" appearance="legacy">
+      <mat-label>Gruppo </mat-label>
+        <mat-select formControlName="gruppo" [value]="null">
+          <mat-option [value]="null">--</mat-option>
+          <mat-option *ngFor="let tipo of tipiDocumento" [value]="tipo.codiceTipoDocumento">{{tipo.descrizioneTipoDocumento}}</mat-option>
+      </mat-select>
+      <mat-error>
+        <app-control-messages [control]="form.controls['gruppo'] | castFromControl"></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+
+  </div>
+
+
+
+  <mat-action-row class="action-row--morebtn" >
+    <button class="btn btn--outline-primary" aria-label="Pulisci filtri" (click)="clear()">Pulisci i filtri</button>
+    <button class="btn btn--primary" aria-label="Cerca" (click)="onCerca()">CERCA</button>
+  </mat-action-row>
+
+</form>
+</ng-template>
+</mat-expansion-panel>

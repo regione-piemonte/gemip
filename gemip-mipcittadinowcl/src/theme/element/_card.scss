@@ -1,0 +1,197 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#mip-cittadino{
+
+  .card-body {
+    &--info {
+      @include cardType(blueColor);
+    }
+
+    &--danger {
+      @include cardType(redColor);
+    }
+
+    &--success {
+      @include cardType(greenColor);
+    }
+
+    &--warning {
+      @include cardType(orangeColor);
+    }
+    &--content {
+      @extend .d-flex;
+      @include media-breakpoint-down(md) {
+        justify-content: center;
+      }
+
+      flex-direction: column;
+      @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        p {
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+
+  .legenda-container{
+    display: block;
+    align-items: center;
+    justify-content: center;
+    .card-legend{
+      border-left: 5px solid $blue;
+      top: 20px;
+      right: 20px;
+
+      @extend .container-fluid;
+    }
+  }
+
+  mat-card{
+    padding: 0;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #C6C6C6;
+    border-radius: 6px;
+
+// Dashboard
+    &.card--dashboard{
+      background: #F8F8F8 0% 0% no-repeat padding-box;
+      &.card--step{
+        min-height: 450px;
+      }
+
+      .mat-card{
+        &-header{
+          border-radius: 6px 6px 0px 0px;
+          height: 50px;
+          border-bottom: 1px solid #C6C6C6;
+
+          &.to-complete{
+            background: #F87C00 0% 0% no-repeat padding-box;
+            color: #FFFFFF;
+          }
+          &.completed{
+            background: #34A02A 0% 0% no-repeat padding-box;
+            color: #FFFFFF;
+          }
+          &.to-active{
+            background: #EBEBEB 0% 0% no-repeat padding-box;
+          }
+
+          .mat-card-title{
+            margin-top: 10px;
+            font-weight: bold;
+          }
+
+        }
+
+        &-content{
+          display: flex;
+          align-items: center;
+
+          &.card-content--step{
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 40px;
+            gap: 30px;
+            min-height: 300px;
+          }
+          &.card-content--tutor{
+            flex-direction: row;
+            justify-content: left;
+            padding: 20px 50px;
+            gap: 100px;
+          }
+
+          img{
+            height: 150px;
+          }
+          .card--label{
+            text-align: center;
+            font: normal normal bold 24px/32px;
+            letter-spacing: 0px;
+          }
+        }
+
+        &-actions{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 50px;
+          .btn{
+            width: 80%;
+          }
+        }
+      }
+    }
+
+// Dove e quando
+    &.card--dove-quando{
+      .mat-card-content{
+        padding: 50px 100px;
+
+        .vertical-buttons-contianer{
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          padding-right: 50px;
+          font-weight: bolder;
+        }
+        .img-regione{
+          height: 300px;
+        }
+
+
+        .card--location{
+          background: #F2F7FA 0% 0% no-repeat padding-box;
+          .mat-card-content{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            min-height: 300px;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  @media (max-width: 1200px) {
+    mat-card{
+      &.card--dove-quando{
+        .mat-card-content{
+          padding: 50px 40px;
+          .vertical-buttons-contianer{
+            padding-right: 0px;
+          }
+        }
+      }
+    }
+  }
+
+}
+

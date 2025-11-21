@@ -1,0 +1,89 @@
+<!--
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ -->
+
+<div class="row">
+  <button class="col-auto d-flex justify-content-start mb-5" mat-button aria-label="Indietro" (click)="tornaIndietro()"><mat-icon role="presentation">arrow_back</mat-icon></button>
+</div>
+<form [formGroup]="form">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h5 class="mb-5">Inserisci documento</h5>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="container-fluid">
+      <div class="row">
+        <!-- Titolo -->
+        <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+          <mat-label>Titolo</mat-label>
+          <input matInput formControlName="titolo" [maxlength]="250">
+          <mat-error>
+            <app-control-messages [control]="form.controls['titolo'] | castFromControl"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- gruppo -->
+        <mat-form-field class="col-md-6 col-sm-12" appearance="legacy">
+          <mat-label>Gruppo</mat-label>
+          <mat-select formControlName="gruppo" [value]="null">
+            <mat-option [value]="null">--</mat-option>
+            <mat-option *ngFor="let tipo of tipiDocumenti"
+              [value]="tipo.codiceTipoDocumento">{{tipo.descrizioneTipoDocumento}}</mat-option>
+          </mat-select>
+          <mat-error>
+            <app-control-messages [control]="form.controls['gruppo']|castFromControl"></app-control-messages>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="btn--group-card">
+              <input
+                type="file"
+                id="upload"
+                tabIndex="0"
+                aria-label="seleziona documento da caricare"
+                (change)="addFile($event)"
+                accept=".doc, .docx, .xls,.xlsx,.ppt, .pptx, .pps,
+                .ppsx, .pdf, .zip, .odb, .odg, .odp, .ods, .odf,
+                .odt, .otg, .otp, .ots, .ott, .dot, .dotx, .gif, .jpg, .jpeg, .png, .svg, .mp4">
+
+          <div class="ms-auto p-2">
+            <button mat-button class="btn btn--primary" (click)="onSalva()"
+              aria-label="salva i dati e carica il documento">SALVA</button>
+          </div>
+        </div>
+        <hr>
+        <div class="p-2">
+          <strong>Dimensione massima:</strong> 10MB
+        </div>
+        <div class="p-2">
+          <strong>Formati validi:</strong>  .doc, .docx, .xls,.xlsx,.ppt, .pptx, .pps,
+          .ppsx, .pdf, .zip, .odb, .odg, .odp, .ods, .odf,
+          .odt, .otg, .otp, .ots, .ott, .dot, .dotx, .gif, .jpg, .jpeg, .png, .svg, .mp4
+        </div>
+      </div>
+      <hr>
+      <p *ngIf="file"><mat-icon role="presentation">insert_drive_file</mat-icon> {{file.name}}</p>
+    </mat-card-content>
+  </mat-card>
+</form>

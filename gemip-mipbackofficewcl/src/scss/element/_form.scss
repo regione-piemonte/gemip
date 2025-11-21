@@ -1,0 +1,59 @@
+/**
+ * @license
+ *
+ * Copyright © 2025 Regione Piemonte
+ *
+ * Licensed under the EUPL, Version 1.2 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ *
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * or
+ * https://opensource.org/license/EUPL-1.2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
+
+#app-serse {
+  .mat-radio-inner-circle, .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: $primary-color;
+  }
+
+  .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple, .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-ripple-element {
+    background-color: rgba($primary-color, .2);
+  }
+  .mat-radio-outer-circle {
+    border-color: $primary-color;
+  }
+  legend {
+    font-weight: bold;
+    @include font-size(16px);
+  }
+  .mat-form-field-label {
+    &:not(.mat-form-field-empty) {
+      mat-label {
+        @include font-size(16px);
+        color: $primary-color;
+        font-weight: bold;
+      }
+    }
+
+  }
+
+  .faq-search-wrap {
+    padding: 0px;
+    border-bottom: 1px solid;
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white;
+    border-radius: 5px;
+  }
+}
