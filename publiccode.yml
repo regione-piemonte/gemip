@@ -11,6 +11,8 @@ categories:
   - business-process-management
   - workflow-management
   - customer-service-and-support
+organisation:
+  uri: urn:x-italian-pa:r_piemon
 developmentStatus: stable
 softwareType: standalone/web
 description:
